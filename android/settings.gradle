@@ -1,0 +1,3 @@
+rootProject.name = 'Paylist'
+
+include ':app'
