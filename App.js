@@ -1,30 +1,34 @@
-/**
- * @format
- * @flow
- */
+import React, { Component } from 'react';
+import { Platform, StyleSheet, Text, View } from 'react-native';
+import { createSwitchNavigator, createAppContainer } from 'react-navigation';
 
-import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View} from 'react-native';
+// Import screens
+import SignUp from './components/auth/SignUp';
+import Login from './components/auth/Login';
 
-const instructions = Platform.select({
+import Loading from './components/Loading';
+import Main from './components/Main';
+
+// App.js code
+
+/* const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
   android:
     'Double tap R on your keyboard to reload,\n' +
     'Shake or press menu button for dev menu',
-});
+}); */
 
-type Props = {};
-export default class App extends Component<Props> {
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>Welcome to Paylist</Text>
-        <Text style={styles.instructions}>This is the main screen</Text>
-        <Text style={styles.instructions}>{instructions}</Text>
-      </View>
-    );
+export default createAppContainer(createSwitchNavigator(
+  {
+    Loading,
+    SignUp,
+    Login,
+    Main
+  },
+  {
+    initialRouteName: 'Loading'
   }
-}
+));
 
 const styles = StyleSheet.create({
   container: {

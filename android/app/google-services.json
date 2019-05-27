@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1087233785009",
+    "firebase_url": "https://paylist-d8310.firebaseio.com",
+    "project_id": "paylist-d8310",
+    "storage_bucket": "paylist-d8310.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1087233785009:android:c57776df53e2926c",
+        "android_client_info": {
+          "package_name": "com.paylist"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1087233785009-9rk8ol2oh9919a8fhggbomjuh96agj9v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDblwDmpdnGAAXya1h3wv5zDaX2lisge4Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1087233785009-9rk8ol2oh9919a8fhggbomjuh96agj9v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
