@@ -1,9 +1,25 @@
 import React, { Component } from 'react';
 import { StyleSheet, Platform, Image, Text, View } from 'react-native';
+import firebase from 'react-native-firebase';
+import { Button } from './shared/Button';
 
 export default class Main extends Component {
     state = {
-        currentUser: null
+        currentUser: null,
+        errorMessage: null
+    }
+
+    componentDidMount() {
+        const { currentUser } = firebase.auth()
+        this.setState({ currentUser })
+    }
+
+    handleLogout = () => {
+        this.setState({ currentUser: null })
+        firebase.auth().signOut()
+            .then(() => this.props.navigation.navigate('Loading'))
+            .catch(error => this.setState({ errorMessage: error.message }))
+        console.log('User disconnected')
     }
 
     render() {
@@ -13,6 +29,7 @@ export default class Main extends Component {
                 <Text>
                     Hi {currentUser && currentUser.email}!
                 </Text>
+                <Button onPress={this.handleLogout}>Log out</Button>
             </View>
         )
     }
@@ -22,6 +39,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        padding: 50,
     }
 })

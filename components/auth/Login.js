@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, TextInput, View, Button } from 'react-native';
+import firebase from 'react-native-firebase';
 
 export default class Login extends Component {
     state = { 
@@ -9,8 +10,12 @@ export default class Login extends Component {
     }
 
     handleLogin = () => {
-        // TODO: Firebase stuff...
-        console.log('handleLogin')
+        const { email, password } = this.state
+        firebase.auth()
+          .signInWithEmailAndPassword(email, password)
+          .then(() => this.props.navigation.navigate('Main'))
+          .catch(error => this.setState({ errorMessage: error.message }))
+        console.log('User loged in')
     }
 
     render() {
@@ -39,7 +44,7 @@ export default class Login extends Component {
                 <Button title="Login" onPress={this.handleLogin} />
                 <Button
                     title="Don't have an account? Sign Up"
-                    onPress={() => this.props.navigation.navigate('SignUp')}
+                    onPress={() => this.props.navigation.navigate('Signup')}
                 />
             </View>
         )

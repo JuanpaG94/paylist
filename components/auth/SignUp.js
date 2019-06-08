@@ -2,20 +2,20 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, TextInput, View, Button } from 'react-native';
 import firebase from 'react-native-firebase';
 
-export default class SignUp extends Component {
+export default class Signup extends Component {
     state = {
         email: '',
         password: '',
         errorMessage: null
     }
 
-    handleSignUp = () => {
+    handleSignup = () => {
         firebase.auth()
         .createUserWithEmailAndPassword(this.state.email, this.state.password)
         .then(() => this.props.navigation.navigate('Main'))
         .catch(error => this.setState({ errorMessage: error.message 
         }))
-        console.log('handleSignUp')
+        console.log('User registered')
     }
 
     render() {
@@ -41,7 +41,7 @@ export default class SignUp extends Component {
                     onChangeText={password => this.setState({ password })}
                     value={this.state.password}
                 />
-                <Button title="Sign Up" onPress={this.handleSignUp} />
+                <Button title="Sign up" onPress={this.handleSignup} />
                 <Button
                     title="Already have an account? Login"
                     onPress={() => this.props.navigation.navigate('Login')}

@@ -3,10 +3,9 @@ import { Platform, StyleSheet, Text, View } from 'react-native';
 import { createSwitchNavigator, createAppContainer } from 'react-navigation';
 
 // Import screens
-import SignUp from './components/auth/SignUp';
-import Login from './components/auth/Login';
-
 import Loading from './components/Loading';
+import Signup from './components/auth/Signup';
+import Login from './components/auth/Login';
 import Main from './components/Main';
 
 // App.js code
@@ -21,7 +20,7 @@ import Main from './components/Main';
 export default createAppContainer(createSwitchNavigator(
   {
     Loading,
-    SignUp,
+    Signup,
     Login,
     Main
   },
