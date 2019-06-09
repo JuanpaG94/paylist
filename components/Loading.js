@@ -1,17 +1,16 @@
 import React, { Component } from 'react';
-import { View, Text, ActivityIndicator, StyleSheet } from 'react-native';
+import { View, ActivityIndicator, StyleSheet } from 'react-native';
 import firebase from 'react-native-firebase';
 
 export default class Loading extends Component {
     componentDidMount() {
         firebase.auth().onAuthStateChanged(user => {
-            this.props.navigation.navigate(user ? 'Main' : 'Signup')
+            this.props.navigation.navigate(user ? 'Main' : 'Landing')
         })
     }
     render() {
         return (
             <View style={styles.container}>
-                <Text>Loading</Text>
                 <ActivityIndicator size="large" />
             </View>
         )

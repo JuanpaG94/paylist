@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, Platform, Image, Text, View } from 'react-native';
 import firebase from 'react-native-firebase';
-import { Button } from './shared/Button';
+import { Button } from './shared/Buttons';
 
 export default class Main extends Component {
     state = {
@@ -27,9 +27,9 @@ export default class Main extends Component {
         return (
             <View style={styles.container}>
                 <Text>
-                    Hi {currentUser && currentUser.email}!
+                    Welcome back {currentUser && currentUser.email}!
                 </Text>
-                <Button onPress={this.handleLogout}>Log out</Button>
+                <Button onPress={this.handleLogout}>Logout</Button>
             </View>
         )
     }

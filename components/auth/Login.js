@@ -1,51 +1,60 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, TextInput, View, Button } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import firebase from 'react-native-firebase';
 
+import { Input } from '../shared/Inputs';
+import { Button, ButtonDarker } from '../shared/Buttons';
+
 export default class Login extends Component {
-    state = { 
-        email: '', 
-        password: '', 
-        errorMessage: null 
+    state = {
+        email: '',
+        password: '',
+        errorMessage: null
     }
 
     handleLogin = () => {
         const { email, password } = this.state
         firebase.auth()
-          .signInWithEmailAndPassword(email, password)
-          .then(() => this.props.navigation.navigate('Main'))
-          .catch(error => this.setState({ errorMessage: error.message }))
+            .signInWithEmailAndPassword(email, password)
+            .then(() => this.props.navigation.navigate('Main'))
+            .catch(error => this.setState({ errorMessage: error.message }))
         console.log('User loged in')
     }
 
     render() {
         return (
             <View style={styles.container}>
-                <Text>Login</Text>
-                {this.state.errorMessage &&
-                    <Text style={{ color: 'red' }}>
-                        {this.state.errorMessage}
-                    </Text>}
-                <TextInput
-                    style={styles.textInput}
-                    autoCapitalize="none"
-                    placeholder="Email"
-                    onChangeText={email => this.setState({ email })}
-                    value={this.state.email}
-                />
-                <TextInput
-                    secureTextEntry
-                    style={styles.textInput}
-                    autoCapitalize="none"
-                    placeholder="Password"
-                    onChangeText={password => this.setState({ password })}
-                    value={this.state.password}
-                />
-                <Button title="Login" onPress={this.handleLogin} />
-                <Button
-                    title="Don't have an account? Sign Up"
-                    onPress={() => this.props.navigation.navigate('Signup')}
-                />
+
+                <View style={styles.headerContainer}>
+                    <Text style={styles.textMain}>Login into your Paylist</Text>
+                </View>
+
+                <View style={styles.inputContainer}>
+                    {this.state.errorMessage &&
+                        <Text style={styles.textError}>
+                            {this.state.errorMessage}
+                        </Text>}
+                    <Input
+                        label="Your Paylist account"
+                        placeholder="example@paylist.com"
+                        onChangeText={email => this.setState({ email })}
+                        value={this.state.email}>
+                    </Input>
+                    <Input
+                        label="Type your password"
+                        secureTextEntry
+                        placeholder="you're almost ready"
+                        onChangeText={password => this.setState({ password })}
+                        value={this.state.password}>
+                    </Input>
+                    <Button onPress={this.handleLogin}>Login</Button>
+                </View>
+
+                <View style={styles.bottomContainer}>
+                    <Text>No account yet? Come on!</Text>
+                    <ButtonDarker onPress={() => this.props.navigation.navigate('Signup')}>Sign up</ButtonDarker>
+                </View>
+
             </View>
         )
     }
@@ -53,15 +62,33 @@ export default class Login extends Component {
 
 const styles = StyleSheet.create({
     container: {
+        alignItems: 'center',
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center'
+        flexDirection: 'column',
+        height: '100%',
+        justifyContent: 'space-between',
+        padding: 20,
     },
-    textInput: {
-        height: 40,
-        width: '90%',
-        borderColor: 'gray',
-        borderWidth: 1,
-        marginTop: 8
+    headerContainer: {
+        width: '100%',
+    },
+    inputContainer: {
+        width: '100%',
+    },
+    bottomContainer: {
+        width: '100%',
+    },
+    textMain: {
+        padding: 5,
+        color: '#333',
+        fontSize: 20,
+        fontWeight: '800',
+        width: '100%',
+    },
+    textError: {
+        padding: 5,
+        color: '#b00020',
+        fontSize: 16,
+        width: '100%',
     }
 })

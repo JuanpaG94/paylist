@@ -4,6 +4,7 @@ import { createSwitchNavigator, createAppContainer } from 'react-navigation';
 
 // Import screens
 import Loading from './components/Loading';
+import Landing from './components/Landing';
 import Signup from './components/auth/Signup';
 import Login from './components/auth/Login';
 import Main from './components/Main';
@@ -20,6 +21,7 @@ import Main from './components/Main';
 export default createAppContainer(createSwitchNavigator(
   {
     Loading,
+    Landing,
     Signup,
     Login,
     Main
