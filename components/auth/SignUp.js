@@ -4,6 +4,7 @@ import firebase from 'react-native-firebase';
 
 import { Input } from '../shared/Inputs';
 import { Button, ButtonDarker } from '../shared/Buttons';
+import { Status } from '../shared/StatusBar';
 
 export default class Signup extends Component {
     state = {
@@ -23,6 +24,7 @@ export default class Signup extends Component {
     render() {
         return (
             <View style={styles.container}>
+                <Status></Status>
 
                 <View style={styles.headerContainer}>
                     <Text style={styles.textMain}>Create a Paylist account</Text>

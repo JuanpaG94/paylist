@@ -4,6 +4,7 @@ import firebase from 'react-native-firebase';
 
 import { Input } from '../shared/Inputs';
 import { Button, ButtonDarker } from '../shared/Buttons';
+import { Status } from '../shared/StatusBar';
 
 export default class Login extends Component {
     state = {
@@ -24,6 +25,7 @@ export default class Login extends Component {
     render() {
         return (
             <View style={styles.container}>
+                <Status></Status>
 
                 <View style={styles.headerContainer}>
                     <Text style={styles.textMain}>Login into your Paylist</Text>
@@ -41,9 +43,9 @@ export default class Login extends Component {
                         value={this.state.email}>
                     </Input>
                     <Input
-                        label="Type your password"
+                        label="Password"
                         secureTextEntry
-                        placeholder="you're almost ready"
+                        placeholder="almost ready"
                         onChangeText={password => this.setState({ password })}
                         value={this.state.password}>
                     </Input>
