@@ -1,42 +1,100 @@
 import React from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 
-const Card = ({ label, description, color }) => {
+const Card = ({ label, price, description, account, expireDate, color }) => {
   return (
-    <View style={[styles.container, {'backgroundColor': color}, {'shadowColor': color}]}>
-      <Text style={styles.label}>{label}</Text>
+    <View style={[styles.container, { 'backgroundColor': color }, { 'shadowColor': color }]}>
+
+      <View style={styles.mainSectionContainer}>
+        <Text style={styles.label}>{label}</Text>
+        <Text style={styles.price}>{price}€</Text>
+      </View>
+
       <Text style={styles.description}>{description}</Text>
+
+      <View style={styles.bottomSectionContainer}>
+        <Text style={styles.accountLabel}>account</Text>
+        <Text style={styles.expireDateLabel}>exp.date</Text>
+      </View>
+
+      <View style={styles.bottomSectionContainer}>
+        <Text style={styles.account}>{account}</Text>
+        <Text style={styles.expireDate}>{expireDate}</Text>
+      </View>
+
     </View>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
-    borderRadius: 10,
+    borderRadius: 12,
     elevation: 4,
-    marginBottom: 10,
+    flex: 1,
+    justifyContent: 'space-between',
+    marginBottom: 16,
     marginTop: 10,
-    padding: 9,
-    shadowOffset: { width: 0,height: 3 },
+    padding: 18,
+    shadowOffset: { width: 0, height: 3 },
     shadowOpacity: 1.0,
     shadowRadius: 5,
     width: '100%',
   },
+  mainSectionContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 25,
+  },
+  bottomSectionContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+  },
   label: {
-    borderBottomColor: 'white',
-    borderBottomWidth: 1,
-    color: 'white',
-    fontSize: 22,
-    fontWeight: '800',
-    padding: 5,
-    paddingBottom: 0,
+    color: '#263238',
+    fontSize: 19,
+    fontWeight: '900',
+    textTransform: 'uppercase',
+  },
+  price: {
+    color: '#263238',
+    fontSize: 18,
+    fontWeight: '600',
+    letterSpacing: 1,
   },
   description: {
-    color: 'white',
-    fontSize: 16,
-    fontWeight: '500',
-    padding: 5,
-  }
+    color: '#263238',
+    fontSize: 14,
+    fontWeight: '400',
+    letterSpacing: 1,
+    marginBottom: 25,
+  },
+  account: {
+    color: '#263238',
+    fontSize: 12,
+    letterSpacing: 1,
+  },
+  accountLabel: {
+    color: '#263238',
+    fontSize: 10,
+    fontWeight: '900',
+    letterSpacing: 2,
+    textTransform: 'uppercase',
+  },
+  expireDate: {
+    color: '#263238',
+    fontSize: 12,
+    letterSpacing: 1,
+  },
+  expireDateLabel: {
+    color: '#263238',
+    fontSize: 10,
+    fontWeight: '900',
+    letterSpacing: 2,
+    textTransform: 'uppercase',
+  },
 });
 
 export { Card };

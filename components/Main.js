@@ -8,7 +8,7 @@ import { Status } from './shared/StatusBar';
 import { Button } from './shared/Buttons';
 import { Card } from './shared/Card';
 
-class ListSubscriptionsView extends Component {
+class ListTicketsView extends Component {
     state = {
         currentUser: null,
         errorMessage: null
@@ -32,54 +32,78 @@ class ListSubscriptionsView extends Component {
         return (
             <View style={styles.container}>
                 <Status></Status>
+
                 <Text>
                     Welcome back {currentUser && currentUser.email}!
                 </Text>
+
                 <Button onPress={this.handleLogout}>Logout</Button>
             </View>
         )
     }
 }
 
-class ListTicketsView extends Component {
+class ListSubscriptionsView extends Component {
     render() {
         return (
             <ScrollView contentContainerStyle={styles.cardsContainer}>
+                <Status></Status>
+
+                <Text style={styles.headerLabel}>Subscriptions</Text>
+                <Ionicons style={styles.headerIconShape} name="ios-cog" size={25} color="black" />
+                <Ionicons style={styles.headerIconShape} name="ios-contact" size={25} color="black" />
+
                 <Card
-                    label="Ticket card"
+                    label="Netflix"
                     description="Ticket card dummy description test"
-                    color="#4a148c">
+                    price="8"
+                    expireDate="03/08/2020"
+                    account='asdasd34'
+                    color="#ff80ab">
                 </Card>
                 <Card
-                    label="Ticket card"
+                    label="Spotify"
                     description="Ticket card dummy description test"
-                    color="#4caf50">
+                    price="3,99"
+                    account='srjpg'
+                    expireDate="03/08/2020"
+                    color="#69f0ae">
                 </Card>
                 <Card
-                    label="Ticket card"
+                    label="Gym"
                     description="Ticket card dummy description test"
-                    color="#f06292">
-                </Card>
-                <Card
-                    label="Ticket card"
-                    description="Ticket card dummy description test"
-                    color="#f57f17">
-                </Card>
-                <Card
-                    label="Ticket card"
-                    description="Ticket card dummy description test"
-                    color="#000000">
-                </Card>
-                <Card
-                    label="Ticket card"
-                    description="Ticket card dummy description test"
-                    color="#29b6f6">
-                </Card>
-                <Card
-                    label="Ticket card"
-                    description="Ticket card dummy description test"
+                    price="7,99"
+                    account='accountbuyer@hotmail.com'
+                    expireDate="03/08/2020"
                     color="white">
                 </Card>
+                <Card
+                    label="Playstation Network"
+                    description="Ticket card dummy description test"
+                    price="7,99"
+                    account='dummyUser78'
+                    expireDate="03/08/2020"
+                    color="#82b1ff">
+                </Card>
+                <Card
+                    label="Amazon Prime"
+                    description="Ticket card dummy description test"
+                    price="23,50"
+                    account='test@paylist.com'
+                    expireDate="03/08/2020"
+                    color="#ffe57f">
+                </Card>
+                <Card
+                    label="Water bill"
+                    description="Ticket card dummy description test"
+                    price="4,59"
+                    account='example@paylist.com'
+                    expireDate="03/08/2020"
+                    color="#b2ebf2">
+                </Card>
+
+                <Text>n subscriptions</Text>
+
             </ScrollView>
         )
     }
@@ -118,7 +142,24 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         padding: 50,
     },
-    cardsContainer:{
+    headerLabel: {
+        color: '#263238',
+        fontSize: 22,
+        fontWeight: '900',
+        alignSelf: 'flex-start',
+        marginBottom: 8,
+        marginTop: 20,
+    },
+    headerIconShape:{
+        alignSelf: 'flex-end',
+        backgroundColor: "#cecece70",
+        borderRadius: 20,
+        paddingLeft: 5,
+        paddingRight: 5,
+        paddingTop: 2,
+        paddingBottom: 2,
+    },
+    cardsContainer: {
         alignItems: 'center',
         padding: 20,
     }
