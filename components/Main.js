@@ -49,9 +49,10 @@ class ListSubscriptionsView extends Component {
             <ScrollView contentContainerStyle={styles.cardsContainer}>
                 <Status></Status>
 
-                <Text style={styles.headerLabel}>Subscriptions</Text>
-                <Ionicons style={styles.headerIconShape} name="ios-cog" size={25} color="black" />
-                <Ionicons style={styles.headerIconShape} name="ios-contact" size={25} color="black" />
+                <View style={styles.headerContainer}>
+                    <Text style={styles.headerLabel}>Subscriptions</Text>
+                    <Ionicons style={styles.headerIconShape} name="ios-cog" size={26} color="black" />
+                </View>            
 
                 <Card
                     label="Netflix"
@@ -142,22 +143,27 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         padding: 50,
     },
+    headerContainer: {
+        alignItems: 'center',
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        paddingBottom: 12,
+        paddingTop: 18,
+        width: '100%',
+    },
     headerLabel: {
         color: '#263238',
         fontSize: 22,
-        fontWeight: '900',
-        alignSelf: 'flex-start',
-        marginBottom: 8,
-        marginTop: 20,
+        fontWeight: '800',
     },
     headerIconShape:{
-        alignSelf: 'flex-end',
         backgroundColor: "#cecece70",
         borderRadius: 20,
+        paddingBottom: 2,
         paddingLeft: 5,
         paddingRight: 5,
         paddingTop: 2,
-        paddingBottom: 2,
     },
     cardsContainer: {
         alignItems: 'center',

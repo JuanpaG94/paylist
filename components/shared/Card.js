@@ -14,7 +14,7 @@ const Card = ({ label, price, description, account, expireDate, color }) => {
 
       <View style={styles.bottomSectionContainer}>
         <Text style={styles.accountLabel}>account</Text>
-        <Text style={styles.expireDateLabel}>exp.date</Text>
+        <Text style={styles.expireDateLabel}>next bill</Text>
       </View>
 
       <View style={styles.bottomSectionContainer}>
