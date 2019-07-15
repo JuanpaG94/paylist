@@ -36,6 +36,9 @@ class ListTicketsView extends Component {
                 <Text>
                     Welcome back {currentUser && currentUser.email}!
                 </Text>
+                <Text>
+                    Your UID is {currentUser && currentUser.uid}
+                </Text>
 
                 <Button onPress={this.handleLogout}>Logout</Button>
             </View>
@@ -44,7 +47,44 @@ class ListTicketsView extends Component {
 }
 
 class ListSubscriptionsView extends Component {
+    state = {
+        currentUser: null,
+        currentUserSubsList: [],
+        errorMessage: null
+    }
+
+    componentDidMount() {
+        const { currentUser } = firebase.auth()
+
+        this.setState({ currentUser }, () => {
+            console.log('USER ID', this.state.currentUser.uid);
+        });
+
+        this.handleListSubcriptions();
+    }
+
+    handleListSubcriptions = () => {
+        firebase.firestore().collection('subscriptions')
+            .get()
+            .then(querySnapshot => {
+                const userSubsArray = []
+                querySnapshot.forEach(doc => {
+                    userSubsArray.push({
+                        id: doc.id,
+                        ...doc.data()
+                    })
+                })
+                this.setState({ currentUserSubsList: userSubsArray });
+            })
+    }
+
+
+
     render() {
+        const { currentUserSubsList } = this.state
+
+        console.log('subscriptionsList', currentUserSubsList)
+
         return (
             <ScrollView contentContainerStyle={styles.cardsContainer}>
                 <Status></Status>
@@ -52,58 +92,19 @@ class ListSubscriptionsView extends Component {
                 <View style={styles.headerContainer}>
                     <Text style={styles.headerLabel}>Subscriptions</Text>
                     <Ionicons style={styles.headerIconShape} name="ios-cog" size={26} color="black" />
-                </View>            
+                </View>
 
-                <Card
-                    label="Netflix"
-                    description="Ticket card dummy description test"
-                    price="8"
+                {currentUserSubsList.map((subscription) => <Card
+                    key={subscription.id}
+                    label={subscription.name}
+                    description={subscription.desc}
+                    price={subscription.price}
                     expireDate="03/08/2020"
-                    account='asdasd34'
+                    account={subscription.account}
                     color="#ff80ab">
-                </Card>
-                <Card
-                    label="Spotify"
-                    description="Ticket card dummy description test"
-                    price="3,99"
-                    account='srjpg'
-                    expireDate="03/08/2020"
-                    color="#69f0ae">
-                </Card>
-                <Card
-                    label="Gym"
-                    description="Ticket card dummy description test"
-                    price="7,99"
-                    account='accountbuyer@hotmail.com'
-                    expireDate="03/08/2020"
-                    color="white">
-                </Card>
-                <Card
-                    label="Playstation Network"
-                    description="Ticket card dummy description test"
-                    price="7,99"
-                    account='dummyUser78'
-                    expireDate="03/08/2020"
-                    color="#82b1ff">
-                </Card>
-                <Card
-                    label="Amazon Prime"
-                    description="Ticket card dummy description test"
-                    price="23,50"
-                    account='test@paylist.com'
-                    expireDate="03/08/2020"
-                    color="#ffe57f">
-                </Card>
-                <Card
-                    label="Water bill"
-                    description="Ticket card dummy description test"
-                    price="4,59"
-                    account='example@paylist.com'
-                    expireDate="03/08/2020"
-                    color="#b2ebf2">
-                </Card>
+                </Card>)}
 
-                <Text>n subscriptions</Text>
+                <Text>{currentUserSubsList.length} subscriptions</Text>
 
             </ScrollView>
         )
@@ -157,7 +158,7 @@ const styles = StyleSheet.create({
         fontSize: 22,
         fontWeight: '800',
     },
-    headerIconShape:{
+    headerIconShape: {
         backgroundColor: "#cecece70",
         borderRadius: 20,
         paddingBottom: 2,
