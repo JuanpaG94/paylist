@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity } from 'react-native';
+import Ionicons from 'react-native-ionicons';
 
 const Button = ({ onPress, children }) => {
   return (
@@ -29,6 +30,14 @@ const ButtonError = ({ onPress, children }) => {
   return (
     <TouchableOpacity onPress={onPress} style={styles.buttonError}>
       <Text style={styles.text}>{children}</Text>
+    </TouchableOpacity>
+  )
+}
+
+const FloatingActionButton = ({ onPress, children }) => {
+  return (
+    <TouchableOpacity onPress={onPress} style={styles.floatingActionButton}>
+      <Ionicons name="ios-add" size={26} color="white" /><Text style={styles.fabText}>{'  '+children}</Text>
     </TouchableOpacity>
   )
 }
@@ -90,11 +99,35 @@ const styles = StyleSheet.create({
     shadowRadius: 20,
     width: '100%',
   },
+  floatingActionButton: {
+    alignItems: 'center',
+    backgroundColor: "#6200ee",
+    borderRadius: 20,
+    bottom: 10,
+    elevation: 2,
+    flexDirection: 'row',
+    paddingBottom: 5,
+    paddingLeft: 16,
+    paddingRight: 16,
+    paddingTop: 5,
+    position: "absolute",
+    right: 20,
+    shadowColor: "#6200ee",
+    shadowOffset : { width: 1, height: 13},
+    shadowOpacity: 1.5,
+    shadowRadius: 20,
+},
   text: {
     color: 'white',
     fontSize: 18,
     fontWeight: '700',
+  },
+  fabText: {
+    color: 'white',
+    fontSize: 14,
+    letterSpacing: 1,
+    fontWeight: '700',
   }
 });
 
-export { Button, ButtonDarker, ButtonSecondary, ButtonError };
+export { Button, ButtonDarker, ButtonSecondary, ButtonError, FloatingActionButton };

@@ -28,7 +28,8 @@ const Card = ({ label, price, description, account, expireDate, color }) => {
 
 const styles = StyleSheet.create({
   container: {
-    borderRadius: 12,
+    backgroundColor: 'white',
+    borderRadius: 10,
     elevation: 4,
     flex: 1,
     justifyContent: 'space-between',
