@@ -88,10 +88,6 @@ export default createStackNavigator(
                 header: null,
             }
         },
-        Create: { 
-            screen: CreateSubscriptionView, navigationOptions: { 
-                tabBarVisible: false } 
-            },
     },
     {
         initialRouteName: "Subscriptions"

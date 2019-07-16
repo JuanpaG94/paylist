@@ -6,8 +6,9 @@ import Ionicons from 'react-native-ionicons';
 // Views for bottom tab navigator
 import ListTicketsView from './main/ListTicketsView';
 import ListSubscriptionsView from './main/ListSubscriptionsView';
+import CreateSubscriptionView from './main/create/CreateSubscriptionsView';
 
-export default createBottomTabNavigator(
+const BottomTabNavigator = createBottomTabNavigator(
     {
         Subscriptions: ListSubscriptionsView,
         Tickets: ListTicketsView,
@@ -32,3 +33,16 @@ export default createBottomTabNavigator(
         },
     }
 );
+
+export default createStackNavigator(
+    {
+        Main: BottomTabNavigator,
+        Create: { 
+            screen: CreateSubscriptionView, navigationOptions: { 
+                tabBarVisible: false } 
+            },
+    },
+    {
+        headerMode: 'none',
+    }
+)
