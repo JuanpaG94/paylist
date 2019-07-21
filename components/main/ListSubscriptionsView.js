@@ -29,6 +29,10 @@ export class ListSubscriptionsView extends Component {
         this.handleListSubcriptions();
     }
 
+    componentWillUpdate() {
+        this.handleListSubcriptions();
+    }
+
     handleListSubcriptions = () => {
         firebase.firestore().collection('subscriptions')
             .get()
@@ -42,10 +46,6 @@ export class ListSubscriptionsView extends Component {
                 })
                 this.setState({ currentUserSubsList: userSubsArray });
             })
-    }
-
-    handleAdd = () => {
-        console.log('hey! you pressed the fab ;)')
     }
 
     render() {
@@ -75,7 +75,9 @@ export class ListSubscriptionsView extends Component {
 
                 </ScrollView>
 
-                <FloatingActionButton onPress={() => this.props.navigation.navigate('Create')}>NEW</FloatingActionButton>
+                <View style={styles.bottomBarOptions}>
+                    <FloatingActionButton onPress={() => this.props.navigation.navigate('Create')}>NEW</FloatingActionButton>
+                </View>
             </View>
         )
     }
@@ -151,5 +153,13 @@ const styles = StyleSheet.create({
     cardsContainer: {
         alignItems: 'center',
         padding: 20,
-    }
+    },
+    bottomBarOptions: {
+        flexDirection: 'row',
+        justifyContent: 'flex-end',
+        width: '100%',
+        position: 'absolute',
+        bottom: 5,
+        right: 16,
+    },
 })

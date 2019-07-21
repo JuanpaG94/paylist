@@ -19,7 +19,7 @@ export default class Login extends Component {
             .signInWithEmailAndPassword(email, password)
             .then(() => this.props.navigation.navigate('Main'))
             .catch(error => this.setState({ errorMessage: error.message }))
-        console.log('User loged in')
+        console.log('User loged in:', email)
     }
 
     render() {

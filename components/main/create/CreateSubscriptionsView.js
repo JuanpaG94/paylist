@@ -1,16 +1,32 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, ScrollView } from 'react-native';
+import { Alert, StyleSheet, Text, View, ScrollView } from 'react-native';
 import firebase from 'react-native-firebase';
 import Ionicons from 'react-native-ionicons';
 
 // Custom components
 import { Status } from '../../shared/StatusBar';
-import { Button, FloatingActionButton } from '../../shared/Buttons';
+import { Input } from '../../shared/Inputs';
+import { FloatingActionButton, FloatingActionButtonCancel } from '../../shared/Buttons';
 
 export default class CreateSubscriptionsView extends Component {
     state = {
         currentUser: null,
-        errorMessage: null
+        name: null,
+        desc: null,
+        account: null,
+        color: null,
+        price: null,
+    }
+
+    showAlert = (message) => {
+        Alert.alert(
+            'Oops! Something happened',
+            message,
+            [
+                { text: 'OK', onPress: () => console.log('OK Pressed') },
+            ],
+            { cancelable: false },
+        );
     }
 
     componentDidMount() {
@@ -18,9 +34,41 @@ export default class CreateSubscriptionsView extends Component {
         this.setState({ currentUser })
     }
 
-    render() {
-        const { currentUser } = this.state
+    handleCreate = () => {
+        const { currentUser, name, desc, account, color, price } = this.state
 
+        var docData = {
+            userID: currentUser.uid,
+            name: name,
+            desc: desc,
+            price: price,
+            date: firebase.firestore.Timestamp.fromDate(new Date()),
+            account: account,
+            color: '#b2ebf2',
+        }
+
+        if (docData.name == null || docData.price == null || docData.account == null) {
+            console.log('Document empty, showing alert');
+            const message = 'Name, price and service account cannot be empty. Please fill them!';
+            this.showAlert(message);
+        } else {
+            firebase.firestore().collection("subscriptions")
+                .add(docData)
+                .then((docRef) => {
+                    console.log("Document written with ID: ", docRef.id);
+                    console.log("With name: ", docData.name);
+                    this.props.navigation.goBack();
+                })
+                .catch(error => {
+                    console.error("Error adding document: ", error)
+                    this.showAlert(error.message)
+                })
+
+        }
+    }
+
+
+    render() {
         return (
             <View style={[{ 'height': '100%' }]}>
                 <ScrollView contentContainerStyle={styles.cardsContainer}>
@@ -28,18 +76,40 @@ export default class CreateSubscriptionsView extends Component {
 
                     <View style={styles.headerContainer}>
                         <Text style={styles.headerLabel}>New subscription</Text>
-                        <Ionicons style={styles.headerIconShape} name="ios-close" size={26} color="black" />
+                        <Ionicons name="ios-albums" size={26} color="black" />
                     </View>
 
-                    <Text>
-                        This is the create view {currentUser && currentUser.email}
-                    </Text>
-
-                    <Button style={styles.buttonLogout} onPress={this.handleLogout}>Logout</Button>
+                    <Input
+                        label="What's the service name?"
+                        placeholder="Netflix, Spotify..."
+                        onChangeText={name => this.setState({ name })}
+                        value={this.state.name}>
+                    </Input>
+                    <Input
+                        label="Description"
+                        placeholder=""
+                        onChangeText={desc => this.setState({ desc })}
+                        value={this.state.desc}>
+                    </Input>
+                    <Input
+                        label="Price"
+                        placeholder=""
+                        onChangeText={price => this.setState({ price })}
+                        value={this.state.price}>
+                    </Input>
+                    <Input
+                        label="Service account"
+                        placeholder="the email you're using for the service"
+                        onChangeText={account => this.setState({ account })}
+                        value={this.state.account}>
+                    </Input>
 
                 </ScrollView>
 
-                <FloatingActionButton onPress={this.handleAdd}>SAVE</FloatingActionButton>
+                <View style={styles.bottomBarOptions}>
+                    <FloatingActionButtonCancel onPress={() => this.props.navigation.goBack()}>CANCEL</FloatingActionButtonCancel>
+                    <FloatingActionButton onPress={this.handleCreate}>CONFIRM</FloatingActionButton>
+                </View>
             </View>
         )
     }
@@ -60,19 +130,20 @@ const styles = StyleSheet.create({
         fontSize: 22,
         fontWeight: '800',
     },
-    headerIconShape: {
-        backgroundColor: "#cecece70",
-        borderRadius: 20,
-        paddingBottom: 2,
-        paddingLeft: 5,
-        paddingRight: 5,
-        paddingTop: 2,
-    },
     cardsContainer: {
         alignItems: 'center',
         padding: 20,
     },
-    buttonLogout: {
-        alignItems: 'flex-end',
-    }
+    bottomBarOptions: {
+        backgroundColor: '#fefefe',
+        borderColor: '#cecece',
+        borderStyle: 'solid',
+        borderWidth: 0.5,
+        borderTopLeftRadius: 14,
+        borderTopRightRadius: 14,
+        flexDirection: 'row',
+        justifyContent: 'space-evenly',
+        width: '100%',
+        padding:10,
+    },
 })

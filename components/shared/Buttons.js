@@ -37,10 +37,19 @@ const ButtonError = ({ onPress, children }) => {
 const FloatingActionButton = ({ onPress, children }) => {
   return (
     <TouchableOpacity onPress={onPress} style={styles.floatingActionButton}>
-      <Ionicons name="ios-add" size={26} color="white" /><Text style={styles.fabText}>{'  '+children}</Text>
+      <Ionicons name="ios-add" size={26} color="white" /><Text style={styles.fabText}>{'  ' + children}</Text>
     </TouchableOpacity>
   )
 }
+
+const FloatingActionButtonCancel = ({ onPress, children }) => {
+  return (
+    <TouchableOpacity onPress={onPress} style={styles.floatingActionButtonCancel}>
+      <Ionicons name="ios-close" size={26} color="white" /><Text style={styles.fabText}>{'  ' + children}</Text>
+    </TouchableOpacity>
+  )
+}
+
 
 const styles = StyleSheet.create({
   button: {
@@ -52,7 +61,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     padding: 9,
     shadowColor: "#6200ee",
-    shadowOffset : { width: 1, height: 13},
+    shadowOffset: { width: 1, height: 13 },
     shadowOpacity: 1.5,
     shadowRadius: 20,
     width: '100%',
@@ -66,7 +75,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     padding: 9,
     shadowColor: "#3700b3",
-    shadowOffset : { width: 1, height: 13},
+    shadowOffset: { width: 1, height: 13 },
     shadowOpacity: 1.5,
     shadowRadius: 20,
     width: '100%',
@@ -80,7 +89,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     padding: 9,
     shadowColor: "#00aeef",
-    shadowOffset : { width: 1, height: 13},
+    shadowOffset: { width: 1, height: 13 },
     shadowOpacity: 1.5,
     shadowRadius: 20,
     width: '100%',
@@ -94,7 +103,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     padding: 9,
     shadowColor: "#b00020",
-    shadowOffset : { width: 1, height: 13},
+    shadowOffset: { width: 1, height: 13 },
     shadowOpacity: 1.5,
     shadowRadius: 20,
     width: '100%',
@@ -103,20 +112,34 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: "#6200ee",
     borderRadius: 20,
-    bottom: 10,
     elevation: 2,
     flexDirection: 'row',
+    margin: 5,
     paddingBottom: 5,
     paddingLeft: 16,
     paddingRight: 16,
     paddingTop: 5,
-    position: "absolute",
-    right: 20,
     shadowColor: "#6200ee",
-    shadowOffset : { width: 1, height: 13},
+    shadowOffset: { width: 1, height: 13 },
     shadowOpacity: 1.5,
     shadowRadius: 20,
-},
+  },
+  floatingActionButtonCancel: {
+    alignItems: 'center',
+    backgroundColor: "#b00020",
+    borderRadius: 20,
+    elevation: 2,
+    flexDirection: 'row',
+    margin: 5,
+    paddingBottom: 5,
+    paddingLeft: 16,
+    paddingRight: 16,
+    paddingTop: 5,
+    shadowColor: "#6200ee",
+    shadowOffset: { width: 1, height: 13 },
+    shadowOpacity: 1.5,
+    shadowRadius: 20,
+  },
   text: {
     color: 'white',
     fontSize: 18,
@@ -130,4 +153,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export { Button, ButtonDarker, ButtonSecondary, ButtonError, FloatingActionButton };
+export { Button, ButtonDarker, ButtonSecondary, ButtonError, FloatingActionButton, FloatingActionButtonCancel };
