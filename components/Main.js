@@ -27,14 +27,29 @@ const BottomTabNavigator = createBottomTabNavigator(
                 } else if (routeName === 'Tickets') {
                     iconName = `ios-paper`;
                 } else if (routeName === 'Settings') {
-                    iconName = `ios-cog`;
+                    iconName = `ios-settings`;
                 }
                 return <IconComponent name={iconName} size={25} color={tintColor} />;
             },
         }),
         tabBarOptions: {
+            showLabel: false,
             activeTintColor: '#6200ee',
+            activeBackgroundColor: '#cecece70',
             inactiveTintColor: 'gray',
+            style: {
+                backgroundColor: '#fefefe',
+                borderTopColor: '#cecece70',
+                borderStyle: 'solid',
+                borderTopWidth: 1.2,
+              },
+              tabStyle: {
+                borderRadius: 10,
+                marginBottom: 3,
+                marginLeft: 5,
+                marginRight: 5,
+                marginTop: 3,
+              }
         },
     }
 );
