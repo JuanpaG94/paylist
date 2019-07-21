@@ -6,6 +6,7 @@ import Ionicons from 'react-native-ionicons';
 // Custom components
 import { Status } from '../shared/StatusBar';
 import { ButtonDarker } from '../shared/Buttons';
+import { Fonts } from '../../utils/fonts';
 
 export default class SettingsView extends Component {
     state = {
@@ -68,8 +69,8 @@ const styles = StyleSheet.create({
     },
     headerLabel: {
         color: '#263238',
+        fontFamily: Fonts.InterBlack,
         fontSize: 22,
-        fontWeight: '800',
     },
     headerIconShape: {
         backgroundColor: "#cecece70",

@@ -4,6 +4,8 @@ import firebase from 'react-native-firebase';
 import { createStackNavigator } from 'react-navigation';
 import Ionicons from 'react-native-ionicons';
 
+// Custom fonts
+import { Fonts } from '../../utils/fonts';
 // Custom components
 import { Status } from '../shared/StatusBar';
 import { FloatingActionButton } from '../shared/Buttons';
@@ -66,7 +68,7 @@ export class ListTicketsView extends Component {
                     >
                     </CardTicket>)}
 
-                    <Text>{currentUserTicketsList.length} tickets</Text>
+                    <Text style={styles.countLabel}>{currentUserTicketsList.length} tickets</Text>
 
                 </ScrollView>
 
@@ -134,8 +136,8 @@ const styles = StyleSheet.create({
     },
     headerLabel: {
         color: '#263238',
+        fontFamily: Fonts.InterBlack,
         fontSize: 22,
-        fontWeight: '800',
     },
     headerIconShape: {
         backgroundColor: "#cecece70",
@@ -148,6 +150,9 @@ const styles = StyleSheet.create({
     cardsContainer: {
         alignItems: 'center',
         padding: 20,
+    },
+    countLabel: {
+        fontFamily: Fonts.InterRegular,
     },
     bottomBarOptions: {
         bottom: 15,

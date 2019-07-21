@@ -28,7 +28,7 @@ export default class Login extends Component {
                 <Status></Status>
 
                 <View style={styles.headerContainer}>
-                    <Text style={styles.textMain}>Login into your Paylist</Text>
+                    <Text style={styles.textMain}>Paylist access</Text>
                 </View>
 
                 <View style={styles.inputContainer}>

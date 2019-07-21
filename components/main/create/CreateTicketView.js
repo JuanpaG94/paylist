@@ -3,6 +3,8 @@ import { Alert, StyleSheet, Text, View, ScrollView } from 'react-native';
 import firebase from 'react-native-firebase';
 import Ionicons from 'react-native-ionicons';
 
+// Custom fonts
+import { Fonts } from '../../../utils/fonts';
 // Custom components
 import { Status } from '../../shared/StatusBar';
 import { Input } from '../../shared/Inputs';
@@ -119,8 +121,8 @@ const styles = StyleSheet.create({
     },
     headerLabel: {
         color: '#263238',
+        fontFamily: Fonts.InterBlack,
         fontSize: 22,
-        fontWeight: '800',
     },
     cardsContainer: {
         alignItems: 'center',

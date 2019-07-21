@@ -1,6 +1,8 @@
 import React from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 
+import { Fonts } from '../../utils/fonts';
+
 const Card = ({ label, price, description, account, expireDate, color }) => {
   return (
     <View style={[stylesCard.container, { 'backgroundColor': color }, { 'shadowColor': color }]}>
@@ -81,8 +83,7 @@ const stylesCard = StyleSheet.create({
   label: {
     color: '#263238',
     fontSize: 19,
-    fontWeight: '900',
-    textTransform: 'uppercase',
+    fontFamily: Fonts.InterBold,
   },
   price: {
     color: '#263238',
@@ -93,8 +94,8 @@ const stylesCard = StyleSheet.create({
   description: {
     color: '#263238',
     fontSize: 14,
-    fontWeight: '400',
-    letterSpacing: 1,
+    fontFamily: Fonts.InterRegular,
+    letterSpacing: 0.8,
     marginBottom: 25,
   },
   account: {
@@ -105,8 +106,8 @@ const stylesCard = StyleSheet.create({
   accountLabel: {
     color: '#263238',
     fontSize: 10,
-    fontWeight: '900',
-    letterSpacing: 2,
+    fontFamily: Fonts.InterBlack,
+    letterSpacing: 1,
     textTransform: 'uppercase',
   },
   expireDate: {
@@ -117,8 +118,8 @@ const stylesCard = StyleSheet.create({
   expireDateLabel: {
     color: '#263238',
     fontSize: 10,
-    fontWeight: '900',
-    letterSpacing: 2,
+    fontFamily: Fonts.InterBlack,
+    letterSpacing: 1,
     textTransform: 'uppercase',
   },
 });
@@ -154,9 +155,7 @@ const stylesCardTicket = StyleSheet.create({
   label: {
     color: '#263238',
     fontSize: 14,
-    fontWeight: '900',
-    letterSpacing: 2,
-    textTransform: 'uppercase',
+    fontFamily: Fonts.InterBold,
     width:'60%',
   },
   price: {
@@ -168,8 +167,8 @@ const stylesCardTicket = StyleSheet.create({
   description: {
     color: '#263238',
     fontSize: 14,
-    fontWeight: '400',
-    letterSpacing: 1,
+    fontFamily: Fonts.InterRegular,
+    letterSpacing: 0.8,
     marginBottom: 25,
   },
   purchaseDate: {
@@ -180,8 +179,8 @@ const stylesCardTicket = StyleSheet.create({
   purchaseDateLabel: {
     color: '#263238',
     fontSize: 10,
-    fontWeight: '900',
-    letterSpacing: 2,
+    fontFamily: Fonts.InterBlack,
+    letterSpacing: 1,
     textTransform: 'uppercase',
   },
   expireDate: {
@@ -192,8 +191,8 @@ const stylesCardTicket = StyleSheet.create({
   expireDateLabel: {
     color: '#263238',
     fontSize: 10,
-    fontWeight: '900',
-    letterSpacing: 2,
+    fontFamily: Fonts.InterBlack,
+    letterSpacing: 1,
     textTransform: 'uppercase',
   },
 });

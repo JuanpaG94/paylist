@@ -4,6 +4,8 @@ import firebase from 'react-native-firebase';
 import { createStackNavigator } from 'react-navigation';
 import Ionicons from 'react-native-ionicons';
 
+// Custom fonts
+import { Fonts } from '../../utils/fonts';
 // Custom components
 import { Status } from '../shared/StatusBar';
 import { FloatingActionButton } from '../shared/Buttons';
@@ -19,12 +21,12 @@ export class ListSubscriptionsView extends Component {
     componentDidMount() {
         const { currentUser } = firebase.auth()
 
-        this.setState({ currentUser }, () => { 
+        this.setState({ currentUser }, () => {
             this.handleListSubcriptions(this.state.currentUser.uid);
         });
     }
 
-    componentDidUpdate(){
+    componentDidUpdate() {
         this.handleListSubcriptions(this.state.currentUser.uid);
     }
 
@@ -66,7 +68,7 @@ export class ListSubscriptionsView extends Component {
                         color={subscription.color ? subscription.color : '#ECEFF1'}>
                     </Card>)}
 
-                    <Text>{currentUserSubsList.length} subscriptions</Text>
+                    <Text style={styles.countLabel}>{currentUserSubsList.length} subscriptions</Text>
 
                 </ScrollView>
 
@@ -134,8 +136,8 @@ const styles = StyleSheet.create({
     },
     headerLabel: {
         color: '#263238',
+        fontFamily: Fonts.InterBlack,
         fontSize: 22,
-        fontWeight: '800',
     },
     headerIconShape: {
         backgroundColor: "#cecece70",
@@ -148,6 +150,9 @@ const styles = StyleSheet.create({
     cardsContainer: {
         alignItems: 'center',
         padding: 20,
+    },
+    countLabel: {
+        fontFamily: Fonts.InterRegular,
     },
     bottomBarOptions: {
         bottom: 15,
