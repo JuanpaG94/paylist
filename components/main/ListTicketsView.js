@@ -1,34 +1,50 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, ScrollView } from 'react-native';
 import firebase from 'react-native-firebase';
+import { createStackNavigator } from 'react-navigation';
 import Ionicons from 'react-native-ionicons';
 
 // Custom components
 import { Status } from '../shared/StatusBar';
-import { Button, FloatingActionButton } from '../shared/Buttons';
-import { Card } from '../shared/Card';
+import { FloatingActionButton } from '../shared/Buttons';
+import { CardTicket } from '../shared/Card';
 
-export default class ListTicketsView extends Component {
+export class ListTicketsView extends Component {
     state = {
         currentUser: null,
+        currentUserTicketsList: [],
         errorMessage: null
     }
 
     componentDidMount() {
         const { currentUser } = firebase.auth()
-        this.setState({ currentUser })
+
+        this.setState({ currentUser }, () => {
+            this.handleListTickets(this.state.currentUser.uid);
+        });
     }
 
-    handleLogout = () => {
-        this.setState({ currentUser: null })
-        firebase.auth().signOut()
-            .then(() => this.props.navigation.navigate('Loading'))
-            .catch(error => this.setState({ errorMessage: error.message }))
-        console.log('User disconnected')
+    componentDidUpdate() {
+        this.handleListTickets(this.state.currentUser.uid);
+    }
+
+    handleListTickets = (userID) => {
+        firebase.firestore().collection('tickets').where("userID", "==", userID)
+            .get()
+            .then(querySnapshot => {
+                const userSubsArray = []
+                querySnapshot.forEach(doc => {
+                    userSubsArray.push({
+                        id: doc.id,
+                        ...doc.data()
+                    })
+                })
+                this.setState({ currentUserTicketsList: userSubsArray });
+            })
     }
 
     render() {
-        const { currentUser } = this.state
+        const { currentUserTicketsList } = this.state
 
         return (
             <View style={[{ 'height': '100%' }]}>
@@ -37,25 +53,74 @@ export default class ListTicketsView extends Component {
 
                     <View style={styles.headerContainer}>
                         <Text style={styles.headerLabel}>Tickets</Text>
-                        <Ionicons style={styles.headerIconShape} name="ios-cog" size={26} color="black" />
+                        <Ionicons style={styles.headerIconShape} name="ios-more" size={26} color="#6200ee" />
                     </View>
 
-                    <Text>
-                        Welcome {currentUser && currentUser.email}
-                    </Text>
-                    <Text>
-                        Your UID is {currentUser && currentUser.uid}
-                    </Text>
+                    {currentUserTicketsList.map((ticket) => <CardTicket
+                        key={ticket.id}
+                        label={ticket.name}
+                        description={ticket.desc}
+                        price={ticket.price}
+                        purchaseDate={ticket.purchaseDate ? ticket.purchaseDate.toDate().getDate() + '/' + (ticket.purchaseDate.toDate().getMonth() + 1) + '/' + (ticket.purchaseDate.toDate().getFullYear()) : ''}
+                        expireDate={ticket.expireDate ? ticket.expireDate.toDate().getDate() + '/' + (ticket.expireDate.toDate().getMonth() + 1) + '/' + (ticket.expireDate.toDate().getFullYear()) : ''}
+                    >
+                    </CardTicket>)}
 
-                    <Button style={styles.buttonLogout} onPress={this.handleLogout}>Logout</Button>
+                    <Text>{currentUserTicketsList.length} tickets</Text>
 
                 </ScrollView>
 
-                <FloatingActionButton onPress={this.handleAdd}>NEW</FloatingActionButton>
+                <View style={styles.bottomBarOptions}>
+                    <FloatingActionButton onPress={() => this.props.navigation.navigate('CreateTicket')}></FloatingActionButton>
+                </View>
             </View>
         )
     }
 }
+
+export default createStackNavigator(
+    {
+        Tickets: {
+            screen: ListTicketsView, navigationOptions: {
+                header: null,
+            }
+        },
+    },
+    {
+        initialRouteName: "Tickets"
+    },
+    {
+        headerMode: 'none',
+        mode: 'modal',
+        defaultNavigationOptions: {
+
+        },
+        transitionConfig: () => ({
+            transitionSpec: {
+                duration: 300,
+                easing: Easing.out(Easing.poly(4)),
+                timing: Animated.timing,
+            },
+            screenInterpolator: sceneProps => {
+                const { layout, position, scene } = sceneProps;
+                const { index } = scene;
+
+                const height = layout.initHeight;
+                const translateY = position.interpolate({
+                    inputRange: [index - 1, index, index + 1],
+                    outputRange: [height, 0, 0],
+                });
+
+                const opacity = position.interpolate({
+                    inputRange: [index - 1, index - 0.99, index],
+                    outputRange: [0, 1, 1],
+                });
+
+                return { opacity, transform: [{ translateY }] };
+            },
+        }),
+    }
+);
 
 const styles = StyleSheet.create({
     headerContainer: {
@@ -84,7 +149,12 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         padding: 20,
     },
-    buttonLogout: {
-        alignItems: 'flex-end',
-    }
+    bottomBarOptions: {
+        bottom: 15,
+        flexDirection: 'row',
+        justifyContent: 'flex-end',
+        position: 'absolute',
+        right: 15,
+        width: '100%',
+    },
 })

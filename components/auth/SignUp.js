@@ -52,7 +52,7 @@ export default class Signup extends Component {
                 </View>
 
                 <View style={styles.bottomContainer}>
-                    <Text>Already have an account? Login</Text>
+                    <Text>Already have an account?</Text>
                     <ButtonDarker onPress={() => this.props.navigation.navigate('Login')}>Login</ButtonDarker>
                 </View>
 

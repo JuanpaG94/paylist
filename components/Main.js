@@ -6,12 +6,15 @@ import Ionicons from 'react-native-ionicons';
 // Views for bottom tab navigator
 import ListTicketsView from './main/ListTicketsView';
 import ListSubscriptionsView from './main/ListSubscriptionsView';
-import CreateSubscriptionView from './main/create/CreateSubscriptionsView';
+import CreateSubscriptionView from './main/create/CreateSubscriptionView';
+import CreateTicketView from './main/create/CreateTicketView';
+import SettingsView from './main/SettingsView';
 
 const BottomTabNavigator = createBottomTabNavigator(
     {
         Subscriptions: ListSubscriptionsView,
         Tickets: ListTicketsView,
+        Settings: SettingsView,
     },
     {
         defaultNavigationOptions: ({ navigation }) => ({
@@ -23,6 +26,8 @@ const BottomTabNavigator = createBottomTabNavigator(
                     iconName = `ios-albums`; // ${focused ? '' : '-outline'}` puede ser util en el futuro
                 } else if (routeName === 'Tickets') {
                     iconName = `ios-paper`;
+                } else if (routeName === 'Settings') {
+                    iconName = `ios-cog`;
                 }
                 return <IconComponent name={iconName} size={25} color={tintColor} />;
             },
@@ -37,10 +42,16 @@ const BottomTabNavigator = createBottomTabNavigator(
 export default createStackNavigator(
     {
         Main: BottomTabNavigator,
-        Create: { 
-            screen: CreateSubscriptionView, navigationOptions: { 
-                tabBarVisible: false } 
-            },
+        CreateSubscription: {
+            screen: CreateSubscriptionView, navigationOptions: {
+                tabBarVisible: false
+            }
+        },
+        CreateTicket: {
+            screen: CreateTicketView, navigationOptions: {
+                tabBarVisible: false
+            }
+        },
     },
     {
         headerMode: 'none',

@@ -37,7 +37,7 @@ const ButtonError = ({ onPress, children }) => {
 const FloatingActionButton = ({ onPress, children }) => {
   return (
     <TouchableOpacity onPress={onPress} style={styles.floatingActionButton}>
-      <Ionicons name="ios-add" size={26} color="white" /><Text style={styles.fabText}>{'  ' + children}</Text>
+      <Ionicons name="ios-add" size={36} color="white" /><Text style={styles.fabText}>{children ? '  ' + children : ''}</Text>
     </TouchableOpacity>
   )
 }
@@ -45,7 +45,7 @@ const FloatingActionButton = ({ onPress, children }) => {
 const FloatingActionButtonCancel = ({ onPress, children }) => {
   return (
     <TouchableOpacity onPress={onPress} style={styles.floatingActionButtonCancel}>
-      <Ionicons name="ios-close" size={26} color="white" /><Text style={styles.fabText}>{'  ' + children}</Text>
+      <Ionicons name="ios-close" size={36} color="white" /><Text style={styles.fabText}>{children ? '  ' + children : ''}</Text>
     </TouchableOpacity>
   )
 }
@@ -111,14 +111,14 @@ const styles = StyleSheet.create({
   floatingActionButton: {
     alignItems: 'center',
     backgroundColor: "#6200ee",
-    borderRadius: 20,
+    borderRadius: 40,
     elevation: 2,
     flexDirection: 'row',
     margin: 5,
-    paddingBottom: 5,
+    paddingBottom: 6.5,
     paddingLeft: 16,
     paddingRight: 16,
-    paddingTop: 5,
+    paddingTop: 6.5,
     shadowColor: "#6200ee",
     shadowOffset: { width: 1, height: 13 },
     shadowOpacity: 1.5,
@@ -127,14 +127,14 @@ const styles = StyleSheet.create({
   floatingActionButtonCancel: {
     alignItems: 'center',
     backgroundColor: "#b00020",
-    borderRadius: 20,
+    borderRadius: 40,
     elevation: 2,
     flexDirection: 'row',
     margin: 5,
-    paddingBottom: 5,
+    paddingBottom: 6.5,
     paddingLeft: 16,
     paddingRight: 16,
-    paddingTop: 5,
+    paddingTop: 6.5,
     shadowColor: "#6200ee",
     shadowOffset: { width: 1, height: 13 },
     shadowOpacity: 1.5,

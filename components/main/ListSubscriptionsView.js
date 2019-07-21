@@ -6,11 +6,8 @@ import Ionicons from 'react-native-ionicons';
 
 // Custom components
 import { Status } from '../shared/StatusBar';
-import { Button, FloatingActionButton } from '../shared/Buttons';
+import { FloatingActionButton } from '../shared/Buttons';
 import { Card } from '../shared/Card';
-
-// Views for stack navigator
-import CreateSubscriptionView from '../main/create/CreateSubscriptionsView';
 
 export class ListSubscriptionsView extends Component {
     state = {
@@ -22,19 +19,17 @@ export class ListSubscriptionsView extends Component {
     componentDidMount() {
         const { currentUser } = firebase.auth()
 
-        this.setState({ currentUser }, () => {
-            console.log('USER ID', this.state.currentUser.uid);
+        this.setState({ currentUser }, () => { 
+            this.handleListSubcriptions(this.state.currentUser.uid);
         });
-
-        this.handleListSubcriptions();
     }
 
-    componentWillUpdate() {
-        this.handleListSubcriptions();
+    componentDidUpdate(){
+        this.handleListSubcriptions(this.state.currentUser.uid);
     }
 
-    handleListSubcriptions = () => {
-        firebase.firestore().collection('subscriptions')
+    handleListSubcriptions = (userID) => {
+        firebase.firestore().collection('subscriptions').where("userID", "==", userID)
             .get()
             .then(querySnapshot => {
                 const userSubsArray = []
@@ -58,7 +53,7 @@ export class ListSubscriptionsView extends Component {
 
                     <View style={styles.headerContainer}>
                         <Text style={styles.headerLabel}>Subscriptions</Text>
-                        <Ionicons style={styles.headerIconShape} name="ios-cog" size={26} color="black" />
+                        <Ionicons style={styles.headerIconShape} name="ios-more" size={26} color="#6200ee" />
                     </View>
 
                     {currentUserSubsList.map((subscription) => <Card
@@ -76,7 +71,7 @@ export class ListSubscriptionsView extends Component {
                 </ScrollView>
 
                 <View style={styles.bottomBarOptions}>
-                    <FloatingActionButton onPress={() => this.props.navigation.navigate('Create')}>NEW</FloatingActionButton>
+                    <FloatingActionButton onPress={() => this.props.navigation.navigate('CreateSubscription')}></FloatingActionButton>
                 </View>
             </View>
         )
@@ -155,11 +150,11 @@ const styles = StyleSheet.create({
         padding: 20,
     },
     bottomBarOptions: {
+        bottom: 15,
         flexDirection: 'row',
         justifyContent: 'flex-end',
-        width: '100%',
         position: 'absolute',
-        bottom: 5,
-        right: 16,
+        right: 15,
+        width: '100%',
     },
 })

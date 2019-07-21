@@ -8,7 +8,7 @@ import { Status } from '../../shared/StatusBar';
 import { Input } from '../../shared/Inputs';
 import { FloatingActionButton, FloatingActionButtonCancel } from '../../shared/Buttons';
 
-export default class CreateSubscriptionsView extends Component {
+export default class CreateTicketView extends Component {
     state = {
         currentUser: null,
         name: null,
@@ -35,7 +35,7 @@ export default class CreateSubscriptionsView extends Component {
     }
 
     handleCreate = () => {
-        const { currentUser, name, desc, account, color, price } = this.state
+        const { currentUser, name, desc, price } = this.state
 
         var docData = {
             userID: currentUser.uid,
@@ -43,16 +43,14 @@ export default class CreateSubscriptionsView extends Component {
             desc: desc,
             price: price,
             date: firebase.firestore.Timestamp.fromDate(new Date()),
-            account: account,
-            color: '#b2ebf2',
         }
 
-        if (docData.name == null || docData.price == null || docData.account == null) {
+        if (docData.name == null || docData.price == null || docData.desc == null) {
             console.log('Document empty, showing alert');
-            const message = 'Name, price and service account cannot be empty. Please fill them!';
+            const message = 'Name, description and price of the ticket cannot be empty. Please fill them!';
             this.showAlert(message);
         } else {
-            firebase.firestore().collection("subscriptions")
+            firebase.firestore().collection("tickets")
                 .add(docData)
                 .then((docRef) => {
                     console.log("Document written with ID: ", docRef.id);
@@ -75,13 +73,13 @@ export default class CreateSubscriptionsView extends Component {
                     <Status></Status>
 
                     <View style={styles.headerContainer}>
-                        <Text style={styles.headerLabel}>New subscription</Text>
-                        <Ionicons name="ios-albums" size={26} color="black" />
+                        <Text style={styles.headerLabel}>New ticket</Text>
+                        <Ionicons name="ios-paper" size={26} color="#6200ee" />
                     </View>
 
                     <Input
-                        label="What's the service name?"
-                        placeholder="Netflix, Spotify..."
+                        label="What's the bill name?"
+                        placeholder="My phone, gym..."
                         onChangeText={name => this.setState({ name })}
                         value={this.state.name}>
                     </Input>
@@ -97,18 +95,12 @@ export default class CreateSubscriptionsView extends Component {
                         onChangeText={price => this.setState({ price })}
                         value={this.state.price}>
                     </Input>
-                    <Input
-                        label="Service account"
-                        placeholder="the email you're using for the service"
-                        onChangeText={account => this.setState({ account })}
-                        value={this.state.account}>
-                    </Input>
 
                 </ScrollView>
 
                 <View style={styles.bottomBarOptions}>
                     <FloatingActionButtonCancel onPress={() => this.props.navigation.goBack()}>CANCEL</FloatingActionButtonCancel>
-                    <FloatingActionButton onPress={this.handleCreate}>CONFIRM</FloatingActionButton>
+                    <FloatingActionButton onPress={this.handleCreate}>SAVE</FloatingActionButton>
                 </View>
             </View>
         )
@@ -138,12 +130,12 @@ const styles = StyleSheet.create({
         backgroundColor: '#fefefe',
         borderColor: '#cecece',
         borderStyle: 'solid',
-        borderWidth: 0.5,
-        borderTopLeftRadius: 14,
-        borderTopRightRadius: 14,
+        borderTopLeftRadius: 12,
+        borderTopRightRadius: 12,
+        borderWidth: 1,
         flexDirection: 'row',
         justifyContent: 'space-evenly',
+        padding: 5,
         width: '100%',
-        padding:10,
     },
 })
