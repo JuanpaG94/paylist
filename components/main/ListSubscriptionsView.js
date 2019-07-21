@@ -68,9 +68,11 @@ export class ListSubscriptionsView extends Component {
                         color={subscription.color ? subscription.color : '#ECEFF1'}>
                     </Card>)}
 
-                    <Text style={styles.countLabel}>{currentUserSubsList.length} subscriptions</Text>
+                    {currentUserSubsList.length > 3 ? <Text style={styles.countLabel}>{currentUserSubsList.length} subscriptions</Text> : false}
 
                 </ScrollView>
+
+                {currentUserSubsList.length === 0 ? <Text style={styles.emptyLabel}>Hey, come on! Tap the + to add something!</Text> : false}
 
                 <View style={styles.bottomBarOptions}>
                     <FloatingActionButton onPress={() => this.props.navigation.navigate('CreateSubscription')}></FloatingActionButton>
@@ -150,6 +152,14 @@ const styles = StyleSheet.create({
     cardsContainer: {
         alignItems: 'center',
         padding: 20,
+    },
+    emptyLabel: {
+        alignSelf: 'center',
+        flex: 1,
+        fontFamily: Fonts.InterExtraBold,
+        justifyContent: 'center',
+        textAlign: 'center',
+        width: '80%',
     },
     countLabel: {
         fontFamily: Fonts.InterRegular,
