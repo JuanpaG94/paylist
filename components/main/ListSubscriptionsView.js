@@ -18,7 +18,7 @@ export class ListSubscriptionsView extends Component {
         currentUser: null,
         currentUserSubsList: [],
         errorMessage: null,
-        currentBottomSheetLabel: 'Options'
+        currentBottomSheetLabel: 'Options',
     }
 
     componentDidMount() {
@@ -49,7 +49,7 @@ export class ListSubscriptionsView extends Component {
     }
 
     handleOpenBottomSheet = (name) => {
-        this.setState({ currentBottomSheetLabel: name })
+        this.setState({ currentBottomSheetLabel: name });
         this.RBSheet.open();
     }
 
@@ -84,7 +84,7 @@ export class ListSubscriptionsView extends Component {
 
                 </ScrollView>
 
-                {currentUserSubsList.length === 0 ? <Text style={styles.emptyLabel}>Hey, come on! Tap the + to add something!</Text> : false}
+                {currentUserSubsList.length === 0 ? <Text style={styles.emptyLabel}>Hey, come on! Tap on + to add something!</Text> : false}
 
                 <View style={styles.bottomBarOptions}>
                     <FloatingActionButton onPress={() => this.props.navigation.navigate('CreateSubscription')}></FloatingActionButton>
@@ -113,7 +113,7 @@ export class ListSubscriptionsView extends Component {
                         }
                     }}
                 >
-                    <ButtonSheetOptions label={this.state.currentRBSheetLabel} onClosePress={() => this.RBSheet.close()} />
+                    <ButtonSheetOptions label={this.state.currentBottomSheetLabel} onClosePress={() => this.RBSheet.close()} />
                 </RBSheet>
             </View>
         )

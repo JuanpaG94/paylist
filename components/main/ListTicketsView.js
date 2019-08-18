@@ -72,7 +72,7 @@ export class ListTicketsView extends Component {
 
                 </ScrollView>
 
-                {currentUserTicketsList.length === 0 ? <Text style={styles.emptyLabel}>Hey, come on! Tap the + to add something!</Text> : false}
+                {currentUserTicketsList.length === 0 ? <Text style={styles.emptyLabel}>Hey, come on! Tap on + to add something!</Text> : false}
 
                 <View style={styles.bottomBarOptions}>
                     <FloatingActionButton onPress={() => this.props.navigation.navigate('CreateTicket')}></FloatingActionButton>
