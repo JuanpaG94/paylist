@@ -1,11 +1,11 @@
 import React from 'react';
-import { View, StyleSheet, Text } from 'react-native';
+import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
 
 import { Fonts } from '../../utils/fonts';
 
-const Card = ({ label, price, description, account, expireDate, color }) => {
+const Card = ({ label, price, description, account, expireDate, color, onLongPress }) => {
   return (
-    <View style={[stylesCard.container, { 'backgroundColor': color }, { 'shadowColor': color }]}>
+    <TouchableOpacity onLongPress={onLongPress} style={[stylesCard.container, { 'backgroundColor': color }, { 'shadowColor': color }]}>
 
       <View style={stylesCard.mainSectionContainer}>
         <Text style={stylesCard.label}>{label}</Text>
@@ -24,7 +24,7 @@ const Card = ({ label, price, description, account, expireDate, color }) => {
         <Text style={stylesCard.expireDate}>{expireDate}</Text>
       </View>
 
-    </View>
+    </TouchableOpacity>
   )
 }
 

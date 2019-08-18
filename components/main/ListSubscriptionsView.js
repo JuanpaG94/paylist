@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, ScrollView } from 'react-native';
 import firebase from 'react-native-firebase';
 import { createStackNavigator } from 'react-navigation';
 import Ionicons from 'react-native-ionicons';
+import RBSheet from 'react-native-raw-bottom-sheet';
 
 // Custom fonts
 import { Fonts } from '../../utils/fonts';
@@ -10,12 +11,14 @@ import { Fonts } from '../../utils/fonts';
 import { Status } from '../shared/StatusBar';
 import { FloatingActionButton } from '../shared/Buttons';
 import { Card } from '../shared/Card';
+import { ButtonSheetOptions } from '../shared/ButtonSheet';
 
 export class ListSubscriptionsView extends Component {
     state = {
         currentUser: null,
         currentUserSubsList: [],
-        errorMessage: null
+        errorMessage: null,
+        currentBottomSheetLabel: 'Options'
     }
 
     componentDidMount() {
@@ -45,6 +48,11 @@ export class ListSubscriptionsView extends Component {
             })
     }
 
+    handleOpenBottomSheet = (name) => {
+        this.setState({ currentBottomSheetLabel: name })
+        this.RBSheet.open();
+    }
+
     render() {
         const { currentUserSubsList } = this.state
 
@@ -58,15 +66,19 @@ export class ListSubscriptionsView extends Component {
                         <Ionicons style={styles.headerIconShape} name="ios-more" size={26} color="#6200ee" />
                     </View>
 
-                    {currentUserSubsList.map((subscription) => <Card
-                        key={subscription.id}
-                        label={subscription.name}
-                        description={subscription.desc}
-                        price={subscription.price}
-                        expireDate={subscription.date ? 'On ' + subscription.date.toDate().getDate() + '/' + (subscription.date.toDate().getMonth() + 1) : ''}
-                        account={subscription.account}
-                        color={subscription.color ? subscription.color : '#ECEFF1'}>
-                    </Card>)}
+                    {currentUserSubsList.map((subscription) =>
+                        <Card
+                            key={subscription.id}
+                            label={subscription.name}
+                            description={subscription.desc}
+                            price={subscription.price}
+                            expireDate={subscription.date ? 'On ' + subscription.date.toDate().getDate() + '/' + (subscription.date.toDate().getMonth() + 1) : ''}
+                            account={subscription.account}
+                            color={subscription.color ? subscription.color : '#ECEFF1'}
+                            onLongPress={() => this.handleOpenBottomSheet(subscription.name)}
+                        >
+                        </Card>)
+                    }
 
                     {currentUserSubsList.length > 3 ? <Text style={styles.countLabel}>{currentUserSubsList.length} subscriptions</Text> : false}
 
@@ -77,6 +89,32 @@ export class ListSubscriptionsView extends Component {
                 <View style={styles.bottomBarOptions}>
                     <FloatingActionButton onPress={() => this.props.navigation.navigate('CreateSubscription')}></FloatingActionButton>
                 </View>
+
+                <RBSheet
+                    ref={ref => {
+                        this.RBSheet = ref;
+                    }}
+                    closeOnDragDown={true}
+                    duration={200}
+                    height={200}
+                    animationType={"slide"}
+                    customStyles={{
+                        wrapper: {
+                            backgroundColor: 'transparent',
+                        },
+                        container: {
+                            borderColor: '#00000020',
+                            borderLeftWidth: 0.7,
+                            borderRightWidth: 0.7,
+                            borderStyle: 'solid',
+                            borderTopLeftRadius: 10,
+                            borderTopRightRadius: 10,
+                            borderTopWidth: 2,
+                        }
+                    }}
+                >
+                    <ButtonSheetOptions label={this.state.currentRBSheetLabel} onClosePress={() => this.RBSheet.close()} />
+                </RBSheet>
             </View>
         )
     }

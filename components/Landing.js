@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
+// Custom fonts
+import { Fonts } from '../utils/fonts';
+// Custom components
 import { Button } from './shared/Buttons';
 import { Status } from './shared/StatusBar';
 
@@ -10,6 +13,7 @@ export default class Landing extends Component {
             <View style={styles.container}>
                 <Status></Status>
                 <Text style={styles.textMain}>Hello.</Text>
+                <Text style={styles.labelDesc}>Never forget again what you paying for.</Text>
                 <Button onPress={() => this.props.navigation.navigate('Login')}>Login</Button>
                 <Text style={styles.labelSignUp} onPress={() => this.props.navigation.navigate('Signup')}>No account yet? Sign up now!</Text>
             </View>
@@ -21,23 +25,28 @@ const styles = StyleSheet.create({
     container: {
         alignItems: 'center',
         flex: 1,
-        justifyContent: 'center',
+        justifyContent: 'space-evenly',
         padding: 50,
     },
     textMain: {
-        color: '#333',
-        fontSize: 32,
-        fontWeight: '800',
+        color: '#263238',
+        fontFamily: Fonts.InterBlack,
+        fontSize: 22,
         padding: 5,
-        textAlign: 'center',
+        width: '100%',
+    },
+    labelDesc: {
+        color: '#263238',
+        fontFamily: Fonts.InterBold,
+        fontSize: 16,
+        padding: 5,
         width: '100%',
     },
     labelSignUp: {
-        color: '#333',
-        fontSize: 16,
-        fontWeight: '700',
+        color: '#263238',
+        fontSize: 14,
+        fontFamily: Fonts.InterBold,
         padding: 5,
-        textAlign: 'center',
         textDecorationLine: 'underline',
         width: '100%',
     }

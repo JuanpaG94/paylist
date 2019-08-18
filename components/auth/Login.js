@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import firebase from 'react-native-firebase';
 
+// Custom fonts
+import { Fonts } from '../../utils/fonts';
+// Custom components
 import { Input } from '../shared/Inputs';
 import { Button, ButtonDarker } from '../shared/Buttons';
 import { Status } from '../shared/StatusBar';
@@ -81,10 +84,10 @@ const styles = StyleSheet.create({
         width: '100%',
     },
     textMain: {
+        color: '#263238',
+        fontFamily: Fonts.InterBlack,
+        fontSize: 22,
         padding: 5,
-        color: '#333',
-        fontSize: 20,
-        fontWeight: '800',
         width: '100%',
     },
     textError: {
