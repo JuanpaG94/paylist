@@ -2,11 +2,11 @@ import React from 'react';
 import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
 
 // Custom fonts
-import { Fonts } from '../../utils/fonts';
+import { Fonts } from '../../utils/variables';
 // Custom components
 import Ionicons from 'react-native-ionicons';
 
-const ButtonSheetOptions = ({ label, onClosePress }) => {
+const ButtonSheetOptions = ({ label, onClosePress, onEditPress, onDeletePress }) => {
   return (
     <View style={styles.BSViewContainer}>
       <View style={styles.BSHeaderContainer}>
@@ -15,14 +15,14 @@ const ButtonSheetOptions = ({ label, onClosePress }) => {
       </View>
 
       <View style={styles.BSOptionsContainer}>
-        <TouchableOpacity style={styles.BSOptionButton}>
+        <TouchableOpacity onPress={onEditPress} style={styles.BSOptionButton}>
           <Text style={[styles.BSLabelOption, { color: '#6200ee' }]}>Edit information</Text>
           <View style={styles.BSIconContainer}>
             <Ionicons name="ios-more" size={26} color="#6200ee" />
           </View>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.BSOptionButton}>
+        <TouchableOpacity onPress={onDeletePress} style={styles.BSOptionButton}>
           <Text style={[styles.BSLabelOption, { color: '#b00020' }]}>Delete subscription</Text>
           <View style={styles.BSIconContainer}>
             <Ionicons name="ios-trash" size={26} color="#b00020" />

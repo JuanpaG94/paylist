@@ -4,7 +4,7 @@ import firebase from 'react-native-firebase';
 import Ionicons from 'react-native-ionicons';
 
 // Custom fonts
-import { Fonts } from '../../../utils/fonts';
+import { Fonts } from '../../../utils/variables';
 // Custom components
 import { Status } from '../../shared/StatusBar';
 import { Input } from '../../shared/Inputs';
@@ -82,20 +82,20 @@ export default class CreateSubscriptionView extends Component {
                     </View>
 
                     <Input
-                        label="What's the service name?"
+                        label="What is the subscription name?"
                         placeholder="Netflix, Spotify..."
                         onChangeText={name => this.setState({ name })}
                         value={this.state.name}>
                     </Input>
                     <Input
                         label="Description"
-                        placeholder=""
+                        placeholder="write something about this service"
                         onChangeText={desc => this.setState({ desc })}
                         value={this.state.desc}>
                     </Input>
                     <Input
                         label="Price"
-                        placeholder=""
+                        placeholder="i.e. 3,99"
                         onChangeText={price => this.setState({ price })}
                         value={this.state.price}>
                     </Input>

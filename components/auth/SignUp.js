@@ -3,7 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import firebase from 'react-native-firebase';
 
 // Custom fonts
-import { Fonts } from '../../utils/fonts';
+import { Fonts } from '../../utils/variables';
 // Custom components
 import { Input } from '../shared/Inputs';
 import { Button, ButtonDarker } from '../shared/Buttons';

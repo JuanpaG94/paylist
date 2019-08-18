@@ -5,7 +5,7 @@ import { createStackNavigator } from 'react-navigation';
 import Ionicons from 'react-native-ionicons';
 
 // Custom fonts
-import { Fonts } from '../../utils/fonts';
+import { Fonts } from '../../utils/variables';
 // Custom components
 import { Status } from '../shared/StatusBar';
 import { FloatingActionButton } from '../shared/Buttons';

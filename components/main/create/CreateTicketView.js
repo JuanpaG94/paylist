@@ -4,7 +4,7 @@ import firebase from 'react-native-firebase';
 import Ionicons from 'react-native-ionicons';
 
 // Custom fonts
-import { Fonts } from '../../../utils/fonts';
+import { Fonts } from '../../../utils/variables';
 // Custom components
 import { Status } from '../../shared/StatusBar';
 import { Input } from '../../shared/Inputs';
@@ -80,20 +80,20 @@ export default class CreateTicketView extends Component {
                     </View>
 
                     <Input
-                        label="What's the bill name?"
+                        label="What is the bill name?"
                         placeholder="My phone, gym..."
                         onChangeText={name => this.setState({ name })}
                         value={this.state.name}>
                     </Input>
                     <Input
                         label="Description"
-                        placeholder=""
+                        placeholder="write something about this ticket bill"
                         onChangeText={desc => this.setState({ desc })}
                         value={this.state.desc}>
                     </Input>
                     <Input
                         label="Price"
-                        placeholder=""
+                        placeholder="i.e. 288,90"
                         onChangeText={price => this.setState({ price })}
                         value={this.state.price}>
                     </Input>

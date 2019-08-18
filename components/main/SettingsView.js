@@ -6,7 +6,7 @@ import Ionicons from 'react-native-ionicons';
 // Custom components
 import { Status } from '../shared/StatusBar';
 import { ButtonDarker } from '../shared/Buttons';
-import { Fonts } from '../../utils/fonts';
+import { Fonts } from '../../utils/variables';
 
 export default class SettingsView extends Component {
     state = {

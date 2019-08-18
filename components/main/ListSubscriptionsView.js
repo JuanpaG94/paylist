@@ -6,7 +6,7 @@ import Ionicons from 'react-native-ionicons';
 import RBSheet from 'react-native-raw-bottom-sheet';
 
 // Custom fonts
-import { Fonts } from '../../utils/fonts';
+import { Fonts } from '../../utils/variables';
 // Custom components
 import { Status } from '../shared/StatusBar';
 import { FloatingActionButton } from '../shared/Buttons';
@@ -17,8 +17,8 @@ export class ListSubscriptionsView extends Component {
     state = {
         currentUser: null,
         currentUserSubsList: [],
-        errorMessage: null,
         currentBottomSheetLabel: 'Options',
+        currentBottomSheetId: null,
     }
 
     componentDidMount() {
@@ -30,7 +30,7 @@ export class ListSubscriptionsView extends Component {
     }
 
     componentDidUpdate() {
-        this.handleListSubcriptions(this.state.currentUser.uid);
+        this.handleListSubcriptions(this.state.currentUser.uid); // Updating list when added something from create view
     }
 
     handleListSubcriptions = (userID) => {
@@ -48,9 +48,17 @@ export class ListSubscriptionsView extends Component {
             })
     }
 
-    handleOpenBottomSheet = (name) => {
-        this.setState({ currentBottomSheetLabel: name });
+    handleOpenBottomSheet = (subscriptionName, subscriptionId) => {
+        this.setState({ currentBottomSheetLabel: subscriptionName });
+        this.setState({ currentBottomSheetId: subscriptionId });
         this.RBSheet.open();
+    }
+
+    handleDeleteSubscription = (subscriptionId) => {
+        firebase.firestore().collection('subscriptions').doc(subscriptionId).delete()
+            .then(() => { this.RBSheet.close(); this.handleListSubcriptions(this.state.currentUser.uid) }) // Updating list when delete
+            .catch(error => console.log('[handleDelete] Error deleting with message:', error))
+        console.log('[handleDelete] Successfully deleted sub with id ' + subscriptionId)
     }
 
     render() {
@@ -75,7 +83,7 @@ export class ListSubscriptionsView extends Component {
                             expireDate={subscription.date ? 'On ' + subscription.date.toDate().getDate() + '/' + (subscription.date.toDate().getMonth() + 1) : ''}
                             account={subscription.account}
                             color={subscription.color ? subscription.color : '#ECEFF1'}
-                            onLongPress={() => this.handleOpenBottomSheet(subscription.name)}
+                            onLongPress={() => this.handleOpenBottomSheet(subscription.name, subscription.id)}
                         >
                         </Card>)
                     }
@@ -113,7 +121,12 @@ export class ListSubscriptionsView extends Component {
                         }
                     }}
                 >
-                    <ButtonSheetOptions label={this.state.currentBottomSheetLabel} onClosePress={() => this.RBSheet.close()} />
+                    <ButtonSheetOptions
+                        label={this.state.currentBottomSheetLabel}
+                        onClosePress={() => this.RBSheet.close()}
+                        onEditPress={() => this.RBSheet.close()}
+                        onDeletePress={() => this.handleDeleteSubscription(this.state.currentBottomSheetId)}
+                    />
                 </RBSheet>
             </View>
         )

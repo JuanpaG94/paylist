@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
 
-import { Fonts } from '../../utils/fonts';
+import { Fonts } from '../../utils/variables';
 
 const Card = ({ label, price, description, account, expireDate, color, onLongPress }) => {
   return (
