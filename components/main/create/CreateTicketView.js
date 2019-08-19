@@ -7,7 +7,7 @@ import Ionicons from 'react-native-ionicons';
 import { Fonts } from '../../../utils/variables';
 // Custom components
 import { Status } from '../../shared/StatusBar';
-import { Input } from '../../shared/Inputs';
+import { Input, InputNumeric } from '../../shared/Inputs';
 import { FloatingActionButton, FloatingActionButtonCancel } from '../../shared/Buttons';
 
 export default class CreateTicketView extends Component {
@@ -81,22 +81,24 @@ export default class CreateTicketView extends Component {
 
                     <Input
                         label="What is the bill name?"
-                        placeholder="My phone, gym..."
+                        placeholder="My Phone, Gym, TV purchase"
                         onChangeText={name => this.setState({ name })}
+                        maxLength={20}
                         value={this.state.name}>
                     </Input>
                     <Input
                         label="Description"
-                        placeholder="write something about this ticket bill"
+                        placeholder="(optional) something about this ticket"
                         onChangeText={desc => this.setState({ desc })}
+                        maxLength={70}
                         value={this.state.desc}>
                     </Input>
-                    <Input
+                    <InputNumeric
                         label="Price"
                         placeholder="i.e. 288,90"
                         onChangeText={price => this.setState({ price })}
                         value={this.state.price}>
-                    </Input>
+                    </InputNumeric>
 
                 </ScrollView>
 
@@ -136,7 +138,7 @@ const styles = StyleSheet.create({
         borderStyle: 'solid',
         borderTopLeftRadius: 10,
         borderTopRightRadius: 10,
-        borderTopWidth: 2,
+        borderTopWidth: 1.5,
         flexDirection: 'row',
         justifyContent: 'space-evenly',
         padding: 5,

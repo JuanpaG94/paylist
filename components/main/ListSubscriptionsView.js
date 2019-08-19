@@ -6,7 +6,7 @@ import Ionicons from 'react-native-ionicons';
 import RBSheet from 'react-native-raw-bottom-sheet';
 
 // Custom fonts
-import { Fonts } from '../../utils/variables';
+import { Fonts, Colors } from '../../utils/variables';
 // Custom components
 import { Status } from '../shared/StatusBar';
 import { FloatingActionButton } from '../shared/Buttons';
@@ -108,16 +108,11 @@ export class ListSubscriptionsView extends Component {
                     animationType={"slide"}
                     customStyles={{
                         wrapper: {
-                            backgroundColor: 'transparent',
+                            backgroundColor: '#00000050',
                         },
                         container: {
-                            borderColor: '#00000020',
-                            borderLeftWidth: 0.7,
-                            borderRightWidth: 0.7,
-                            borderStyle: 'solid',
                             borderTopLeftRadius: 10,
                             borderTopRightRadius: 10,
-                            borderTopWidth: 2,
                         }
                     }}
                 >

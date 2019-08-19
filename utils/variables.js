@@ -13,4 +13,5 @@ export const Colors = {
     Secondary: '#00aeef',
     Error: '#b00020',
     TextDark: '#263238',
+    WrappersBorderColor: '#cecece50',
 }

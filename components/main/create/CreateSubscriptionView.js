@@ -7,7 +7,7 @@ import Ionicons from 'react-native-ionicons';
 import { Fonts } from '../../../utils/variables';
 // Custom components
 import { Status } from '../../shared/StatusBar';
-import { Input } from '../../shared/Inputs';
+import { Input, InputNumeric } from '../../shared/Inputs';
 import { FloatingActionButton, FloatingActionButtonCancel } from '../../shared/Buttons';
 
 export default class CreateSubscriptionView extends Component {
@@ -49,9 +49,9 @@ export default class CreateSubscriptionView extends Component {
             color: '#b2ebf2',
         }
 
-        if (docData.name == null || docData.price == null || docData.account == null) {
+        if (docData.name == null || docData.price == null || docData.price == 0 || docData.account == null) {
             console.log('Document empty, showing alert');
-            const message = 'Name, price and service account cannot be empty. Please fill them!';
+            const message = 'Name and service account cannot be empty. Price cannot be 0 or empty. Please, fill them!';
             this.showAlert(message);
         } else {
             firebase.firestore().collection("subscriptions")
@@ -83,26 +83,29 @@ export default class CreateSubscriptionView extends Component {
 
                     <Input
                         label="What is the subscription name?"
-                        placeholder="Netflix, Spotify..."
+                        placeholder="Netflix, Spotify, Amazon Prime"
                         onChangeText={name => this.setState({ name })}
+                        maxLength={20}
                         value={this.state.name}>
                     </Input>
                     <Input
                         label="Description"
-                        placeholder="write something about this service"
+                        placeholder="(optional) something about this service"
                         onChangeText={desc => this.setState({ desc })}
+                        maxLength={70}
                         value={this.state.desc}>
                     </Input>
-                    <Input
+                    <InputNumeric
                         label="Price"
                         placeholder="i.e. 3,99"
                         onChangeText={price => this.setState({ price })}
                         value={this.state.price}>
-                    </Input>
+                    </InputNumeric>
                     <Input
                         label="Service account"
-                        placeholder="the email you're using for the service"
+                        placeholder="the email you're using on the service"
                         onChangeText={account => this.setState({ account })}
+                        maxLength={40}
                         value={this.state.account}>
                     </Input>
 
@@ -144,7 +147,7 @@ const styles = StyleSheet.create({
         borderStyle: 'solid',
         borderTopLeftRadius: 10,
         borderTopRightRadius: 10,
-        borderTopWidth: 2,
+        borderTopWidth: 1.5,
         flexDirection: 'row',
         justifyContent: 'space-evenly',
         padding: 5,

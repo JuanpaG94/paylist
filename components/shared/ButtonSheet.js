@@ -2,7 +2,7 @@ import React from 'react';
 import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
 
 // Custom fonts
-import { Fonts } from '../../utils/variables';
+import { Fonts, Colors } from '../../utils/variables';
 // Custom components
 import Ionicons from 'react-native-ionicons';
 
@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
   BSOptionButton: {
     alignItems: 'center',
     backgroundColor: '#F5F5F5',
-    borderColor: '#cecece20',
+    borderColor: Colors.WrappersBorderColor,
     borderRadius: 10,
     borderStyle: 'solid',
     borderWidth: 1.5,

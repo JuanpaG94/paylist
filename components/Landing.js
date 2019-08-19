@@ -12,8 +12,8 @@ export default class Landing extends Component {
         return (
             <View style={styles.container}>
                 <Status></Status>
-                <Text style={styles.labelMain}>Hello.</Text>
-                <Text style={styles.labelDesc}>Never forget again what you paying for.</Text>
+                <Text style={styles.labelMain}>Welcome.</Text>
+                <Text style={styles.labelDesc}>Never forget again what are you paying for.</Text>
                 <Button onPress={() => this.props.navigation.navigate('Login')}>Login</Button>
                 <Text style={styles.labelSignUp} onPress={() => this.props.navigation.navigate('Signup')}>No account yet? Sign up now!</Text>
             </View>
