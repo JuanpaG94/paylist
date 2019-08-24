@@ -80,7 +80,8 @@ export class ListSubscriptionsView extends Component {
                             label={subscription.name}
                             description={subscription.desc}
                             price={subscription.price}
-                            expireDate={subscription.date ? 'On ' + subscription.date.toDate().getDate() + '/' + (subscription.date.toDate().getMonth() + 1) : ''}
+                            purchaseDate={subscription.purchaseDate ? 'Started on ' + subscription.purchaseDate.toDate().getDate() + '/' + (subscription.purchaseDate.toDate().getMonth() + 1) + '/' + (subscription.purchaseDate.toDate().getFullYear()) : ''}
+                            expireDate={subscription.purchaseDate ? 'On ' + subscription.purchaseDate.toDate().getDate() + '/' + (new Date().getMonth() + 2) + '/' + (subscription.purchaseDate.toDate().getFullYear()) : ''}
                             account={subscription.account}
                             color={subscription.color ? subscription.color : '#ECEFF1'}
                             onLongPress={() => this.handleOpenBottomSheet(subscription.name, subscription.id)}

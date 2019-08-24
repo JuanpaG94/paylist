@@ -23,7 +23,7 @@ const ButtonSheetOptions = ({ label, onClosePress, onEditPress, onDeletePress })
         </TouchableOpacity>
 
         <TouchableOpacity onPress={onDeletePress} style={styles.BSOptionButton}>
-          <Text style={[styles.BSLabelOption, { color: '#b00020' }]}>Delete subscription</Text>
+          <Text style={[styles.BSLabelOption, { color: '#b00020' }]}>Delete</Text>
           <View style={styles.BSIconContainer}>
             <Ionicons name="ios-trash" size={26} color="#b00020" />
           </View>

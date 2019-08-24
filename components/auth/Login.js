@@ -3,10 +3,10 @@ import { StyleSheet, Text, View } from 'react-native';
 import firebase from 'react-native-firebase';
 
 // Custom fonts
-import { Fonts } from '../../utils/variables';
+import { Fonts, Colors } from '../../utils/variables';
 // Custom components
 import { Input } from '../shared/Inputs';
-import { Button, ButtonDarker } from '../shared/Buttons';
+import { Button, ButtonSecondary } from '../shared/Buttons';
 import { Status } from '../shared/StatusBar';
 
 export default class Login extends Component {
@@ -31,7 +31,7 @@ export default class Login extends Component {
                 <Status></Status>
 
                 <View style={styles.headerContainer}>
-                    <Text style={styles.textMain}>Paylist access</Text>
+                    <Text style={styles.textMain}>Paylist access.</Text>
                 </View>
 
                 <View style={styles.inputContainer}>
@@ -40,7 +40,7 @@ export default class Login extends Component {
                             {this.state.errorMessage}
                         </Text>}
                     <Input
-                        label="Your Paylist account"
+                        label="Your email account"
                         placeholder="example@paylist.com"
                         onChangeText={email => this.setState({ email })}
                         value={this.state.email}>
@@ -56,8 +56,8 @@ export default class Login extends Component {
                 </View>
 
                 <View style={styles.bottomContainer}>
-                    <Text>No account yet? Come on!</Text>
-                    <ButtonDarker onPress={() => this.props.navigation.navigate('Signup')}>Sign up</ButtonDarker>
+                    <Text style={styles.textLabel}>No account yet? Sign up now!</Text>
+                    <ButtonSecondary onPress={() => this.props.navigation.navigate('Signup')}>Sign up</ButtonSecondary>
                 </View>
 
             </View>
@@ -71,8 +71,8 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'column',
         height: '100%',
-        justifyContent: 'space-between',
-        padding: 20,
+        justifyContent: 'space-evenly',
+        padding: 50,
     },
     headerContainer: {
         width: '100%',
@@ -84,15 +84,19 @@ const styles = StyleSheet.create({
         width: '100%',
     },
     textMain: {
-        color: '#263238',
+        color: Colors.PrimaryDarker,
         fontFamily: Fonts.InterBlack,
         fontSize: 22,
-        padding: 5,
         width: '100%',
+    },
+    textLabel: {
+        color: Colors.TextDark,
+        fontSize: 14,
+        fontFamily: Fonts.InterMedium,
     },
     textError: {
         padding: 5,
-        color: '#b00020',
+        color: Colors.Error,
         fontSize: 16,
         width: '100%',
     }

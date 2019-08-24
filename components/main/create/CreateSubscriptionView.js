@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Alert, StyleSheet, Text, View, ScrollView } from 'react-native';
+import { Alert, StyleSheet, Text, View, ScrollView, DatePickerAndroid } from 'react-native';
 import firebase from 'react-native-firebase';
 import Ionicons from 'react-native-ionicons';
 
@@ -7,8 +7,8 @@ import Ionicons from 'react-native-ionicons';
 import { Fonts } from '../../../utils/variables';
 // Custom components
 import { Status } from '../../shared/StatusBar';
-import { Input, InputNumeric } from '../../shared/Inputs';
-import { FloatingActionButton, FloatingActionButtonCancel } from '../../shared/Buttons';
+import { Input, InputNumeric, InputDate } from '../../shared/Inputs';
+import { ButtonSecondary, FloatingActionButton, FloatingActionButtonCancel } from '../../shared/Buttons';
 
 export default class CreateSubscriptionView extends Component {
     state = {
@@ -18,6 +18,7 @@ export default class CreateSubscriptionView extends Component {
         account: null,
         color: null,
         price: null,
+        purchaseDate: [],
     }
 
     showAlert = (message) => {
@@ -36,8 +37,26 @@ export default class CreateSubscriptionView extends Component {
         this.setState({ currentUser })
     }
 
+    openDatePicker = async () => {
+        try {
+            const { action, year, month, day } = await DatePickerAndroid.open({
+                // Use `new Date()` for current date. Month 0 is January.
+                date: new Date(),
+                mode: "spinner",
+            });
+            if (action !== DatePickerAndroid.dismissedAction) {
+                // Selected date when we push accept on datepicker
+                var selectedDate = []
+                selectedDate.push(year, month, day)
+                this.setState({ purchaseDate: selectedDate });
+            }
+        } catch ({ code, message }) {
+            console.warn('Cannot open date picker', message);
+        }
+    }
+
     handleCreate = () => {
-        const { currentUser, name, desc, account, color, price } = this.state
+        const { currentUser, name, desc, account, color, price, purchaseDate } = this.state
 
         var docData = {
             userID: currentUser.uid,
@@ -45,13 +64,14 @@ export default class CreateSubscriptionView extends Component {
             desc: desc,
             price: price,
             date: firebase.firestore.Timestamp.fromDate(new Date()),
+            purchaseDate: firebase.firestore.Timestamp.fromDate(new Date(purchaseDate[0], purchaseDate[1], purchaseDate[2])),
             account: account,
             color: '#b2ebf2',
         }
 
-        if (docData.name == null || docData.price == null || docData.price == 0 || docData.account == null) {
+        if (docData.name == null || docData.price == null || docData.price == 0 || docData.account == null || docData.purchaseDate == []) {
             console.log('Document empty, showing alert');
-            const message = 'Name and service account cannot be empty. Price cannot be 0 or empty. Please, fill them!';
+            const message = 'Name, service account and purchase date cannot be empty. Price cannot be 0 or empty. Please, fill them!';
             this.showAlert(message);
         } else {
             firebase.firestore().collection("subscriptions")
@@ -108,6 +128,14 @@ export default class CreateSubscriptionView extends Component {
                         maxLength={40}
                         value={this.state.account}>
                     </Input>
+
+                    <InputDate
+                        label="Subscription date"
+                        placeholder="select a date below"
+                        value={this.state.purchaseDate.length === 0 ? "" : this.state.purchaseDate[2] + '/' + (this.state.purchaseDate[1] + 1) + '/' + this.state.purchaseDate[0]}
+                    >
+                    </InputDate>
+                    <ButtonSecondary onPress={this.openDatePicker}>Select date</ButtonSecondary>
 
                 </ScrollView>
 

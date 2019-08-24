@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, ScrollView } from 'react-native';
 import firebase from 'react-native-firebase';
 import { createStackNavigator } from 'react-navigation';
 import Ionicons from 'react-native-ionicons';
+import RBSheet from 'react-native-raw-bottom-sheet';
 
 // Custom fonts
 import { Fonts } from '../../utils/variables';
@@ -10,12 +11,14 @@ import { Fonts } from '../../utils/variables';
 import { Status } from '../shared/StatusBar';
 import { FloatingActionButton } from '../shared/Buttons';
 import { CardTicket } from '../shared/Card';
+import { ButtonSheetOptions } from '../shared/ButtonSheet';
 
 export class ListTicketsView extends Component {
     state = {
         currentUser: null,
         currentUserTicketsList: [],
-        errorMessage: null
+        currentBottomSheetLabel: 'Options',
+        currentBottomSheetId: null,
     }
 
     componentDidMount() {
@@ -45,6 +48,19 @@ export class ListTicketsView extends Component {
             })
     }
 
+    handleOpenBottomSheet = (ticketName, ticketId) => {
+        this.setState({ currentBottomSheetLabel: ticketName });
+        this.setState({ currentBottomSheetId: ticketId });
+        this.RBSheet.open();
+    }
+
+    handleDeleteTicket = (ticketId) => {
+        firebase.firestore().collection('tickets').doc(ticketId).delete()
+            .then(() => { this.RBSheet.close(); this.handleListTickets(this.state.currentUser.uid) }) // Updating list when delete
+            .catch(error => console.log('[handleDelete] Error deleting with message:', error))
+        console.log('[handleDelete] Successfully deleted sub with id ' + ticketId)
+    }
+
     render() {
         const { currentUserTicketsList } = this.state
 
@@ -54,17 +70,19 @@ export class ListTicketsView extends Component {
                     <Status></Status>
 
                     <View style={styles.headerContainer}>
-                        <Text style={styles.headerLabel}>Tickets</Text>
+                        <Text style={styles.headerLabel}>Warranty Tickets</Text>
                         <Ionicons style={styles.headerIconShape} name="ios-more" size={26} color="#6200ee" />
                     </View>
 
                     {currentUserTicketsList.map((ticket) => <CardTicket
                         key={ticket.id}
+                        labelShop={ticket.shop}
                         label={ticket.name}
                         description={ticket.desc}
                         price={ticket.price}
                         purchaseDate={ticket.purchaseDate ? ticket.purchaseDate.toDate().getDate() + '/' + (ticket.purchaseDate.toDate().getMonth() + 1) + '/' + (ticket.purchaseDate.toDate().getFullYear()) : ''}
-                        expireDate={ticket.expireDate ? ticket.expireDate.toDate().getDate() + '/' + (ticket.expireDate.toDate().getMonth() + 1) + '/' + (ticket.expireDate.toDate().getFullYear()) : ''}
+                        expireDate={ticket.purchaseDate ? ticket.purchaseDate.toDate().getDate() + '/' + (ticket.purchaseDate.toDate().getMonth() + 1) + '/' + (ticket.purchaseDate.toDate().getFullYear() + 2) : ''}
+                        onLongPress={() => this.handleOpenBottomSheet(ticket.name, ticket.id)}
                     >
                     </CardTicket>)}
 
@@ -77,6 +95,32 @@ export class ListTicketsView extends Component {
                 <View style={styles.bottomBarOptions}>
                     <FloatingActionButton onPress={() => this.props.navigation.navigate('CreateTicket')}></FloatingActionButton>
                 </View>
+
+                <RBSheet
+                    ref={ref => {
+                        this.RBSheet = ref;
+                    }}
+                    closeOnDragDown={true}
+                    duration={200}
+                    height={200}
+                    animationType={"slide"}
+                    customStyles={{
+                        wrapper: {
+                            backgroundColor: '#00000050',
+                        },
+                        container: {
+                            borderTopLeftRadius: 10,
+                            borderTopRightRadius: 10,
+                        }
+                    }}
+                >
+                    <ButtonSheetOptions
+                        label={this.state.currentBottomSheetLabel}
+                        onClosePress={() => this.RBSheet.close()}
+                        onEditPress={() => this.RBSheet.close()}
+                        onDeletePress={() => this.handleDeleteTicket(this.state.currentBottomSheetId)}
+                    />
+                </RBSheet>
             </View>
         )
     }

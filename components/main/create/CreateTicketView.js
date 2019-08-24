@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Alert, StyleSheet, Text, View, ScrollView } from 'react-native';
+import { Alert, StyleSheet, Text, View, ScrollView, DatePickerAndroid } from 'react-native';
 import firebase from 'react-native-firebase';
 import Ionicons from 'react-native-ionicons';
 
@@ -7,17 +7,19 @@ import Ionicons from 'react-native-ionicons';
 import { Fonts } from '../../../utils/variables';
 // Custom components
 import { Status } from '../../shared/StatusBar';
-import { Input, InputNumeric } from '../../shared/Inputs';
-import { FloatingActionButton, FloatingActionButtonCancel } from '../../shared/Buttons';
+import { Input, InputNumeric, InputDate } from '../../shared/Inputs';
+import { ButtonSecondary, FloatingActionButton, FloatingActionButtonCancel } from '../../shared/Buttons';
 
 export default class CreateTicketView extends Component {
     state = {
         currentUser: null,
+        shop: null,
         name: null,
         desc: null,
         account: null,
         color: null,
         price: null,
+        purchaseDate: [],
     }
 
     showAlert = (message) => {
@@ -36,20 +38,40 @@ export default class CreateTicketView extends Component {
         this.setState({ currentUser })
     }
 
+    openDatePicker = async () => {
+        try {
+            const { action, year, month, day } = await DatePickerAndroid.open({
+                // Use `new Date()` for current date. Month 0 is January.
+                date: new Date(),
+                mode: "spinner",
+            });
+            if (action !== DatePickerAndroid.dismissedAction) {
+                // Selected date when we push accept on datepicker
+                var selectedDate = []
+                selectedDate.push(year, month, day)
+                this.setState({ purchaseDate: selectedDate });
+            }
+        } catch ({ code, message }) {
+            console.warn('Cannot open date picker', message);
+        }
+    }
+
     handleCreate = () => {
-        const { currentUser, name, desc, price } = this.state
+        const { currentUser, shop, name, desc, price, purchaseDate } = this.state
 
         var docData = {
             userID: currentUser.uid,
             name: name,
+            shop: shop,
             desc: desc,
             price: price,
             date: firebase.firestore.Timestamp.fromDate(new Date()),
+            purchaseDate: firebase.firestore.Timestamp.fromDate(new Date(purchaseDate[0], purchaseDate[1], purchaseDate[2])),
         }
 
-        if (docData.name == null || docData.price == null || docData.desc == null) {
+        if (docData.name == null || docData.price == null || docData.price == 0 || docData.desc == null || docData.purchaseDate == []) {
             console.log('Document empty, showing alert');
-            const message = 'Name, description and price of the ticket cannot be empty. Please fill them!';
+            const message = 'Name, description, price and purchase date of the ticket cannot be empty. Please fill them!';
             this.showAlert(message);
         } else {
             firebase.firestore().collection("tickets")
@@ -75,20 +97,27 @@ export default class CreateTicketView extends Component {
                     <Status></Status>
 
                     <View style={styles.headerContainer}>
-                        <Text style={styles.headerLabel}>New ticket</Text>
+                        <Text style={styles.headerLabel}>New warranty ticket</Text>
                         <Ionicons name="ios-paper" size={26} color="#6200ee" />
                     </View>
 
                     <Input
-                        label="What is the bill name?"
-                        placeholder="My Phone, Gym, TV purchase"
+                        label="What did you buy?"
+                        placeholder="laptop, smartphone, TV"
                         onChangeText={name => this.setState({ name })}
                         maxLength={20}
                         value={this.state.name}>
                     </Input>
                     <Input
+                        label="Where did you buy it?"
+                        placeholder="Amazon, Carrefour, MediaMarkt"
+                        onChangeText={shop => this.setState({ shop })}
+                        maxLength={20}
+                        value={this.state.shop}>
+                    </Input>
+                    <Input
                         label="Description"
-                        placeholder="(optional) something about this ticket"
+                        placeholder="(optional) some info about this purchase"
                         onChangeText={desc => this.setState({ desc })}
                         maxLength={70}
                         value={this.state.desc}>
@@ -99,6 +128,14 @@ export default class CreateTicketView extends Component {
                         onChangeText={price => this.setState({ price })}
                         value={this.state.price}>
                     </InputNumeric>
+
+                    <InputDate
+                        label="Purchase date"
+                        placeholder="select a date below"
+                        value={this.state.purchaseDate.length === 0 ? "" : this.state.purchaseDate[2] + '/' + (this.state.purchaseDate[1] + 1) + '/' + this.state.purchaseDate[0]}
+                    >
+                    </InputDate>
+                    <ButtonSecondary onPress={this.openDatePicker}>Select date</ButtonSecondary>
 
                 </ScrollView>
 

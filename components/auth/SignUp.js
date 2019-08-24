@@ -3,10 +3,10 @@ import { StyleSheet, Text, View } from 'react-native';
 import firebase from 'react-native-firebase';
 
 // Custom fonts
-import { Fonts } from '../../utils/variables';
+import { Fonts, Colors } from '../../utils/variables';
 // Custom components
 import { Input } from '../shared/Inputs';
-import { Button, ButtonDarker } from '../shared/Buttons';
+import { Button, ButtonSecondary } from '../shared/Buttons';
 import { Status } from '../shared/StatusBar';
 
 export default class Signup extends Component {
@@ -30,7 +30,7 @@ export default class Signup extends Component {
                 <Status></Status>
 
                 <View style={styles.headerContainer}>
-                    <Text style={styles.textMain}>Create a Paylist account</Text>
+                    <Text style={styles.textMain}>New Paylist account.</Text>
                 </View>
 
                 <View style={styles.inputContainer}>
@@ -51,12 +51,15 @@ export default class Signup extends Component {
                         onChangeText={password => this.setState({ password })}
                         value={this.state.password}>
                     </Input>
+
+                    <Text style={styles.textConfirmation}>These are going to be your Paylist login credentials. 
+                    Pressing confirm implies that you are agree with the terms and conditions.</Text>
                     <Button onPress={this.handleSignup}>Confirm</Button>
                 </View>
 
                 <View style={styles.bottomContainer}>
-                    <Text>Already have an account?</Text>
-                    <ButtonDarker onPress={() => this.props.navigation.navigate('Login')}>Login</ButtonDarker>
+                    <Text style={styles.textLabel}>Already have an account?</Text>
+                    <ButtonSecondary onPress={() => this.props.navigation.navigate('Login')}>Login</ButtonSecondary>
                 </View>
 
             </View>
@@ -70,8 +73,8 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'column',
         height: '100%',
-        justifyContent: 'space-between',
-        padding: 20,
+        justifyContent: 'space-evenly',
+        padding: 50,
     },
     headerContainer: {
         width: '100%',
@@ -83,16 +86,27 @@ const styles = StyleSheet.create({
         width: '100%',
     },
     textMain: {
-        color: '#263238',
+        color: Colors.PrimaryDarker,
         fontFamily: Fonts.InterBlack,
         fontSize: 22,
-        padding: 5,
         width: '100%',
     },
+    textConfirmation: {
+        color: Colors.TextDark,
+        fontSize: 12,
+        fontFamily: Fonts.InterRegular,
+        paddingTop: 30,
+    },
+    textLabel: {
+        color: Colors.TextDark,
+        fontSize: 14,
+        fontFamily: Fonts.InterMedium,
+    },
     textError: {
-        padding: 5,
-        color: '#b00020',
+        color: Colors.Error,
+        fontFamily: Fonts.InterMedium,
         fontSize: 16,
+        padding: 5,
         width: '100%',
     }
 })

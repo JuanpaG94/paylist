@@ -38,6 +38,23 @@ const InputNumeric = ({ label, value, onChangeText, placeholder, secureTextEntry
   )
 }
 
+const InputDate = ({ label, value, onChangeText, placeholder, secureTextEntry }) => {
+  return (
+    <View style={styles.container}>
+      <Text style={styles.label}>{label}</Text>
+      <TextInput
+        editable={false}
+        autoCorrect={false}
+        onChangeText={onChangeText}
+        placeholder={placeholder}
+        style={styles.input}
+        secureTextEntry={secureTextEntry}
+        value={value}
+      />
+    </View>
+  )
+}
+
 const styles = StyleSheet.create({
   container: {
     marginTop: 18,
@@ -66,4 +83,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export { Input, InputNumeric };
+export { Input, InputNumeric, InputDate };

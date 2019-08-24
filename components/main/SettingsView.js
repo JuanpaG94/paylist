@@ -31,15 +31,17 @@ export default class SettingsView extends Component {
         const { currentUser } = this.state
 
         return (
-            <View style={[{ 'height': '100%' }]}>
-                <ScrollView contentContainerStyle={styles.cardsContainer}>
+            <View style={styles.container}>
+                <View style={styles.viewHeaderContainer}>
                     <Status></Status>
 
                     <View style={styles.headerContainer}>
                         <Text style={styles.headerLabel}>Settings</Text>
                         <Ionicons style={styles.headerIconShape} name="ios-more" size={26} color="#6200ee" />
                     </View>
+                </View>
 
+                <View style={styles.options}>
                     <Text>
                         Hey {currentUser && currentUser.email}
                     </Text>
@@ -47,7 +49,8 @@ export default class SettingsView extends Component {
                         Your UID is {currentUser && currentUser.uid}
                     </Text>
 
-                </ScrollView>
+                    <Text>Warranty time is 2 years in the European Union.</Text>
+                </View>
 
                 <View style={styles.bottomBarOptions}>
                     <ButtonDarker style={styles.buttonLogout} onPress={this.handleLogout}>Logout</ButtonDarker>
@@ -58,13 +61,18 @@ export default class SettingsView extends Component {
 }
 
 const styles = StyleSheet.create({
+    container: {
+        height: '100%',
+        justifyContent: 'space-between',
+        padding: 20,
+    },
     headerContainer: {
         alignItems: 'center',
         flex: 1,
         flexDirection: 'row',
         justifyContent: 'space-between',
         paddingBottom: 12,
-        paddingTop: 18,
+        paddingTop: 33.5,
         width: '100%',
     },
     headerLabel: {
@@ -80,9 +88,13 @@ const styles = StyleSheet.create({
         paddingRight: 5,
         paddingTop: 2,
     },
-    cardsContainer: {
+    viewHeaderContainer: {
         alignItems: 'center',
-        padding: 20,
+    },
+    options: {
+        alignSelf: 'center',
+        justifyContent: 'center',
+        textAlign: 'center',
     },
     buttonLogout: {
         alignItems: 'flex-end',
@@ -90,7 +102,6 @@ const styles = StyleSheet.create({
     bottomBarOptions: {
         flexDirection: 'row',
         justifyContent: 'space-evenly',
-        padding: 20,
         width: '100%',
     },
 })

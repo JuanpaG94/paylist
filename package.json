@@ -15,6 +15,7 @@
     "react-native-ionicons": "^4.6.1",
     "react-native-raw-bottom-sheet": "^2.0.2",
     "react-native-screens": "^1.0.0-alpha.23",
+    "react-native-svg": "^9.6.4",
     "react-navigation": "^3.11.1"
   },
   "devDependencies": {
