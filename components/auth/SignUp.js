@@ -53,7 +53,7 @@ export default class Signup extends Component {
                     </Input>
 
                     <Text style={styles.textConfirmation}>These are going to be your Paylist login credentials. 
-                    Pressing confirm implies that you are agree with the terms and conditions.</Text>
+                    Pressing confirm implies that you agree with the terms and conditions.</Text>
                     <Button onPress={this.handleSignup}>Confirm</Button>
                 </View>
 

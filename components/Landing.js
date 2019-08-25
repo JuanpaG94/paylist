@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Image } from 'react-native';
 
 // Custom fonts
 import { Fonts, Colors } from '../utils/variables';
@@ -12,8 +12,9 @@ export default class Landing extends Component {
         return (
             <View style={styles.container}>
                 <Status></Status>
+                <Image style={{width: 130, height: 60}} source={require('../assets/img/logo.png')} />
                 <Text style={styles.labelMain}>Welcome.</Text>
-                <Text style={styles.labelDesc}>Never forget again what are you paying for.</Text>
+                <Text style={styles.labelDesc}>Never forget again what you are paying for.</Text>
                 <Button onPress={() => this.props.navigation.navigate('Signup')}>Register</Button>
                 <Text style={styles.labelSignUp} onPress={() => this.props.navigation.navigate('Login')}>Already have an account? Login</Text>
             </View>
@@ -23,7 +24,7 @@ export default class Landing extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        alignItems: 'center',
+        alignItems: 'flex-start',
         flex: 1,
         justifyContent: 'space-evenly',
         padding: 50,
