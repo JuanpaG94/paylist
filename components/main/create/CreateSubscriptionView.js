@@ -19,6 +19,7 @@ export default class CreateSubscriptionView extends Component {
         color: null,
         price: null,
         purchaseDate: [],
+        editModeDataId: this.props.navigation.getParam('subscriptionId', null),
     }
 
     showAlert = (message) => {
@@ -35,6 +36,10 @@ export default class CreateSubscriptionView extends Component {
     componentDidMount() {
         const { currentUser } = firebase.auth()
         this.setState({ currentUser })
+
+        if (this.state.editModeDataId !== null) {
+            this.handleLoadEditMode(this.state.editModeDataId);
+        }
     }
 
     openDatePicker = async () => {
@@ -55,8 +60,8 @@ export default class CreateSubscriptionView extends Component {
         }
     }
 
-    handleCreate = () => {
-        const { currentUser, name, desc, account, color, price, purchaseDate } = this.state
+    handleCreateOrEdit = () => {
+        const { currentUser, name, desc, account, color, price, purchaseDate, editModeDataId } = this.state
 
         var docData = {
             userID: currentUser.uid,
@@ -69,7 +74,7 @@ export default class CreateSubscriptionView extends Component {
             color: '#b2ebf2',
         }
 
-        if (docData.name == null|| docData.account == null || docData.purchaseDate.length === 0) {
+        if (docData.name == null || docData.account == null || docData.purchaseDate.length === 0) {
             const message = 'Name, service account and purchase date cannot be empty. Please, fill them!';
             this.showAlert(message);
         }
@@ -77,21 +82,56 @@ export default class CreateSubscriptionView extends Component {
             const message = 'Price needs to be greater than 0 and be a whole number or decimal number with comma';
             this.showAlert(message);
         } else {
-            firebase.firestore().collection("subscriptions")
-                .add(docData)
-                .then((docRef) => {
-                    console.log("Document written with ID: ", docRef.id);
-                    console.log("With name: ", docData.name);
+            if (editModeDataId === null) { // Creation mode
+                firebase.firestore().collection("subscriptions")
+                    .add(docData)
+                    .then((docRef) => {
+                        console.log("Document written with ID: ", docRef.id);
+                        console.log("With name: ", docData.name);
+                        this.props.navigation.goBack();
+                    })
+                    .catch(error => {
+                        console.error("Error adding document: ", error)
+                        this.showAlert(error.message)
+                    })
+            } else { // Edit mode
+                firebase.firestore().collection("subscriptions").doc(editModeDataId)
+                .update(docData)
+                .then(() => {
+                    console.log("Document successfully updated!");
                     this.props.navigation.goBack();
                 })
-                .catch(error => {
-                    console.error("Error adding document: ", error)
-                    this.showAlert(error.message)
-                })
-
+                .catch(function(error) {
+                    console.error("Error updating document: ", error);
+                });
+            }
         }
     }
 
+    handleLoadEditMode = (dataId) => { // Fill the form
+        firebase.firestore().collection("subscriptions").doc(dataId)
+            .get().then((doc) => {
+                if (doc.exists) {
+                    const docData = doc.data();
+                    this.setState({ name: docData.name });
+                    this.setState({ desc: docData.desc });
+                    this.setState({ price: docData.price });
+                    this.setState({ account: docData.account });
+
+                    const docDataPurchase = []
+                    docDataPurchase.push(
+                        docData.purchaseDate.toDate().getFullYear(),
+                        docData.purchaseDate.toDate().getMonth(),
+                        docData.purchaseDate.toDate().getDate()
+                    )
+                    this.setState({ purchaseDate: docDataPurchase });
+                } else {
+                    console.log("No such document");
+                }
+            }).catch(function (error) {
+                console.log("Error getting document:", error);
+            });
+    }
 
     render() {
         return (
@@ -100,7 +140,7 @@ export default class CreateSubscriptionView extends Component {
                     <Status></Status>
 
                     <View style={styles.headerContainer}>
-                        <Text style={styles.headerLabel}>New subscription</Text>
+                        <Text style={styles.headerLabel}>{this.state.editModeDataId !== null ? 'Edit subscription' : 'New subscription'}</Text>
                         <Ionicons name="ios-albums" size={26} color="#6200ee" />
                     </View>
 
@@ -144,7 +184,7 @@ export default class CreateSubscriptionView extends Component {
 
                 <View style={styles.bottomBarOptions}>
                     <FloatingActionButtonCancel onPress={() => this.props.navigation.goBack()}>CANCEL</FloatingActionButtonCancel>
-                    <FloatingActionButton onPress={this.handleCreate}>SAVE</FloatingActionButton>
+                    <FloatingActionButton onPress={this.handleCreateOrEdit}>SAVE</FloatingActionButton>
                 </View>
             </View>
         )

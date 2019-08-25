@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, Image } from 'react-native';
 import firebase from 'react-native-firebase';
 import Ionicons from 'react-native-ionicons';
 
 // Custom components
 import { Status } from '../shared/StatusBar';
 import { ButtonDarker } from '../shared/Buttons';
-import { Fonts } from '../../utils/variables';
+import { Fonts, Colors } from '../../utils/variables';
 
 export default class SettingsView extends Component {
     state = {
@@ -37,19 +37,18 @@ export default class SettingsView extends Component {
 
                     <View style={styles.headerContainer}>
                         <Text style={styles.headerLabel}>Settings</Text>
-                        <Ionicons style={styles.headerIconShape} name="ios-more" size={26} color="#6200ee" />
+                        <Image style={{width: 125, height: 55}} source={require('../../assets/img/logo.png')} />
                     </View>
                 </View>
 
                 <View style={styles.options}>
-                    <Text>
+                
+                    <Text style={styles.labelText}>
                         Hey {currentUser && currentUser.email}
                     </Text>
-                    <Text>
-                        Your UID is {currentUser && currentUser.uid}
+                    <Text style={styles.labelText}>
+                        This view will store some settings. 
                     </Text>
-
-                    <Text>Warranty time is 2 years in the European Union.</Text>
                 </View>
 
                 <View style={styles.bottomBarOptions}>
@@ -95,6 +94,13 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         justifyContent: 'center',
         textAlign: 'center',
+    },
+    labelText: {
+        color: Colors.TextDark,
+        fontFamily: Fonts.InterBold,
+        fontSize: 16,
+        paddingTop: 5,
+        paddingBottom: 5,
     },
     buttonLogout: {
         alignItems: 'flex-end',

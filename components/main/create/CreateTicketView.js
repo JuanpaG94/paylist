@@ -20,6 +20,7 @@ export default class CreateTicketView extends Component {
         color: null,
         price: null,
         purchaseDate: [],
+        editModeDataId: this.props.navigation.getParam('ticketId', null),
     }
 
     showAlert = (message) => {
@@ -36,6 +37,10 @@ export default class CreateTicketView extends Component {
     componentDidMount() {
         const { currentUser } = firebase.auth()
         this.setState({ currentUser })
+
+        if (this.state.editModeDataId !== null) {
+            this.handleLoadEditMode(this.state.editModeDataId);
+        }
     }
 
     openDatePicker = async () => {
@@ -56,8 +61,8 @@ export default class CreateTicketView extends Component {
         }
     }
 
-    handleCreate = () => {
-        const { currentUser, shop, name, desc, price, purchaseDate } = this.state
+    handleCreateOrEdit = () => {
+        const { currentUser, shop, name, desc, price, purchaseDate, editModeDataId } = this.state
 
         var docData = {
             userID: currentUser.uid,
@@ -77,6 +82,7 @@ export default class CreateTicketView extends Component {
             const message = 'Price needs to be greater than 0 and be a whole number or decimal number with comma';
             this.showAlert(message);
         } else {
+            if (editModeDataId === null) { // Creation mode
             firebase.firestore().collection("tickets")
                 .add(docData)
                 .then((docRef) => {
@@ -88,10 +94,44 @@ export default class CreateTicketView extends Component {
                     console.error("Error adding document: ", error)
                     this.showAlert(error.message)
                 })
-
+            } else { // Edit mode
+                firebase.firestore().collection("tickets").doc(editModeDataId)
+                .update(docData)
+                .then(() => {
+                    console.log("Document successfully updated!");
+                    this.props.navigation.goBack();
+                })
+                .catch(function(error) {
+                    console.error("Error updating document: ", error);
+                });
+            }
         }
     }
 
+    handleLoadEditMode = (dataId) => { // Fill the form
+        firebase.firestore().collection("tickets").doc(dataId)
+            .get().then((doc) => {
+                if (doc.exists) {
+                    const docData = doc.data();
+                    this.setState({ name: docData.name });
+                    this.setState({ shop: docData.shop });
+                    this.setState({ desc: docData.desc });
+                    this.setState({ price: docData.price });
+
+                    const docDataPurchase = []
+                    docDataPurchase.push(
+                        docData.purchaseDate.toDate().getFullYear(),
+                        docData.purchaseDate.toDate().getMonth(),
+                        docData.purchaseDate.toDate().getDate()
+                    )
+                    this.setState({ purchaseDate: docDataPurchase });
+                } else {
+                    console.log("No such document");
+                }
+            }).catch(function (error) {
+                console.log("Error getting document:", error);
+            });
+    }
 
     render() {
         return (
@@ -100,7 +140,7 @@ export default class CreateTicketView extends Component {
                     <Status></Status>
 
                     <View style={styles.headerContainer}>
-                        <Text style={styles.headerLabel}>New warranty ticket</Text>
+                    <Text style={styles.headerLabel}>{this.state.editModeDataId !== null ? 'Edit warranty ticket' : 'New warranty ticket'}</Text>
                         <Ionicons name="ios-paper" size={26} color="#6200ee" />
                     </View>
 
@@ -144,7 +184,7 @@ export default class CreateTicketView extends Component {
 
                 <View style={styles.bottomBarOptions}>
                     <FloatingActionButtonCancel onPress={() => this.props.navigation.goBack()}>CANCEL</FloatingActionButtonCancel>
-                    <FloatingActionButton onPress={this.handleCreate}>SAVE</FloatingActionButton>
+                    <FloatingActionButton onPress={this.handleCreateOrEdit}>SAVE</FloatingActionButton>
                 </View>
             </View>
         )

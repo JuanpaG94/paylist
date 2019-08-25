@@ -54,6 +54,13 @@ export class ListSubscriptionsView extends Component {
         this.RBSheet.open();
     }
 
+    handleEditSubscription = (subscriptionId) => {
+        this.RBSheet.close();
+        this.props.navigation.navigate('CreateSubscription', {
+            subscriptionId: subscriptionId,
+        });
+    }
+
     handleDeleteSubscription = (subscriptionId) => {
         firebase.firestore().collection('subscriptions').doc(subscriptionId).delete()
             .then(() => { this.RBSheet.close(); this.handleListSubcriptions(this.state.currentUser.uid) }) // Updating list when delete
@@ -83,7 +90,7 @@ export class ListSubscriptionsView extends Component {
                             purchaseDate={subscription.purchaseDate ? 'Started on ' + subscription.purchaseDate.toDate().getDate() + '/' + (subscription.purchaseDate.toDate().getMonth() + 1) + '/' + (subscription.purchaseDate.toDate().getFullYear()) : ''}
                             expireDate={subscription.purchaseDate ? 'On ' + subscription.purchaseDate.toDate().getDate() + '/' + (new Date().getMonth() + 2) + '/' + (subscription.purchaseDate.toDate().getFullYear()) : ''}
                             account={subscription.account}
-                            color={subscription.color ? subscription.color : '#ECEFF1'}
+                            color={subscription.color}
                             onLongPress={() => this.handleOpenBottomSheet(subscription.name, subscription.id)}
                         >
                         </Card>)
@@ -106,11 +113,8 @@ export class ListSubscriptionsView extends Component {
                     closeOnDragDown={true}
                     duration={200}
                     height={200}
-                    animationType={"slide"}
+                    animationType={"fade"}
                     customStyles={{
-                        wrapper: {
-                            backgroundColor: '#00000050',
-                        },
                         container: {
                             borderTopLeftRadius: 10,
                             borderTopRightRadius: 10,
@@ -120,7 +124,7 @@ export class ListSubscriptionsView extends Component {
                     <ButtonSheetOptions
                         label={this.state.currentBottomSheetLabel}
                         onClosePress={() => this.RBSheet.close()}
-                        onEditPress={() => this.RBSheet.close()}
+                        onEditPress={() => this.handleEditSubscription(this.state.currentBottomSheetId)}
                         onDeletePress={() => this.handleDeleteSubscription(this.state.currentBottomSheetId)}
                     />
                 </RBSheet>
@@ -210,6 +214,7 @@ const styles = StyleSheet.create({
     },
     countLabel: {
         fontFamily: Fonts.InterRegular,
+        paddingBottom: 55,
     },
     bottomBarOptions: {
         bottom: 15,

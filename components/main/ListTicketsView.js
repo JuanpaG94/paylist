@@ -54,6 +54,13 @@ export class ListTicketsView extends Component {
         this.RBSheet.open();
     }
 
+    handleEditTicket = (ticketId) => {
+        this.RBSheet.close();
+        this.props.navigation.navigate('CreateTicket', {
+            ticketId: ticketId,
+        });
+    }
+
     handleDeleteTicket = (ticketId) => {
         firebase.firestore().collection('tickets').doc(ticketId).delete()
             .then(() => { this.RBSheet.close(); this.handleListTickets(this.state.currentUser.uid) }) // Updating list when delete
@@ -87,6 +94,7 @@ export class ListTicketsView extends Component {
                     </CardTicket>)}
 
                     {currentUserTicketsList.length > 3 ? <Text style={styles.countLabel}>{currentUserTicketsList.length} tickets</Text> : false}
+                    <Text style={styles.warrantyLabel}>All products enjoy a 2-year warranty in the European Union, as well as 14 days for their return</Text>
 
                 </ScrollView>
 
@@ -103,11 +111,8 @@ export class ListTicketsView extends Component {
                     closeOnDragDown={true}
                     duration={200}
                     height={200}
-                    animationType={"slide"}
+                    animationType={"fade"}
                     customStyles={{
-                        wrapper: {
-                            backgroundColor: '#00000050',
-                        },
                         container: {
                             borderTopLeftRadius: 10,
                             borderTopRightRadius: 10,
@@ -117,7 +122,7 @@ export class ListTicketsView extends Component {
                     <ButtonSheetOptions
                         label={this.state.currentBottomSheetLabel}
                         onClosePress={() => this.RBSheet.close()}
-                        onEditPress={() => this.RBSheet.close()}
+                        onEditPress={() => this.handleEditTicket(this.state.currentBottomSheetId)}
                         onDeletePress={() => this.handleDeleteTicket(this.state.currentBottomSheetId)}
                     />
                 </RBSheet>
@@ -207,6 +212,12 @@ const styles = StyleSheet.create({
     },
     countLabel: {
         fontFamily: Fonts.InterRegular,
+    },
+    warrantyLabel: {
+        fontFamily: Fonts.InterRegular,
+        justifyContent: "center",
+        textAlign: 'center',
+        paddingBottom: 65,
     },
     bottomBarOptions: {
         bottom: 15,
