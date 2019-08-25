@@ -13,8 +13,10 @@ export default class Landing extends Component {
             <View style={styles.container}>
                 <Status></Status>
                 <Image style={{width: 130, height: 60}} source={require('../assets/img/logo.png')} />
+                <View style={styles.labelMain}>
                 <Text style={styles.labelMain}>Welcome.</Text>
                 <Text style={styles.labelDesc}>Never forget again what you are paying for.</Text>
+                </View>
                 <Button onPress={() => this.props.navigation.navigate('Signup')}>Register</Button>
                 <Text style={styles.labelSignUp} onPress={() => this.props.navigation.navigate('Login')}>Already have an account? Login</Text>
             </View>
@@ -27,7 +29,8 @@ const styles = StyleSheet.create({
         alignItems: 'flex-start',
         flex: 1,
         justifyContent: 'space-evenly',
-        padding: 50,
+        paddingLeft: 45,
+        paddingRight: 45,
     },
     labelMain: {
         color: Colors.PrimaryDarker,

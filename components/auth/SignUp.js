@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import {Alert, StyleSheet, Text, View } from 'react-native';
 import firebase from 'react-native-firebase';
 
 // Custom fonts
@@ -17,11 +17,27 @@ export default class Signup extends Component {
     }
 
     handleSignup = () => {
+        if (this.state.email == '' || this.state.password == '') {
+            const message = 'Name and password cannot be empty. Please, enter a valid credentials to register!';
+            this.showAlert(message);
+        } else {
         firebase.auth()
             .createUserWithEmailAndPassword(this.state.email, this.state.password)
             .then(() => this.props.navigation.navigate('Main'))
             .catch(error => this.setState({ errorMessage: error.message }))
         console.log('User registered')
+        }
+    }
+
+    showAlert = (message) => {
+        Alert.alert(
+            'Oops!',
+            message,
+            [
+                { text: 'OK', onPress: () => console.log('OK Pressed') },
+            ],
+            { cancelable: false },
+        );
     }
 
     render() {
@@ -30,13 +46,13 @@ export default class Signup extends Component {
                 <Status></Status>
 
                 <View style={styles.headerContainer}>
-                    <Text style={styles.textMain}>New Paylist account.</Text>
+                    <Text style={styles.textMain}>New Paylist account</Text>
                 </View>
 
                 <View style={styles.inputContainer}>
-                    {this.state.errorMessage &&
+                {this.state.errorMessage &&
                         <Text style={styles.textError}>
-                            {this.state.errorMessage}
+                            Oops! {this.state.errorMessage}
                         </Text>}
                     <Input
                         label="Type an email"
@@ -45,15 +61,15 @@ export default class Signup extends Component {
                         value={this.state.email}>
                     </Input>
                     <Input
-                        label="Think your password"
+                        label="Think a password"
                         secureTextEntry
                         placeholder="must have at least 6 characters"
                         onChangeText={password => this.setState({ password })}
                         value={this.state.password}>
                     </Input>
 
-                    <Text style={styles.textConfirmation}>These are going to be your Paylist login credentials. 
-                    Pressing confirm implies that you agree with the terms and conditions.</Text>
+                    <Text style={styles.textConfirmation}>These are your login credentials. 
+                    Confirming implies that you agree with the terms and conditions.</Text>
                     <Button onPress={this.handleSignup}>Confirm</Button>
                 </View>
 
@@ -73,8 +89,11 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'column',
         height: '100%',
-        justifyContent: 'space-evenly',
-        padding: 50,
+        justifyContent: 'space-around',
+        paddingBottom: 25,
+        paddingLeft: 45,
+        paddingRight: 45,
+        paddingTop: 25,
     },
     headerContainer: {
         width: '100%',
@@ -95,18 +114,18 @@ const styles = StyleSheet.create({
         color: Colors.TextDark,
         fontSize: 12,
         fontFamily: Fonts.InterRegular,
-        paddingTop: 30,
+        paddingTop: 25,
     },
     textLabel: {
         color: Colors.TextDark,
-        fontSize: 14,
-        fontFamily: Fonts.InterMedium,
+        fontSize: 12,
+        fontFamily: Fonts.InterSemiBold,
     },
     textError: {
         color: Colors.Error,
-        fontFamily: Fonts.InterMedium,
-        fontSize: 16,
-        padding: 5,
+        fontFamily: Fonts.InterSemiBold,
+        fontSize: 14,
+        paddingTop: 12,
         width: '100%',
     }
 })

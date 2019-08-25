@@ -24,7 +24,7 @@ export default class CreateTicketView extends Component {
 
     showAlert = (message) => {
         Alert.alert(
-            'Oops! Something happened',
+            'Oops!',
             message,
             [
                 { text: 'OK', onPress: () => console.log('OK Pressed') },
@@ -66,12 +66,15 @@ export default class CreateTicketView extends Component {
             desc: desc,
             price: price,
             date: firebase.firestore.Timestamp.fromDate(new Date()),
-            purchaseDate: firebase.firestore.Timestamp.fromDate(new Date(purchaseDate[0], purchaseDate[1], purchaseDate[2])),
+            purchaseDate: purchaseDate.length === 0 ? purchaseDate : firebase.firestore.Timestamp.fromDate(new Date(purchaseDate[0], purchaseDate[1], purchaseDate[2])),
         }
 
-        if (docData.name == null || docData.price == null || docData.price == 0 || docData.desc == null || docData.purchaseDate == []) {
-            console.log('Document empty, showing alert');
-            const message = 'Name, description, price and purchase date of the ticket cannot be empty. Please fill them!';
+        if (docData.name == null || docData.desc == null || docData.purchaseDate.length === 0) {
+            const message = 'Name, description and purchase date cannot be empty. Please fill them!';
+            this.showAlert(message);
+        }
+        else if (!docData.price.match(/^[1-9]\d*(,\d+)?$/g)) {
+            const message = 'Price needs to be greater than 0 and be a whole number or decimal number with comma';
             this.showAlert(message);
         } else {
             firebase.firestore().collection("tickets")

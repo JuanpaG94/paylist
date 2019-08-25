@@ -23,7 +23,7 @@ export default class CreateSubscriptionView extends Component {
 
     showAlert = (message) => {
         Alert.alert(
-            'Oops! Something happened',
+            'Oops!',
             message,
             [
                 { text: 'OK', onPress: () => console.log('OK Pressed') },
@@ -64,14 +64,17 @@ export default class CreateSubscriptionView extends Component {
             desc: desc,
             price: price,
             date: firebase.firestore.Timestamp.fromDate(new Date()),
-            purchaseDate: firebase.firestore.Timestamp.fromDate(new Date(purchaseDate[0], purchaseDate[1], purchaseDate[2])),
+            purchaseDate: purchaseDate.length === 0 ? purchaseDate : firebase.firestore.Timestamp.fromDate(new Date(purchaseDate[0], purchaseDate[1], purchaseDate[2])),
             account: account,
             color: '#b2ebf2',
         }
 
-        if (docData.name == null || docData.price == null || docData.price == 0 || docData.account == null || docData.purchaseDate == []) {
-            console.log('Document empty, showing alert');
-            const message = 'Name, service account and purchase date cannot be empty. Price cannot be 0 or empty. Please, fill them!';
+        if (docData.name == null|| docData.account == null || docData.purchaseDate.length === 0) {
+            const message = 'Name, service account and purchase date cannot be empty. Please, fill them!';
+            this.showAlert(message);
+        }
+        else if (!docData.price.match(/^[1-9]\d*(,\d+)?$/g)) {
+            const message = 'Price needs to be greater than 0 and be a whole number or decimal number with comma';
             this.showAlert(message);
         } else {
             firebase.firestore().collection("subscriptions")

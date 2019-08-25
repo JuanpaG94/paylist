@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Alert, StyleSheet, Text, View } from 'react-native';
 import firebase from 'react-native-firebase';
 
 // Custom fonts
@@ -18,11 +18,27 @@ export default class Login extends Component {
 
     handleLogin = () => {
         const { email, password } = this.state
+        if (email == '' || password == '') {
+            const message = 'Name and password cannot be empty. Please, enter your credentials to login!';
+            this.showAlert(message);
+        } else {
         firebase.auth()
             .signInWithEmailAndPassword(email, password)
             .then(() => this.props.navigation.navigate('Main'))
             .catch(error => this.setState({ errorMessage: error.message }))
         console.log('User loged in:', email)
+        }
+    }
+
+    showAlert = (message) => {
+        Alert.alert(
+            'Oops!',
+            message,
+            [
+                { text: 'OK', onPress: () => console.log('OK Pressed') },
+            ],
+            { cancelable: false },
+        );
     }
 
     render() {
@@ -31,13 +47,13 @@ export default class Login extends Component {
                 <Status></Status>
 
                 <View style={styles.headerContainer}>
-                    <Text style={styles.textMain}>Paylist access.</Text>
+                    <Text style={styles.textMain}>Paylist access</Text>
                 </View>
 
                 <View style={styles.inputContainer}>
-                    {this.state.errorMessage &&
+                {this.state.errorMessage &&
                         <Text style={styles.textError}>
-                            {this.state.errorMessage}
+                            Oops! {this.state.errorMessage}
                         </Text>}
                     <Input
                         label="Your email account"
@@ -71,8 +87,9 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'column',
         height: '100%',
-        justifyContent: 'space-evenly',
-        padding: 50,
+        justifyContent: 'space-around',
+        paddingLeft: 45,
+        paddingRight: 45,
     },
     headerContainer: {
         width: '100%',
@@ -91,13 +108,13 @@ const styles = StyleSheet.create({
     },
     textLabel: {
         color: Colors.TextDark,
-        fontSize: 14,
-        fontFamily: Fonts.InterMedium,
+        fontSize: 12,
+        fontFamily: Fonts.InterSemiBold,
     },
     textError: {
-        padding: 5,
         color: Colors.Error,
-        fontSize: 16,
+        fontFamily: Fonts.InterSemiBold,
+        fontSize: 14,
         width: '100%',
     }
 })
