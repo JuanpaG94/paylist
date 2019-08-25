@@ -19,6 +19,7 @@ export class ListSubscriptionsView extends Component {
         currentUserSubsList: [],
         currentBottomSheetLabel: 'Options',
         currentBottomSheetId: null,
+        orderBy: 'name',
     }
 
     componentDidMount() {
@@ -34,7 +35,10 @@ export class ListSubscriptionsView extends Component {
     }
 
     handleListSubcriptions = (userID) => {
-        firebase.firestore().collection('subscriptions').where("userID", "==", userID)
+        firebase.firestore()
+            .collection('subscriptions')
+            .where("userID", "==", userID)
+            .orderBy(this.state.orderBy)
             .get()
             .then(querySnapshot => {
                 const userSubsArray = []
@@ -87,8 +91,21 @@ export class ListSubscriptionsView extends Component {
                             label={subscription.name}
                             description={subscription.desc}
                             price={subscription.price}
+                            type={subscription.type}
                             purchaseDate={subscription.purchaseDate ? 'Started on ' + subscription.purchaseDate.toDate().getDate() + '/' + (subscription.purchaseDate.toDate().getMonth() + 1) + '/' + (subscription.purchaseDate.toDate().getFullYear()) : ''}
-                            expireDate={subscription.purchaseDate ? 'On ' + subscription.purchaseDate.toDate().getDate() + '/' + (new Date().getMonth() + 2) + '/' + (subscription.purchaseDate.toDate().getFullYear()) : ''}
+                            /*expireDate={subscription.purchaseDate ?
+                                'On ' + subscription.purchaseDate.toDate().getDate()
+                                + '/'
+                                + (new Date().getMonth() === 11 // is december?
+                                    ? subscription.type === 'month'
+                                        ? '1' // so january
+                                        : '12' // if not monthly, still december
+                                    : subscription.type === 'month' // if not december
+                                        ? (new Date().getMonth() + 2) // +1 if monthly
+                                        : (new Date().getMonth() + 1) // same month if not
+                                )
+                                + '/'
+                                + (subscription.purchaseDate.toDate().getFullYear()) : ''}*/
                             account={subscription.account}
                             color={subscription.color}
                             onLongPress={() => this.handleOpenBottomSheet(subscription.name, subscription.id)}

@@ -19,6 +19,7 @@ export class ListTicketsView extends Component {
         currentUserTicketsList: [],
         currentBottomSheetLabel: 'Options',
         currentBottomSheetId: null,
+        orderBy: 'name',
     }
 
     componentDidMount() {
@@ -34,7 +35,10 @@ export class ListTicketsView extends Component {
     }
 
     handleListTickets = (userID) => {
-        firebase.firestore().collection('tickets').where("userID", "==", userID)
+        firebase.firestore()
+            .collection('tickets')
+            .where("userID", "==", userID)
+            .orderBy(this.state.orderBy)
             .get()
             .then(querySnapshot => {
                 const userSubsArray = []

@@ -3,7 +3,7 @@ import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
 
 import { Fonts, Colors } from '../../utils/variables';
 
-const Card = ({ label, price, description, account, expireDate, color, onLongPress, purchaseDate }) => {
+const Card = ({ label, price, type, description, account, expireDate, color, onLongPress, purchaseDate }) => {
   return (
     <TouchableOpacity onLongPress={onLongPress} style={[stylesCard.container, { 'backgroundColor': color }, { 'shadowColor': color }]}>
 
@@ -11,13 +11,16 @@ const Card = ({ label, price, description, account, expireDate, color, onLongPre
         <Text style={stylesCard.label}>{label}</Text>
         <Text style={stylesCard.price}>{price}€</Text>
       </View>
-      <Text style={stylesCard.purchaseDate}>{purchaseDate}</Text>
+      <View style={stylesCard.mainSectionContainer}>
+        <Text style={stylesCard.purchaseDate}>{purchaseDate}</Text>
+        <Text style={stylesCard.purchaseDate}>/{type}</Text>
+      </View>
 
       <Text style={stylesCard.description}>{description}</Text>
 
       <View style={stylesCard.bottomSectionContainer}>
         <Text style={stylesCard.accountLabel}>account</Text>
-        <Text style={stylesCard.expireDateLabel}>next bill</Text>
+        {/* <Text style={stylesCard.expireDateLabel}>next bill</Text> */}
       </View>
 
       <View style={stylesCard.bottomSectionContainer}>
@@ -171,7 +174,7 @@ const stylesCardTicket = StyleSheet.create({
     justifyContent: 'space-between',
   },
   labelShop: {
-    color: Colors.PrimaryDarker,
+    color: Colors.TextDark,
     fontFamily: Fonts.InterBold,
     fontSize: 16,
     letterSpacing: 2,

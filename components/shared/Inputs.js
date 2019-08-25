@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
   },
   input: {
     alignItems: 'center',
-    backgroundColor: '#F5F5F5',
+    backgroundColor: Colors.WrappersBoxColor,
     borderColor: Colors.WrappersBorderColor,
     borderRadius: 10,
     borderStyle: 'solid',

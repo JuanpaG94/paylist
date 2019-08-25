@@ -14,4 +14,18 @@ export const Colors = {
     Error: '#b00020',
     TextDark: '#263238',
     WrappersBorderColor: '#cecece50',
+    WrappersBoxColor: '#F5F5F5',
+
+    CardColor1: '#FF8A80',
+    CardColor2: '#FF80AB',
+    CardColor3: '#EA80FC',
+    CardColor4: '#8C9EFF',
+    CardColor5: '#82B1FF',
+    CardColor6: '#40C4FF',
+    CardColor7: '#1DE9B6',
+    CardColor8: '#B9F6CA',
+    CardColor9: '#CCFF90',
+    CardColor10: '#FFFF8D',
+    CardColor11: '#FFD180',
+    CardColor12: '#ECEFF1',
 }

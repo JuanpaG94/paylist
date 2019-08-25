@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { Alert, StyleSheet, Text, View, ScrollView, DatePickerAndroid } from 'react-native';
+import { Alert, StyleSheet, Text, View, ScrollView, DatePickerAndroid, Picker } from 'react-native';
 import firebase from 'react-native-firebase';
 import Ionicons from 'react-native-ionicons';
+import ColorPalette from 'react-native-color-palette';
 
 // Custom fonts
-import { Fonts } from '../../../utils/variables';
+import { Fonts, Colors } from '../../../utils/variables';
 // Custom components
 import { Status } from '../../shared/StatusBar';
 import { Input, InputNumeric, InputDate } from '../../shared/Inputs';
@@ -18,6 +19,7 @@ export default class CreateSubscriptionView extends Component {
         account: null,
         color: null,
         price: null,
+        type: 'month',
         purchaseDate: [],
         editModeDataId: this.props.navigation.getParam('subscriptionId', null),
     }
@@ -61,17 +63,18 @@ export default class CreateSubscriptionView extends Component {
     }
 
     handleCreateOrEdit = () => {
-        const { currentUser, name, desc, account, color, price, purchaseDate, editModeDataId } = this.state
+        const { currentUser, name, desc, account, color, price, type, purchaseDate, editModeDataId } = this.state
 
         var docData = {
             userID: currentUser.uid,
             name: name,
             desc: desc,
             price: price,
+            type: type ? type : 'month',
             date: firebase.firestore.Timestamp.fromDate(new Date()),
             purchaseDate: purchaseDate.length === 0 ? purchaseDate : firebase.firestore.Timestamp.fromDate(new Date(purchaseDate[0], purchaseDate[1], purchaseDate[2])),
             account: account,
-            color: '#b2ebf2',
+            color: color,
         }
 
         if (docData.name == null || docData.account == null || docData.purchaseDate.length === 0) {
@@ -96,14 +99,14 @@ export default class CreateSubscriptionView extends Component {
                     })
             } else { // Edit mode
                 firebase.firestore().collection("subscriptions").doc(editModeDataId)
-                .update(docData)
-                .then(() => {
-                    console.log("Document successfully updated!");
-                    this.props.navigation.goBack();
-                })
-                .catch(function(error) {
-                    console.error("Error updating document: ", error);
-                });
+                    .update(docData)
+                    .then(() => {
+                        console.log("Document successfully updated!");
+                        this.props.navigation.goBack();
+                    })
+                    .catch(function (error) {
+                        console.error("Error updating document: ", error);
+                    });
             }
         }
     }
@@ -117,6 +120,8 @@ export default class CreateSubscriptionView extends Component {
                     this.setState({ desc: docData.desc });
                     this.setState({ price: docData.price });
                     this.setState({ account: docData.account });
+                    this.setState({ color: docData.color })
+                    this.setState({ type: docData.type })
 
                     const docDataPurchase = []
                     docDataPurchase.push(
@@ -164,6 +169,15 @@ export default class CreateSubscriptionView extends Component {
                         onChangeText={price => this.setState({ price })}
                         value={this.state.price}>
                     </InputNumeric>
+                    <Picker
+                        selectedValue={this.state.type}
+                        style={styles.picker}
+                        onValueChange={(itemValue) =>
+                            this.setState({ type: itemValue })
+                        }>
+                        <Picker.Item label="Per month" value="month" />
+                        <Picker.Item label="Per year" value="year" />
+                    </Picker>
                     <Input
                         label="Service account"
                         placeholder="the email you're using on the service"
@@ -179,6 +193,29 @@ export default class CreateSubscriptionView extends Component {
                     >
                     </InputDate>
                     <ButtonSecondary onPress={this.openDatePicker}>Select date</ButtonSecondary>
+
+                    <Text style={styles.label}>Choose a card color</Text>
+                    <ColorPalette
+                        onChange={color => this.setState({ color: color })}
+                        defaultColor={Colors.CardColor12}
+                        value={this.state.color}
+                        colors={[Colors.CardColor1, Colors.CardColor2, Colors.CardColor3, Colors.CardColor4, Colors.CardColor5, Colors.CardColor6,
+                        Colors.CardColor7, Colors.CardColor8, Colors.CardColor9, Colors.CardColor10, Colors.CardColor11, Colors.CardColor12]}
+                        title={''}
+                        paletteStyles={{
+                            backgroundColor: Colors.WrappersBoxColor,
+                            borderColor: Colors.WrappersBorderColor,
+                            borderRadius: 10,
+                            borderStyle: 'solid',
+                            borderWidth: 1.5,
+                            marginBottom: 10,
+                            marginTop: 0,
+                            padding: 0
+                        }}
+                        icon={
+                            <Ionicons name="checkmark" size={20} color={Colors.TextDark} />
+                        }
+                    />
 
                 </ScrollView>
 
@@ -209,6 +246,21 @@ const styles = StyleSheet.create({
     cardsContainer: {
         alignItems: 'center',
         padding: 20,
+    },
+    label: {
+        color: Colors.TextDark,
+        fontFamily: Fonts.InterBold,
+        fontSize: 16,
+        width: '100%',
+        paddingTop: 10,
+        marginBottom: -12,
+    },
+    picker: {
+        height: 50,
+        width: 150,
+        position: 'absolute',
+        top: 315,
+        right: 20,
     },
     bottomBarOptions: {
         backgroundColor: '#fefefe',
