@@ -69,16 +69,16 @@ export default class CreateTicketView extends Component {
             name: name,
             shop: shop,
             desc: desc,
-            price: price.replace(/,/g, '.'),
+            price: price !== null ? price.replace(/,/g, '.') : price,
             date: firebase.firestore.Timestamp.fromDate(new Date()),
             purchaseDate: purchaseDate.length === 0 ? purchaseDate : firebase.firestore.Timestamp.fromDate(new Date(purchaseDate[0], purchaseDate[1], purchaseDate[2])),
         }
 
-        if (docData.name == null || docData.shop == null || docData.purchaseDate.length === 0) {
-            const message = 'Name, shop and purchase date cannot be empty. Please fill them!';
+        if (docData.name === (null || '') || docData.shop === (null || '') || docData.price === null || docData.purchaseDate.length === 0) {
+            const message = 'Only the description can be optional. Please fill the rest!';
             this.showAlert(message);
         }
-        else if (!docData.price.match(/^[0-9]\d*([.,]\d+)?$/g) || docData.price === 0) {
+        else if (!docData.price.match(/^[0-9]\d*([.,]\d+)?$/g) || Number(docData.price) === 0) {
             const message = 'Price needs to be greater than 0 and a whole number or decimal number';
             this.showAlert(message);
         } else {

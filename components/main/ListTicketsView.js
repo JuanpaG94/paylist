@@ -98,7 +98,7 @@ export class ListTicketsView extends Component {
 
                     <View style={styles.headerContainer}>
                         <Text style={styles.headerLabel}>Warranty Tickets</Text>
-                        <Ionicons style={styles.headerIconShape} name="arrow-dropdown-circle" size={26} color={Colors.CardColor12} />
+                        <Ionicons style={styles.headerIconShape} name="arrow-dropdown-circle" size={26} color='transparent' />
                         <Picker
                             selectedValue={this.state.orderBy}
                             style={styles.picker}
@@ -238,7 +238,7 @@ const styles = StyleSheet.create({
         fontSize: 22,
     },
     headerIconShape: {
-        backgroundColor: "#cecece70",
+        backgroundColor: Colors.WrappersBorderColor,
         borderRadius: 20,
         paddingBottom: 2,
         paddingLeft: 5,

@@ -28,5 +28,5 @@ export const Colors = {
     CardColor9: '#CCFF90',
     CardColor10: '#FFFF8D',
     CardColor11: '#FFD180',
-    CardColor12: '#ECEFF1',
+    CardColor12: 'white',
 }

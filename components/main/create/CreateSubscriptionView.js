@@ -69,7 +69,7 @@ export default class CreateSubscriptionView extends Component {
             userID: currentUser.uid,
             name: name,
             desc: desc,
-            price: price.replace(/,/g, '.'),
+            price: price !== null ? price.replace(/,/g, '.') : price,
             type: type ? type : 'month',
             date: firebase.firestore.Timestamp.fromDate(new Date()),
             purchaseDate: purchaseDate.length === 0 ? purchaseDate : firebase.firestore.Timestamp.fromDate(new Date(purchaseDate[0], purchaseDate[1], purchaseDate[2])),
@@ -77,12 +77,12 @@ export default class CreateSubscriptionView extends Component {
             color: color,
         }
 
-        if (docData.name == null || docData.account == null || docData.purchaseDate.length === 0) {
-            const message = 'Name, service account and purchase date cannot be empty. Please, fill them!';
+        if (docData.name === (null || '') || docData.price === null || docData.account === (null || '') || docData.purchaseDate.length === 0) {
+            const message = 'Only the description can be optional. Please fill the rest!';
             this.showAlert(message);
         }
-        else if (!docData.price.match(/^[0-9]\d*([.,]\d+)?$/g) || docData.price === 0) {
-            const message = 'Price needs to be greater than 0 and a whole number or decimal number with comma';
+        else if (!docData.price.match(/^[0-9]\d*([.,]\d+)?$/g) || Number(docData.price) === 0) {
+            const message = 'Price needs to be greater than 0 and a whole number or decimal number';
             this.showAlert(message);
         } else {
             if (editModeDataId === null) { // Creation mode
