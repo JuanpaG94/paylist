@@ -57,7 +57,7 @@ export default class Signup extends Component {
                         </Text>}
                     <Input
                         label="Type an email"
-                        placeholder="example@paylist.com"
+                        placeholder="account@example.com"
                         onChangeText={email => this.setState({ email })}
                         value={this.state.email}>
                     </Input>
