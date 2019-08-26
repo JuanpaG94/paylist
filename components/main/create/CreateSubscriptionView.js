@@ -69,7 +69,7 @@ export default class CreateSubscriptionView extends Component {
             userID: currentUser.uid,
             name: name,
             desc: desc,
-            price: price,
+            price: price.replace(/,/g, '.'),
             type: type ? type : 'month',
             date: firebase.firestore.Timestamp.fromDate(new Date()),
             purchaseDate: purchaseDate.length === 0 ? purchaseDate : firebase.firestore.Timestamp.fromDate(new Date(purchaseDate[0], purchaseDate[1], purchaseDate[2])),
@@ -81,7 +81,7 @@ export default class CreateSubscriptionView extends Component {
             const message = 'Name, service account and purchase date cannot be empty. Please, fill them!';
             this.showAlert(message);
         }
-        else if (!docData.price.match(/^[1-9]\d*(,\d+)?$/g)) {
+        else if (!docData.price.match(/^[0-9]\d*([.,]\d+)?$/g)) {
             const message = 'Price needs to be greater than 0 and be a whole number or decimal number with comma';
             this.showAlert(message);
         } else {
