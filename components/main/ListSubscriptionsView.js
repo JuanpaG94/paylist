@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, ActivityIndicator, Picker, Image } from 'react-native';
 import firebase from 'react-native-firebase';
 import { createStackNavigator } from 'react-navigation';
 import Ionicons from 'react-native-ionicons';
@@ -8,13 +8,14 @@ import RBSheet from 'react-native-raw-bottom-sheet';
 // Custom fonts
 import { Fonts, Colors } from '../../utils/variables';
 // Custom components
-import { Status } from '../shared/StatusBar';
+import { Status } from '../shared/Status';
 import { FloatingActionButton } from '../shared/Buttons';
 import { Card } from '../shared/Card';
 import { ButtonSheetOptions } from '../shared/ButtonSheet';
 
 export class ListSubscriptionsView extends Component {
     state = {
+        isLoading: true,
         currentUser: null,
         currentUserSubsList: [],
         currentBottomSheetLabel: 'Options',
@@ -26,12 +27,24 @@ export class ListSubscriptionsView extends Component {
         const { currentUser } = firebase.auth()
 
         this.setState({ currentUser }, () => {
-            this.handleListSubcriptions(this.state.currentUser.uid);
+            if (this.state.currentUser !== null) {
+                this.handleListSubcriptions(this.state.currentUser.uid);
+            }
         });
+
+        setTimeout(() => {
+            this.setState({ isLoading: false })
+        }, 1200);
     }
 
     componentDidUpdate() {
-        this.handleListSubcriptions(this.state.currentUser.uid); // Updating list when added something from create view
+        if (this.state.currentUser !== null) {
+            this.handleListSubcriptions(this.state.currentUser.uid); // Updating list when added something from create view
+        }
+    }
+
+    componentWillUnmount() {
+        this.setState({ currentUser: null });
     }
 
     handleListSubcriptions = (userID) => {
@@ -50,6 +63,7 @@ export class ListSubscriptionsView extends Component {
                 })
                 this.setState({ currentUserSubsList: userSubsArray });
             })
+            .catch(error => console.log(error))
     }
 
     handleOpenBottomSheet = (subscriptionName, subscriptionId) => {
@@ -77,12 +91,23 @@ export class ListSubscriptionsView extends Component {
 
         return (
             <View style={[{ 'height': '100%' }]}>
+                <Image style={{ width: 400, height: 360, position: 'absolute', bottom: -20, opacity: 0.1 }} source={require('../../assets/img/bg-cards.png')} />
                 <ScrollView contentContainerStyle={styles.cardsContainer}>
                     <Status></Status>
 
+
                     <View style={styles.headerContainer}>
                         <Text style={styles.headerLabel}>Subscriptions</Text>
-                        <Ionicons style={styles.headerIconShape} name="ios-more" size={26} color="#6200ee" />
+                        <Ionicons style={styles.headerIconShape} name="arrow-dropdown-circle" size={26} color={Colors.CardColor12} />
+                        <Picker
+                            selectedValue={this.state.orderBy}
+                            style={styles.picker}
+                            onValueChange={(itemValue) =>
+                                this.setState({ orderBy: itemValue })
+                            }>
+                            <Picker.Item label="sort by name" value="name" />
+                            <Picker.Item label="sort by date" value="purchaseDate" />
+                        </Picker>
                     </View>
 
                     {currentUserSubsList.map((subscription) =>
@@ -117,7 +142,8 @@ export class ListSubscriptionsView extends Component {
 
                 </ScrollView>
 
-                {currentUserSubsList.length === 0 ? <Text style={styles.emptyLabel}>Hey, come on! Tap on + to add something!</Text> : false}
+                {this.state.isLoading === true ? <ActivityIndicator style={styles.activityIndicator} size="large" /> : false}
+                {this.state.isLoading === false && currentUserSubsList.length === 0 ? <Text style={styles.emptyLabel}>Hey! Tap on + to add something</Text> : false}
 
                 <View style={styles.bottomBarOptions}>
                     <FloatingActionButton onPress={() => this.props.navigation.navigate('CreateSubscription')}></FloatingActionButton>
@@ -133,6 +159,7 @@ export class ListSubscriptionsView extends Component {
                     animationType={"fade"}
                     customStyles={{
                         container: {
+                            backgroundColor: Colors.WrappersBoxColor,
                             borderTopLeftRadius: 10,
                             borderTopRightRadius: 10,
                         }
@@ -204,13 +231,21 @@ const styles = StyleSheet.create({
         paddingTop: 18,
         width: '100%',
     },
+    picker: {
+        height: 50,
+        width: 50,
+        position: 'absolute',
+        top: 9,
+        right: -8.55,
+        zIndex: 1,
+    },
     headerLabel: {
         color: '#263238',
         fontFamily: Fonts.InterBlack,
         fontSize: 22,
     },
     headerIconShape: {
-        backgroundColor: "#cecece70",
+        backgroundColor: Colors.CardColor12,
         borderRadius: 20,
         paddingBottom: 2,
         paddingLeft: 5,
@@ -220,6 +255,13 @@ const styles = StyleSheet.create({
     cardsContainer: {
         alignItems: 'center',
         padding: 20,
+    },
+    activityIndicator: {
+        bottom: 0,
+        left: 0,
+        position: 'absolute',
+        right: 0,
+        top: 0,
     },
     emptyLabel: {
         alignSelf: 'center',

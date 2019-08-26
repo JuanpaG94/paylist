@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
     paddingRight: 5,
   },
   BSLabel: {
-    color: '#263238',
+    color: Colors.TextDark,
     fontSize: 16,
     fontFamily: Fonts.InterBlack,
   },
@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
   },
   BSOptionButton: {
     alignItems: 'center',
-    backgroundColor: '#F5F5F5',
+    backgroundColor: Colors.WrappersBorderColor,
     borderColor: Colors.WrappersBorderColor,
     borderRadius: 10,
     borderStyle: 'solid',
@@ -70,7 +70,6 @@ const styles = StyleSheet.create({
     paddingTop: 9,
   },
   BSLabelOption: {
-    color: '#263238',
     fontSize: 14,
     fontFamily: Fonts.InterMedium,
     width: '82%',

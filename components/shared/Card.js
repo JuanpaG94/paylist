@@ -16,11 +16,11 @@ const Card = ({ label, price, type, description, account, expireDate, color, onL
         <Text style={stylesCard.purchaseDate}>/{type}</Text>
       </View>
 
-      <Text style={stylesCard.description}>{description}</Text>
+      {description ? <Text style={stylesCard.description}>{description}</Text> : false}
 
       <View style={stylesCard.bottomSectionContainer}>
         <Text style={stylesCard.accountLabel}>account</Text>
-        {/* <Text style={stylesCard.expireDateLabel}>next bill</Text> */}
+        {expireDate ? <Text style={stylesCard.expireDateLabel}>next bill</Text> : false}
       </View>
 
       <View style={stylesCard.bottomSectionContainer}>
@@ -44,7 +44,7 @@ const CardTicket = ({ labelShop, label, price, description, purchaseDate, expire
         <Text style={stylesCardTicket.price}>{price}€</Text>
       </View>
 
-      <Text style={stylesCardTicket.description}>{description}</Text>
+      {description ? <Text style={stylesCard.description}>{description}</Text> : false}
 
       <View style={stylesCardTicket.bottomSectionContainer}>
         <Text style={stylesCardTicket.purchaseDateLabel}>purchase date</Text>
@@ -63,15 +63,15 @@ const CardTicket = ({ labelShop, label, price, description, purchaseDate, expire
 const stylesCard = StyleSheet.create({
   container: {
     backgroundColor: 'white',
-    borderRadius: 10,
-    elevation: 4,
+    borderRadius: 8,
+    elevation: 3.2,
     flex: 1,
     justifyContent: 'space-between',
     marginBottom: 16,
     marginTop: 10,
     padding: 18,
     shadowOffset: { width: 0, height: 3 },
-    shadowOpacity: 1.0,
+    shadowOpacity: 0.5,
     shadowRadius: 5,
     width: '100%',
   },
@@ -141,18 +141,19 @@ const stylesCard = StyleSheet.create({
 
 const stylesCardTicket = StyleSheet.create({
   container: {
-    backgroundColor: '#FAFAFA',
-    borderBottomRightRadius: 8,
-    elevation: 4,
+    backgroundColor: Colors.WrappersBoxColor,
+    borderTopRightRadius: 8,
+    borderRadius: 3,
+    elevation: 3.1,
     flex: 1,
     justifyContent: 'space-between',
     marginBottom: 16,
     marginTop: 10,
     padding: 18,
-    shadowColor: '#FAFAFA',
+    shadowColor: Colors.WrappersBoxColor,
     shadowOffset: { width: 0, height: 3 },
-    shadowOpacity: 1.0,
-    shadowRadius: 5,
+    shadowOpacity: 0.5,
+    shadowRadius: 15,
     width: '100%',
   },
   mainSectionContainer: {

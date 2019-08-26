@@ -7,7 +7,7 @@ import ColorPalette from 'react-native-color-palette';
 // Custom fonts
 import { Fonts, Colors } from '../../../utils/variables';
 // Custom components
-import { Status } from '../../shared/StatusBar';
+import { Status } from '../../shared/Status';
 import { Input, InputNumeric, InputDate } from '../../shared/Inputs';
 import { ButtonSecondary, FloatingActionButton, FloatingActionButtonCancel } from '../../shared/Buttons';
 
@@ -175,8 +175,8 @@ export default class CreateSubscriptionView extends Component {
                         onValueChange={(itemValue) =>
                             this.setState({ type: itemValue })
                         }>
-                        <Picker.Item label="Per month" value="month" />
-                        <Picker.Item label="Per year" value="year" />
+                        <Picker.Item label="per month" value="month" />
+                        <Picker.Item label="per year" value="year" />
                     </Picker>
                     <Input
                         label="Service account"
@@ -259,12 +259,12 @@ const styles = StyleSheet.create({
         height: 50,
         width: 150,
         position: 'absolute',
-        top: 315,
-        right: 20,
+        top: 316,
+        right: 25,
     },
     bottomBarOptions: {
-        backgroundColor: '#fefefe',
-        borderColor: '#cecece70',
+        backgroundColor: Colors.WrappersBoxColor,
+        borderColor: Colors.WrappersBorderColor,
         borderLeftWidth: 0.7,
         borderRightWidth: 0.7,
         borderStyle: 'solid',

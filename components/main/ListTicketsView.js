@@ -1,20 +1,21 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, ActivityIndicator, Picker, Image } from 'react-native';
 import firebase from 'react-native-firebase';
 import { createStackNavigator } from 'react-navigation';
 import Ionicons from 'react-native-ionicons';
 import RBSheet from 'react-native-raw-bottom-sheet';
 
 // Custom fonts
-import { Fonts } from '../../utils/variables';
+import { Fonts, Colors } from '../../utils/variables';
 // Custom components
-import { Status } from '../shared/StatusBar';
+import { Status } from '../shared/Status';
 import { FloatingActionButton } from '../shared/Buttons';
 import { CardTicket } from '../shared/Card';
 import { ButtonSheetOptions } from '../shared/ButtonSheet';
 
 export class ListTicketsView extends Component {
     state = {
+        isLoading: true,
         currentUser: null,
         currentUserTicketsList: [],
         currentBottomSheetLabel: 'Options',
@@ -26,12 +27,25 @@ export class ListTicketsView extends Component {
         const { currentUser } = firebase.auth()
 
         this.setState({ currentUser }, () => {
+            if (this.state.currentUser !== null){
             this.handleListTickets(this.state.currentUser.uid);
+            }
         });
+
+        setTimeout(() => {
+            this.setState({ isLoading: false })
+        }, 1200);
     }
 
     componentDidUpdate() {
-        this.handleListTickets(this.state.currentUser.uid);
+        if (this.state.currentUser !== null) {
+            this.handleListTickets(this.state.currentUser.uid);
+        }
+    }
+
+    componentWillUnmount() {
+        this.setState({ currentUser: null });
+        //this.setState({ currentUserTicketsList: [] });
     }
 
     handleListTickets = (userID) => {
@@ -77,12 +91,23 @@ export class ListTicketsView extends Component {
 
         return (
             <View style={[{ 'height': '100%' }]}>
+                <Image style={{ width: 400, height: 360, position: 'absolute', bottom: -20, opacity: 0.1 }} source={require('../../assets/img/bg-cards.png')} />
+
                 <ScrollView contentContainerStyle={styles.cardsContainer}>
                     <Status></Status>
 
                     <View style={styles.headerContainer}>
                         <Text style={styles.headerLabel}>Warranty Tickets</Text>
-                        <Ionicons style={styles.headerIconShape} name="ios-more" size={26} color="#6200ee" />
+                        <Ionicons style={styles.headerIconShape} name="arrow-dropdown-circle" size={26} color={Colors.CardColor12} />
+                        <Picker
+                            selectedValue={this.state.orderBy}
+                            style={styles.picker}
+                            onValueChange={(itemValue) =>
+                                this.setState({ orderBy: itemValue })
+                            }>
+                            <Picker.Item label="sort by name" value="name" />
+                            <Picker.Item label="sort by date" value="purchaseDate" />
+                        </Picker>
                     </View>
 
                     {currentUserTicketsList.map((ticket) => <CardTicket
@@ -97,12 +122,13 @@ export class ListTicketsView extends Component {
                     >
                     </CardTicket>)}
 
-                    {currentUserTicketsList.length > 3 ? <Text style={styles.countLabel}>{currentUserTicketsList.length} tickets</Text> : false}
-                    <Text style={styles.warrantyLabel}>All products enjoy a 2-year warranty in the European Union, as well as 14 days for their return</Text>
+                    {this.state.isLoading === false && currentUserTicketsList.length > 3 ? <Text style={styles.countLabel}>{currentUserTicketsList.length} tickets</Text> : false}
+                    {this.state.isLoading === false ? <Text style={styles.warrantyLabel}>All products enjoy a 2-year warranty in the European Union, as well as 14 days for their return</Text> : false}
 
                 </ScrollView>
 
-                {currentUserTicketsList.length === 0 ? <Text style={styles.emptyLabel}>Hey, come on! Tap on + to add something!</Text> : false}
+                {this.state.isLoading === true ? <ActivityIndicator style={styles.activityIndicator} size="large" /> : false}
+                {this.state.isLoading === false && currentUserTicketsList.length === 0 ? <Text style={styles.emptyLabel}>Hey! tap on + to add something</Text> : false}
 
                 <View style={styles.bottomBarOptions}>
                     <FloatingActionButton onPress={() => this.props.navigation.navigate('CreateTicket')}></FloatingActionButton>
@@ -118,6 +144,7 @@ export class ListTicketsView extends Component {
                     animationType={"fade"}
                     customStyles={{
                         container: {
+                            backgroundColor: Colors.WrappersBoxColor,
                             borderTopLeftRadius: 10,
                             borderTopRightRadius: 10,
                         }
@@ -189,6 +216,14 @@ const styles = StyleSheet.create({
         paddingTop: 18,
         width: '100%',
     },
+    picker: {
+        height: 50,
+        width: 50,
+        position: 'absolute',
+        top: 9,
+        right: -8.55,
+        zIndex: 1,
+    },
     headerLabel: {
         color: '#263238',
         fontFamily: Fonts.InterBlack,
@@ -213,6 +248,13 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         textAlign: 'center',
         width: '80%',
+    },
+    activityIndicator: {
+        bottom: 0,
+        left: 0,
+        position: 'absolute',
+        right: 0,
+        top: 0,
     },
     countLabel: {
         fontFamily: Fonts.InterRegular,

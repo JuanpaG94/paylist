@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Alert, StyleSheet, Text, View } from 'react-native';
+import {Alert, StyleSheet, Text, View, Image } from 'react-native';
 import firebase from 'react-native-firebase';
 
 // Custom fonts
@@ -7,7 +7,7 @@ import { Fonts, Colors } from '../../utils/variables';
 // Custom components
 import { Input } from '../shared/Inputs';
 import { Button, ButtonSecondary } from '../shared/Buttons';
-import { Status } from '../shared/StatusBar';
+import { Status } from '../shared/Status';
 
 export default class Signup extends Component {
     state = {
@@ -44,6 +44,7 @@ export default class Signup extends Component {
         return (
             <View style={styles.container}>
                 <Status></Status>
+                <Image style={{ width: 400, height: 360, position: 'absolute', top: 150, opacity: 0.15 }} source={require('../../assets/img/bg-cards.png')} />
 
                 <View style={styles.headerContainer}>
                     <Text style={styles.textMain}>New Paylist account</Text>

@@ -9,6 +9,8 @@ import ListSubscriptionsView from './main/ListSubscriptionsView';
 import CreateSubscriptionView from './main/create/CreateSubscriptionView';
 import CreateTicketView from './main/create/CreateTicketView';
 import SettingsView from './main/SettingsView';
+// Custom imports
+import { Colors } from '../utils/variables';
 
 const BottomTabNavigator = createBottomTabNavigator(
     {
@@ -27,29 +29,21 @@ const BottomTabNavigator = createBottomTabNavigator(
                 } else if (routeName === 'Tickets') {
                     iconName = `ios-paper`;
                 } else if (routeName === 'Settings') {
-                    iconName = `ios-settings`;
+                    iconName = `ios-information-circle`;
                 }
                 return <IconComponent name={iconName} size={25} color={tintColor} />;
             },
         }),
         tabBarOptions: {
             showLabel: false,
-            activeTintColor: '#6200ee',
-            activeBackgroundColor: '#cecece40',
-            inactiveTintColor: 'gray',
+            activeTintColor: Colors.PrimaryDarker,
+            inactiveTintColor: Colors.inactiveColor,
             style: {
-                backgroundColor: '#fefefe',
-                borderTopColor: '#cecece70',
+                backgroundColor: Colors.WrappersBoxColor,
+                borderTopColor: Colors.WrappersBorderColor,
                 borderStyle: 'solid',
                 borderTopWidth: 1.2,
-              },
-              tabStyle: {
-                borderRadius: 10,
-                marginBottom: 3,
-                marginLeft: 5,
-                marginRight: 5,
-                marginTop: 3,
-              }
+            }
         },
     }
 );

@@ -4,9 +4,9 @@ import firebase from 'react-native-firebase';
 import Ionicons from 'react-native-ionicons';
 
 // Custom fonts
-import { Fonts } from '../../../utils/variables';
+import { Fonts, Colors } from '../../../utils/variables';
 // Custom components
-import { Status } from '../../shared/StatusBar';
+import { Status } from '../../shared/Status';
 import { Input, InputNumeric, InputDate } from '../../shared/Inputs';
 import { ButtonSecondary, FloatingActionButton, FloatingActionButtonCancel } from '../../shared/Buttons';
 
@@ -211,8 +211,8 @@ const styles = StyleSheet.create({
         padding: 20,
     },
     bottomBarOptions: {
-        backgroundColor: '#fefefe',
-        borderColor: '#cecece70',
+        backgroundColor: Colors.WrappersBoxColor,
+        borderColor: Colors.WrappersBorderColor,
         borderLeftWidth: 0.7,
         borderRightWidth: 0.7,
         borderStyle: 'solid',
