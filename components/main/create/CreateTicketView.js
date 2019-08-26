@@ -74,8 +74,8 @@ export default class CreateTicketView extends Component {
             purchaseDate: purchaseDate.length === 0 ? purchaseDate : firebase.firestore.Timestamp.fromDate(new Date(purchaseDate[0], purchaseDate[1], purchaseDate[2])),
         }
 
-        if (docData.name == null || docData.desc == null || docData.purchaseDate.length === 0) {
-            const message = 'Name, description and purchase date cannot be empty. Please fill them!';
+        if (docData.name == null || docData.shop == null || docData.purchaseDate.length === 0) {
+            const message = 'Name, shop and purchase date cannot be empty. Please fill them!';
             this.showAlert(message);
         }
         else if (!docData.price.match(/^[0-9]\d*([.,]\d+)?$/g) || docData.price === 0) {
