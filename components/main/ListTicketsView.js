@@ -27,8 +27,8 @@ export class ListTicketsView extends Component {
         const { currentUser } = firebase.auth()
 
         this.setState({ currentUser }, () => {
-            if (this.state.currentUser !== null){
-            this.handleListTickets(this.state.currentUser.uid);
+            if (this.state.currentUser !== null) {
+                this.handleListTickets(this.state.currentUser.uid);
             }
         });
 
@@ -122,13 +122,21 @@ export class ListTicketsView extends Component {
                     >
                     </CardTicket>)}
 
-                    {this.state.isLoading === false && currentUserTicketsList.length > 3 ? <Text style={styles.countLabel}>{currentUserTicketsList.length} tickets</Text> : false}
-                    {this.state.isLoading === false ? <Text style={styles.warrantyLabel}>All products enjoy a 2-year warranty in the European Union, as well as 14 days for their return</Text> : false}
+                    {this.state.isLoading === false && currentUserTicketsList.length > 3
+                        ? <Text style={styles.countLabel}>{currentUserTicketsList.length} tickets</Text>
+                        : false}
+                    {this.state.isLoading === false && currentUserTicketsList.length !== 0
+                        ? <Text style={styles.warrantyLabel}>All products enjoy a 2-year warranty in the European Union, as well as 14 days for their return</Text>
+                        : false}
 
                 </ScrollView>
 
-                {this.state.isLoading === true ? <ActivityIndicator style={styles.activityIndicator} size="large" /> : false}
-                {this.state.isLoading === false && currentUserTicketsList.length === 0 ? <Text style={styles.emptyLabel}>Hey! tap on + to add something</Text> : false}
+                {this.state.isLoading === true
+                    ? <ActivityIndicator style={styles.activityIndicator} size="large" />
+                    : false}
+                {this.state.isLoading === false && currentUserTicketsList.length === 0
+                    ? <Text style={styles.emptyLabel}>Hey! tap on + to add something</Text>
+                    : false}
 
                 <View style={styles.bottomBarOptions}>
                     <FloatingActionButton onPress={() => this.props.navigation.navigate('CreateTicket')}></FloatingActionButton>
