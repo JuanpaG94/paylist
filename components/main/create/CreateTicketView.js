@@ -78,8 +78,8 @@ export default class CreateTicketView extends Component {
             const message = 'Name, description and purchase date cannot be empty. Please fill them!';
             this.showAlert(message);
         }
-        else if (!docData.price.match(/^[0-9]\d*([.,]\d+)?$/g)) {
-            const message = 'Price needs to be greater than 0 and be a whole number or decimal number';
+        else if (!docData.price.match(/^[0-9]\d*([.,]\d+)?$/g) || docData.price === 0) {
+            const message = 'Price needs to be greater than 0 and a whole number or decimal number';
             this.showAlert(message);
         } else {
             if (editModeDataId === null) { // Creation mode
