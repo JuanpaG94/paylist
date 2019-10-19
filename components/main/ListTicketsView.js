@@ -160,7 +160,6 @@ export class ListTicketsView extends Component {
                 >
                     <ButtonSheetOptions
                         label={this.state.currentBottomSheetLabel}
-                        onClosePress={() => this.RBSheet.close()}
                         onEditPress={() => this.handleEditTicket(this.state.currentBottomSheetId)}
                         onDeletePress={() => this.handleDeleteTicket(this.state.currentBottomSheetId)}
                     />

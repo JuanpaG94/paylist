@@ -167,7 +167,6 @@ export class ListSubscriptionsView extends Component {
                 >
                     <ButtonSheetOptions
                         label={this.state.currentBottomSheetLabel}
-                        onClosePress={() => this.RBSheet.close()}
                         onEditPress={() => this.handleEditSubscription(this.state.currentBottomSheetId)}
                         onDeletePress={() => this.handleDeleteSubscription(this.state.currentBottomSheetId)}
                     />

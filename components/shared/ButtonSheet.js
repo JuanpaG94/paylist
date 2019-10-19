@@ -6,12 +6,11 @@ import { Fonts, Colors } from '../../utils/variables';
 // Custom components
 import Ionicons from 'react-native-ionicons';
 
-const ButtonSheetOptions = ({ label, onClosePress, onEditPress, onDeletePress }) => {
+const ButtonSheetOptions = ({ label, onEditPress, onDeletePress }) => {
   return (
     <View style={styles.BSViewContainer}>
       <View style={styles.BSHeaderContainer}>
         <Text style={styles.BSLabel}>{label}</Text>
-        <Ionicons onPress={onClosePress} name="ios-close" size={30} color="#263238" />
       </View>
 
       <View style={styles.BSOptionsContainer}>
@@ -42,9 +41,7 @@ const styles = StyleSheet.create({
   BSHeaderContainer: {
     alignItems: 'center',
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingTop: 5,
-    paddingRight: 5,
+    justifyContent: 'center',
   },
   BSLabel: {
     color: Colors.TextDark,
@@ -53,7 +50,8 @@ const styles = StyleSheet.create({
   },
   BSOptionsContainer: {
     justifyContent: 'center',
-    height: '100%'
+    height: '100%',
+    marginBottom: 5,
   },
   BSOptionButton: {
     alignItems: 'center',
