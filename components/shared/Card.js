@@ -3,8 +3,7 @@ import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
 
 import { Fonts, Colors } from '../../utils/variables';
 
-const Card = ({ label, price, type, description, account, expireDate, color, onLongPress, purchaseDate }) => {
-  return (
+const Card = ({ label, price, type, description, account, expireDate, color, onLongPress, purchaseDate }) => 
     <TouchableOpacity onLongPress={onLongPress} style={[stylesCard.container, { 'backgroundColor': color }, { 'shadowColor': color }]}>
 
       <View style={stylesCard.mainSectionContainer}>
@@ -28,12 +27,10 @@ const Card = ({ label, price, type, description, account, expireDate, color, onL
         <Text style={stylesCard.expireDate}>{expireDate}</Text>
       </View>
 
-    </TouchableOpacity>
-  )
-}
+    </TouchableOpacity>;
 
-const CardTicket = ({ labelShop, label, price, description, purchaseDate, expireDate, onLongPress }) => {
-  return (
+
+const CardTicket = ({ labelShop, label, price, description, purchaseDate, expireDate, onLongPress }) => 
     <TouchableOpacity onLongPress={onLongPress} style={stylesCardTicket.container}>
 
       <View style={stylesCardTicket.labelShopContainer}>
@@ -56,9 +53,7 @@ const CardTicket = ({ labelShop, label, price, description, purchaseDate, expire
         <Text style={stylesCardTicket.expireDate}>{expireDate}</Text>
       </View>
 
-    </TouchableOpacity>
-  )
-}
+    </TouchableOpacity>;
 
 const stylesCard = StyleSheet.create({
   container: {

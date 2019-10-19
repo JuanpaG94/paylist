@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, ScrollView, ActivityIndicator, Picker, Image } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, ActivityIndicator, Picker } from 'react-native';
 import firebase from 'react-native-firebase';
 import { createStackNavigator } from 'react-navigation';
 import Ionicons from 'react-native-ionicons';
@@ -91,8 +91,6 @@ export class ListTicketsView extends Component {
 
         return (
             <View style={[{ 'height': '100%' }]}>
-                <Image style={{ width: 400, height: 360, position: 'absolute', bottom: -20, opacity: 0.1 }} source={require('../../assets/img/bg-cards.png')} />
-
                 <ScrollView contentContainerStyle={styles.cardsContainer}>
                     <Status></Status>
 
@@ -135,7 +133,7 @@ export class ListTicketsView extends Component {
                     ? <ActivityIndicator style={styles.activityIndicator} size="large" />
                     : false}
                 {this.state.isLoading === false && currentUserTicketsList.length === 0
-                    ? <Text style={styles.emptyLabel}>Hey! tap on + to add something</Text>
+                    ? <Text style={styles.emptyLabel}>Tap on + to add tickets</Text>
                     : false}
 
                 <View style={styles.bottomBarOptions}>
@@ -152,7 +150,6 @@ export class ListTicketsView extends Component {
                     animationType={"fade"}
                     customStyles={{
                         container: {
-                            backgroundColor: Colors.WrappersBoxColor,
                             borderTopLeftRadius: 10,
                             borderTopRightRadius: 10,
                         }

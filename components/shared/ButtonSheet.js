@@ -6,31 +6,29 @@ import { Fonts, Colors } from '../../utils/variables';
 // Custom components
 import Ionicons from 'react-native-ionicons';
 
-const ButtonSheetOptions = ({ label, onEditPress, onDeletePress }) => {
-  return (
-    <View style={styles.BSViewContainer}>
-      <View style={styles.BSHeaderContainer}>
-        <Text style={styles.BSLabel}>{label}</Text>
-      </View>
-
-      <View style={styles.BSOptionsContainer}>
-        <TouchableOpacity onPress={onEditPress} style={styles.BSOptionButton}>
-          <Text style={[styles.BSLabelOption, { color: '#6200ee' }]}>Edit information</Text>
-          <View style={styles.BSIconContainer}>
-            <Ionicons name="ios-more" size={26} color="#6200ee" />
-          </View>
-        </TouchableOpacity>
-
-        <TouchableOpacity onPress={onDeletePress} style={styles.BSOptionButton}>
-          <Text style={[styles.BSLabelOption, { color: '#b00020' }]}>Delete</Text>
-          <View style={styles.BSIconContainer}>
-            <Ionicons name="ios-trash" size={26} color="#b00020" />
-          </View>
-        </TouchableOpacity>
-      </View>
+const ButtonSheetOptions = ({ label, onEditPress, onDeletePress }) =>
+  <View style={styles.BSViewContainer}>
+    <View style={styles.BSHeaderContainer}>
+      <Text style={styles.BSLabel}>{label}</Text>
     </View>
-  )
-}
+
+    <View style={styles.BSOptionsContainer}>
+      <TouchableOpacity onPress={onEditPress} style={styles.BSOptionButton}>
+        <Text style={[styles.BSLabelOption, { color: '#6200ee' }]}>Edit information</Text>
+        <View style={styles.BSIconContainer}>
+          <Ionicons name="ios-more" size={26} color="#6200ee" />
+        </View>
+      </TouchableOpacity>
+
+      <TouchableOpacity onPress={onDeletePress} style={styles.BSOptionButton}>
+        <Text style={[styles.BSLabelOption, { color: '#b00020' }]}>Delete</Text>
+        <View style={styles.BSIconContainer}>
+          <Ionicons name="ios-trash" size={26} color="#b00020" />
+        </View>
+      </TouchableOpacity>
+    </View>
+  </View>
+  ;
 
 const styles = StyleSheet.create({
   BSViewContainer: {
