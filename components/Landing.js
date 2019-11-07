@@ -19,7 +19,7 @@ export default class Landing extends Component {
                     <Text style={styles.labelMain}>Welcome.</Text>
                     <Text style={styles.labelDesc}>Never forget again what you are paying for.</Text>
                 </View>
-                <Button onPress={() => this.props.navigation.navigate('Signup')}>Register</Button>
+                <Button onPress={() => this.props.navigation.navigate('SignUp')}>Register</Button>
                 <Text style={styles.labelSignUp} onPress={() => this.props.navigation.navigate('Login')}>Already have an account? Login</Text>
             </View>
         )

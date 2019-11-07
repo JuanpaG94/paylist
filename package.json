@@ -3,12 +3,14 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start:android": "react-native run-android",
+    "android": "react-native run-android",
     "build:android": "(rm -rf android/app/build) & react-native run-android",
     "build:android-nodev": "(rm -rf android/app/build) & react-native run-android --dev false",
     "build:android-release": "(rm -rf android/app/build) & react-native run-android --variant=release",
-    "ios": "react-native run-ios",
+    "ios": "(rm -rf ios/build) & npx react-native run-ios --simulator='iPhone 11'",
+    "ios:release": "(rm -rf ios/build) & react-native run-ios --configuration Release --simulator='iPhone 11'",
     "start": "react-native start",
+    "start:reset": "react-native start --reset-cache",
     "test": "jest"
   },
   "dependencies": {

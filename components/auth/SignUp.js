@@ -9,7 +9,7 @@ import { Input } from '../shared/Inputs';
 import { Button, ButtonSecondary } from '../shared/Buttons';
 import { Status } from '../shared/Status';
 
-export default class Signup extends Component {
+export default class SignUp extends Component {
     state = {
         email: '',
         password: '',

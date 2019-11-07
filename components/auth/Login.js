@@ -74,7 +74,7 @@ export default class Login extends Component {
 
                 <View style={styles.bottomContainer}>
                     <Text style={styles.textLabel}>No account yet? Sign up now!</Text>
-                    <ButtonSecondary onPress={() => this.props.navigation.navigate('Signup')}>Sign up</ButtonSecondary>
+                    <ButtonSecondary onPress={() => this.props.navigation.navigate('SignUp')}>Sign up</ButtonSecondary>
                 </View>
 
             </View>
