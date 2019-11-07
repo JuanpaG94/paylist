@@ -9,7 +9,7 @@
     "android:build": "(rm -rf android/app/build) & react-native run-android",
     "android:build-nodebug": "(rm -rf android/app/build) & react-native run-android --dev false",
     "android:build-release": "(rm -rf android/app/build) & react-native run-android --variant=release",
-    "ios": "react-native run-ios --simulator='iPhone 11'",
+    "ios": "react-native run-ios --simulator='iPhone 11 Pro'",
     "ios:build": "(rm -rf ios/build) & npx react-native run-ios --simulator='iPhone 11 Pro'",
     "ios:build-release": "(rm -rf ios/build) & npx react-native run-ios --configuration Release --simulator='iPhone 11 Pro'",
     "test": "jest"
