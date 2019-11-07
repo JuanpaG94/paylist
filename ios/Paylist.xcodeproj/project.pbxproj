@@ -10,11 +10,9 @@
 		00E356F31AD99517003FC87E /* PaylistTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* PaylistTests.m */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
-		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		140ED2AC1D01E1AD002B40FF /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		2D02E4BC1E0B4A80006451C7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
-		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2D16E6881FA4F8E400B85C8A /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D16E6891FA4F8E400B85C8A /* libReact.a */; };
 		2DCD954D1E0B4F2C00145EB5 /* PaylistTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* PaylistTests.m */; };
@@ -26,6 +24,7 @@
 		5ED0FD8F5F574D5692803465 /* Inter-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7D7097020B4947A3932D14DB /* Inter-Black.ttf */; };
 		6C54E5DDDC2E416595899BBC /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6EBE28B2BEF64227A1D19527 /* Ionicons.ttf */; };
 		6E62BD0B0F8448D09FB82A31 /* Inter-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AE3D1778B17E40F48EA1E9C1 /* Inter-Medium.ttf */; };
+		6EAFD45E2374D17800FAE226 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6EAFD44D2374D17800FAE226 /* Images.xcassets */; };
 		6EF3ADBC23736110002B4DB5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6EF3ADBB23736110002B4DB5 /* GoogleService-Info.plist */; };
 		758D01DEF1284A4B9FE85486 /* Inter-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0D66385BB9EF43E8AF7F15A3 /* Inter-SemiBold.ttf */; };
 		8694E01E48FA8458EB88D4FF /* libPods-PaylistTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 878BE2C8436C88ACD2A91B79 /* libPods-PaylistTests.a */; };
@@ -175,7 +174,6 @@
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Paylist/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = Paylist/AppDelegate.m; sourceTree = "<group>"; };
 		13B07FB21A68108700A75B9A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
-		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Paylist/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Paylist/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Paylist/main.m; sourceTree = "<group>"; };
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
@@ -190,6 +188,7 @@
 		57DCBDA78B2336404C214C2B /* Pods-PaylistTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PaylistTests.debug.xcconfig"; path = "Target Support Files/Pods-PaylistTests/Pods-PaylistTests.debug.xcconfig"; sourceTree = "<group>"; };
 		5EC983902AAFF1640776937E /* Pods_Paylist_tvOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Paylist_tvOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		61A9B9483FF3021C12D19052 /* Pods_Paylist_tvOSTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Paylist_tvOSTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6EAFD44D2374D17800FAE226 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		6EBE28B2BEF64227A1D19527 /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-ionicons/fonts/Ionicons.ttf"; sourceTree = "<group>"; };
 		6EF3ADBB23736110002B4DB5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		7D7097020B4947A3932D14DB /* Inter-Black.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Inter-Black.ttf"; path = "../assets/fonts/Inter-Black.ttf"; sourceTree = "<group>"; };
@@ -266,7 +265,7 @@
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
-				13B07FB51A68108700A75B9A /* Images.xcassets */,
+				6EAFD44D2374D17800FAE226 /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				6EF3ADBB23736110002B4DB5 /* GoogleService-Info.plist */,
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
@@ -635,10 +634,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 				6C54E5DDDC2E416595899BBC /* Ionicons.ttf in Resources */,
 				5ED0FD8F5F574D5692803465 /* Inter-Black.ttf in Resources */,
+				6EAFD45E2374D17800FAE226 /* Images.xcassets in Resources */,
 				5D52025FABAC44D69FDE0DF9 /* Inter-Bold.ttf in Resources */,
 				F241EE16ACD2477EB021FB22 /* Inter-ExtraBold.ttf in Resources */,
 				6E62BD0B0F8448D09FB82A31 /* Inter-Medium.ttf in Resources */,
@@ -652,7 +651,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
