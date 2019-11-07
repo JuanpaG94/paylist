@@ -1,16 +1,17 @@
 {
-  "name": "Paylist",
+  "name": "paylist",
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "android": "react-native run-android",
-    "build:android": "(rm -rf android/app/build) & react-native run-android",
-    "build:android-nodev": "(rm -rf android/app/build) & react-native run-android --dev false",
-    "build:android-release": "(rm -rf android/app/build) & react-native run-android --variant=release",
-    "ios": "(rm -rf ios/build) & npx react-native run-ios --simulator='iPhone 11'",
-    "ios:release": "(rm -rf ios/build) & react-native run-ios --configuration Release --simulator='iPhone 11'",
     "start": "react-native start",
     "start:reset": "react-native start --reset-cache",
+    "android": "react-native run-android",
+    "android:build": "(rm -rf android/app/build) & react-native run-android",
+    "android:build-nodebug": "(rm -rf android/app/build) & react-native run-android --dev false",
+    "android:build-release": "(rm -rf android/app/build) & react-native run-android --variant=release",
+    "ios": "react-native run-ios --simulator='iPhone 11'",
+    "ios:build": "(rm -rf ios/build) & npx react-native run-ios --simulator='iPhone 11 Pro'",
+    "ios:build-release": "(rm -rf ios/build) & npx react-native run-ios --configuration Release --simulator='iPhone 11 Pro'",
     "test": "jest"
   },
   "dependencies": {
