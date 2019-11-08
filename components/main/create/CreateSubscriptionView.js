@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { Alert, StyleSheet, Text, View, ScrollView, DatePickerAndroid, Picker } from 'react-native';
+import { Alert, StyleSheet, Text, View, ScrollView, DatePickerAndroid, DatePickerIOS, Picker } from 'react-native';
 import firebase from 'react-native-firebase';
 import Ionicons from 'react-native-ionicons';
 import ColorPalette from 'react-native-color-palette';
+import RBSheet from 'react-native-raw-bottom-sheet'
 
 // Custom fonts
 import { Fonts, Colors } from '../../../utils/variables';
@@ -21,6 +22,7 @@ export default class CreateSubscriptionView extends Component {
         price: null,
         type: 'month',
         purchaseDate: [],
+        dateiOS: new Date(),
         editModeDataId: this.props.navigation.getParam('subscriptionId', null),
     }
 
@@ -44,7 +46,7 @@ export default class CreateSubscriptionView extends Component {
         }
     }
 
-    openDatePicker = async () => {
+    openDatePickerAndroid = async () => {
         try {
             const { action, year, month, day } = await DatePickerAndroid.open({
                 // Use `new Date()` for current date. Month 0 is January.
@@ -57,6 +59,21 @@ export default class CreateSubscriptionView extends Component {
                 selectedDate.push(year, month, day)
                 this.setState({ purchaseDate: selectedDate });
             }
+        } catch ({ code, message }) {
+            console.warn('Cannot open date picker', message);
+        }
+    }
+
+    openDatePickeriOS = () => {
+        this.RBSheet.open()
+    }
+
+    setPurchaseDateiOS = (date) => {
+        this.setState({ dateiOS: date })
+        try {
+            var selectedDate = []
+            selectedDate.push(date.getFullYear(), (date.getMonth()), date.getDate())
+            this.setState({ purchaseDate: selectedDate });
         } catch ({ code, message }) {
             console.warn('Cannot open date picker', message);
         }
@@ -192,7 +209,7 @@ export default class CreateSubscriptionView extends Component {
                         value={this.state.purchaseDate.length === 0 ? "" : this.state.purchaseDate[2] + '/' + (this.state.purchaseDate[1] + 1) + '/' + this.state.purchaseDate[0]}
                     >
                     </InputDate>
-                    <ButtonSecondary onPress={this.openDatePicker}>Select date</ButtonSecondary>
+                    <ButtonSecondary onPress={Platform.OS === 'ios' ? this.openDatePickeriOS : this.openDatePickerAndroid}>Select date</ButtonSecondary>
 
                     <Text style={styles.label}>Choose a card color</Text>
                     <ColorPalette
@@ -223,6 +240,31 @@ export default class CreateSubscriptionView extends Component {
                     <FloatingActionButtonCancel onPress={() => this.props.navigation.goBack()}>CANCEL</FloatingActionButtonCancel>
                     <FloatingActionButton onPress={this.handleCreateOrEdit}>SAVE</FloatingActionButton>
                 </View>
+
+                {Platform.OS === 'ios' ? <RBSheet
+                    ref={ref => {
+                        this.RBSheet = ref;
+                    }}
+                    closeOnDragDown={true}
+                    duration={200}
+                    height={330}
+                    animationType={"fade"}
+                    customStyles={{
+                        container: {
+                            borderTopLeftRadius: 10,
+                            borderTopRightRadius: 10,
+                        }
+                    }}
+                >
+                    <DatePickerIOS
+                        date={this.state.dateiOS}
+                        onDateChange={(date) => this.setPurchaseDateiOS(date)}
+                        mode={"date"}
+                    />
+                    <View style={[{ paddingLeft: 20 }, { paddingRight: 20 }]}>
+                        <ButtonSecondary onPress={() => this.RBSheet.close()}>OK</ButtonSecondary>
+                    </View>
+                </RBSheet> : false}
             </View>
         )
     }
@@ -235,7 +277,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         paddingBottom: 12,
-        paddingTop: 18,
+        paddingTop: Platform.OS === 'ios' ? 40 : 20,
         width: '100%',
     },
     headerLabel: {
@@ -273,7 +315,8 @@ const styles = StyleSheet.create({
         borderTopWidth: 1.5,
         flexDirection: 'row',
         justifyContent: 'space-evenly',
-        padding: 5,
+        padding: 10,
+        paddingBottom: Platform.OS === 'ios' ? 30 : 10,
         width: '100%',
     },
 })

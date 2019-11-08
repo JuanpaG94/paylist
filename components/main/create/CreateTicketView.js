@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import { Alert, StyleSheet, Text, View, ScrollView, DatePickerAndroid } from 'react-native';
+import { Alert, StyleSheet, Text, View, ScrollView, DatePickerAndroid, DatePickerIOS } from 'react-native';
 import firebase from 'react-native-firebase';
 import Ionicons from 'react-native-ionicons';
+import ColorPalette from 'react-native-color-palette';
+import RBSheet from 'react-native-raw-bottom-sheet'
 
 // Custom fonts
 import { Fonts, Colors } from '../../../utils/variables';
@@ -20,6 +22,7 @@ export default class CreateTicketView extends Component {
         color: null,
         price: null,
         purchaseDate: [],
+        dateiOS: new Date(),
         editModeDataId: this.props.navigation.getParam('ticketId', null),
     }
 
@@ -43,7 +46,7 @@ export default class CreateTicketView extends Component {
         }
     }
 
-    openDatePicker = async () => {
+    openDatePickerAndroid = async () => {
         try {
             const { action, year, month, day } = await DatePickerAndroid.open({
                 // Use `new Date()` for current date. Month 0 is January.
@@ -61,8 +64,23 @@ export default class CreateTicketView extends Component {
         }
     }
 
+    openDatePickeriOS = () => {
+        this.RBSheet.open()
+    }
+
+    setPurchaseDateiOS = (date) => {
+        this.setState({ dateiOS: date })
+        try {
+            var selectedDate = []
+            selectedDate.push(date.getFullYear(), (date.getMonth()), date.getDate())
+            this.setState({ purchaseDate: selectedDate });
+        } catch ({ code, message }) {
+            console.warn('Cannot open date picker', message);
+        }
+    }
+
     handleCreateOrEdit = () => {
-        const { currentUser, shop, name, desc, price, purchaseDate, editModeDataId } = this.state
+        const { currentUser, shop, name, desc, price, purchaseDate, color, editModeDataId } = this.state
 
         var docData = {
             userID: currentUser.uid,
@@ -72,6 +90,7 @@ export default class CreateTicketView extends Component {
             price: price !== null ? price.replace(/,/g, '.') : price,
             date: firebase.firestore.Timestamp.fromDate(new Date()),
             purchaseDate: purchaseDate.length === 0 ? purchaseDate : firebase.firestore.Timestamp.fromDate(new Date(purchaseDate[0], purchaseDate[1], purchaseDate[2])),
+            color: color,
         }
 
         if (docData.name === (null || '') || docData.shop === (null || '') || docData.price === null || docData.purchaseDate.length === 0) {
@@ -83,27 +102,27 @@ export default class CreateTicketView extends Component {
             this.showAlert(message);
         } else {
             if (editModeDataId === null) { // Creation mode
-            firebase.firestore().collection("tickets")
-                .add(docData)
-                .then((docRef) => {
-                    console.log("Document written with ID: ", docRef.id);
-                    console.log("With name: ", docData.name);
-                    this.props.navigation.goBack();
-                })
-                .catch(error => {
-                    console.error("Error adding document: ", error)
-                    this.showAlert(error.message)
-                })
+                firebase.firestore().collection("tickets")
+                    .add(docData)
+                    .then((docRef) => {
+                        console.log("Document written with ID: ", docRef.id);
+                        console.log("With name: ", docData.name);
+                        this.props.navigation.goBack();
+                    })
+                    .catch(error => {
+                        console.error("Error adding document: ", error)
+                        this.showAlert(error.message)
+                    })
             } else { // Edit mode
                 firebase.firestore().collection("tickets").doc(editModeDataId)
-                .update(docData)
-                .then(() => {
-                    console.log("Document successfully updated!");
-                    this.props.navigation.goBack();
-                })
-                .catch(function(error) {
-                    console.error("Error updating document: ", error);
-                });
+                    .update(docData)
+                    .then(() => {
+                        console.log("Document successfully updated!");
+                        this.props.navigation.goBack();
+                    })
+                    .catch(function (error) {
+                        console.error("Error updating document: ", error);
+                    });
             }
         }
     }
@@ -140,7 +159,7 @@ export default class CreateTicketView extends Component {
                     <Status></Status>
 
                     <View style={styles.headerContainer}>
-                    <Text style={styles.headerLabel}>{this.state.editModeDataId !== null ? 'Edit warranty ticket' : 'New warranty ticket'}</Text>
+                        <Text style={styles.headerLabel}>{this.state.editModeDataId !== null ? 'Edit warranty ticket' : 'New warranty ticket'}</Text>
                         <Ionicons name="ios-paper" size={26} color="#6200ee" />
                     </View>
 
@@ -178,7 +197,30 @@ export default class CreateTicketView extends Component {
                         value={this.state.purchaseDate.length === 0 ? "" : this.state.purchaseDate[2] + '/' + (this.state.purchaseDate[1] + 1) + '/' + this.state.purchaseDate[0]}
                     >
                     </InputDate>
-                    <ButtonSecondary onPress={this.openDatePicker}>Select date</ButtonSecondary>
+                    <ButtonSecondary onPress={Platform.OS === 'ios' ? this.openDatePickeriOS : this.openDatePickerAndroid}>Select date</ButtonSecondary>
+
+                    <Text style={styles.label}>Choose a card color</Text>
+                    <ColorPalette
+                        onChange={color => this.setState({ color: color })}
+                        defaultColor={Colors.CardColor12}
+                        value={this.state.color}
+                        colors={[Colors.CardColor1, Colors.CardColor2, Colors.CardColor3, Colors.CardColor4, Colors.CardColor5, Colors.CardColor6,
+                        Colors.CardColor7, Colors.CardColor8, Colors.CardColor9, Colors.CardColor10, Colors.CardColor11, Colors.CardColor12]}
+                        title={''}
+                        paletteStyles={{
+                            backgroundColor: Colors.WrappersBoxColor,
+                            borderColor: Colors.WrappersBorderColor,
+                            borderRadius: 10,
+                            borderStyle: 'solid',
+                            borderWidth: 1.5,
+                            marginBottom: 10,
+                            marginTop: 0,
+                            padding: 0
+                        }}
+                        icon={
+                            <Ionicons name="checkmark" size={20} color={Colors.TextDark} />
+                        }
+                    />
 
                 </ScrollView>
 
@@ -186,6 +228,31 @@ export default class CreateTicketView extends Component {
                     <FloatingActionButtonCancel onPress={() => this.props.navigation.goBack()}>CANCEL</FloatingActionButtonCancel>
                     <FloatingActionButton onPress={this.handleCreateOrEdit}>SAVE</FloatingActionButton>
                 </View>
+
+                {Platform.OS === 'ios' ? <RBSheet
+                    ref={ref => {
+                        this.RBSheet = ref;
+                    }}
+                    closeOnDragDown={true}
+                    duration={200}
+                    height={330}
+                    animationType={"fade"}
+                    customStyles={{
+                        container: {
+                            borderTopLeftRadius: 10,
+                            borderTopRightRadius: 10,
+                        }
+                    }}
+                >
+                    <DatePickerIOS
+                        date={this.state.dateiOS}
+                        onDateChange={(date) => this.setPurchaseDateiOS(date)}
+                        mode={"date"}
+                    />
+                    <View style={[{ paddingLeft: 20 }, { paddingRight: 20 }]}>
+                        <ButtonSecondary onPress={() => this.RBSheet.close()}>OK</ButtonSecondary>
+                    </View>
+                </RBSheet> : false}
             </View>
         )
     }
@@ -198,7 +265,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         paddingBottom: 12,
-        paddingTop: 18,
+        paddingTop: Platform.OS === 'ios' ? 40 : 20,
         width: '100%',
     },
     headerLabel: {
@@ -209,6 +276,14 @@ const styles = StyleSheet.create({
     cardsContainer: {
         alignItems: 'center',
         padding: 20,
+    },
+    label: {
+        color: Colors.TextDark,
+        fontFamily: Fonts.InterBold,
+        fontSize: 16,
+        width: '100%',
+        paddingTop: 10,
+        marginBottom: -12,
     },
     bottomBarOptions: {
         backgroundColor: Colors.WrappersBoxColor,
@@ -221,7 +296,8 @@ const styles = StyleSheet.create({
         borderTopWidth: 1.5,
         flexDirection: 'row',
         justifyContent: 'space-evenly',
-        padding: 5,
+        padding: 10,
+        paddingBottom: Platform.OS === 'ios' ? 30 : 10,
         width: '100%',
     },
 })

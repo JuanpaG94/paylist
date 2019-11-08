@@ -30,10 +30,10 @@ const Card = ({ label, price, type, description, account, expireDate, color, onL
     </TouchableOpacity>;
 
 
-const CardTicket = ({ labelShop, label, price, description, purchaseDate, expireDate, onLongPress }) => 
+const CardTicket = ({ labelShop, label, price, description, purchaseDate, expireDate, color, onLongPress }) => 
     <TouchableOpacity onLongPress={onLongPress} style={stylesCardTicket.container}>
 
-      <View style={stylesCardTicket.labelShopContainer}>
+      <View style={[stylesCardTicket.labelShopContainer, { 'backgroundColor': color }, { 'shadowColor': color }]}>
         <Text style={stylesCardTicket.labelShop}>{labelShop}</Text>
       </View>
       <View style={stylesCardTicket.mainSectionContainer}>
@@ -41,7 +41,7 @@ const CardTicket = ({ labelShop, label, price, description, purchaseDate, expire
         <Text style={stylesCardTicket.price}>{price}€</Text>
       </View>
 
-      {description ? <Text style={stylesCard.description}>{description}</Text> : false}
+      {description ? <Text style={stylesCardTicket.description}>{description}</Text> : false}
 
       <View style={stylesCardTicket.bottomSectionContainer}>
         <Text style={stylesCardTicket.purchaseDateLabel}>purchase date</Text>
@@ -143,11 +143,11 @@ const stylesCardTicket = StyleSheet.create({
     justifyContent: 'space-between',
     marginBottom: 16,
     marginTop: 10,
-    padding: 18,
+    paddingBottom: 18,
     shadowColor: Colors.TextDark,
     shadowOffset: { width: 0, height: 8 },
     shadowOpacity: 0.2,
-    shadowRadius: 14,
+    shadowRadius: 15,
     width: '100%',
   },
   mainSectionContainer: {
@@ -155,18 +155,29 @@ const stylesCardTicket = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginBottom: 25,
+    paddingLeft: 18,
+    paddingRight: 18,
   },
   labelShopContainer: {
+    borderTopLeftRadius: 8,
+    borderTopRightRadius: 8,
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'center',
     marginBottom: 25,
+    paddingTop: 10,
+    paddingBottom: 10,
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.4,
+    shadowRadius: 8,
   },
   bottomSectionContainer: {
     flex: 1,
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
+    paddingLeft: 18,
+    paddingRight: 18,
   },
   labelShop: {
     color: Colors.TextDark,
@@ -193,6 +204,8 @@ const stylesCardTicket = StyleSheet.create({
     fontFamily: Fonts.InterRegular,
     letterSpacing: 0.8,
     marginBottom: 25,
+    paddingLeft: 18,
+    paddingRight: 18,
   },
   purchaseDate: {
     color: Colors.TextDark,

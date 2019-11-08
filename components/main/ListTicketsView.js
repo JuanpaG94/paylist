@@ -110,6 +110,7 @@ export class ListTicketsView extends Component {
 
                     {currentUserTicketsList.map((ticket) => <CardTicket
                         key={ticket.id}
+                        color={ticket.color}
                         labelShop={ticket.shop}
                         label={ticket.name}
                         description={ticket.desc}
@@ -146,7 +147,7 @@ export class ListTicketsView extends Component {
                     }}
                     closeOnDragDown={true}
                     duration={200}
-                    height={200}
+                    height={Platform.OS === 'ios' ? 240 : 200}
                     animationType={"fade"}
                     customStyles={{
                         container: {
@@ -217,7 +218,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         paddingBottom: 12,
-        paddingTop: 18,
+        paddingTop: Platform.OS === 'ios' ? 40 : 20,
         width: '100%',
     },
     picker: {
@@ -261,13 +262,17 @@ const styles = StyleSheet.create({
         top: 0,
     },
     countLabel: {
+        color: 'gray',
         fontFamily: Fonts.InterRegular,
+        paddingTop: 10,
     },
     warrantyLabel: {
+        color: 'gray',
         fontFamily: Fonts.InterRegular,
         justifyContent: "center",
         textAlign: 'center',
         paddingBottom: 65,
+        paddingTop: 10,
     },
     bottomBarOptions: {
         bottom: 15,
