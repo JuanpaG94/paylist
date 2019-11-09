@@ -136,6 +136,7 @@ export default class CreateTicketView extends Component {
                     this.setState({ shop: docData.shop });
                     this.setState({ desc: docData.desc });
                     this.setState({ price: docData.price });
+                    this.setState({ color: docData.color });
 
                     const docDataPurchase = []
                     docDataPurchase.push(
@@ -283,7 +284,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
         width: '100%',
         paddingTop: 10,
-        marginBottom: -12,
+        marginBottom: -8,
     },
     bottomBarOptions: {
         backgroundColor: Colors.WrappersBoxColor,

@@ -137,8 +137,8 @@ export default class CreateSubscriptionView extends Component {
                     this.setState({ desc: docData.desc });
                     this.setState({ price: docData.price });
                     this.setState({ account: docData.account });
-                    this.setState({ color: docData.color })
-                    this.setState({ type: docData.type })
+                    this.setState({ color: docData.color });
+                    this.setState({ type: docData.type });
 
                     const docDataPurchase = []
                     docDataPurchase.push(
@@ -295,7 +295,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
         width: '100%',
         paddingTop: 10,
-        marginBottom: -12,
+        marginBottom: -8,
     },
     picker: {
         height: 50,

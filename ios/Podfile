@@ -41,12 +41,6 @@ target 'Paylist' do
   pod 'Firebase/Firestore', '~> 6.3.0'
   # Required by RNFirebase
   pod 'RNFirebase', :path => '../node_modules/react-native-firebase/ios'
-
-  
-  target 'PaylistTests' do
-    inherit! :search_paths
-    # Pods for testing
-  end
   
 end
 
@@ -63,16 +57,3 @@ post_install do |installer|
   end
 end
 
-
-target 'Paylist-tvOS' do
-  # Comment the next line if you don't want to use dynamic frameworks
-  use_frameworks!
-
-  # Pods for Paylist-tvOS
-
-  target 'Paylist-tvOSTests' do
-    inherit! :search_paths
-    # Pods for testing
-  end
-
-end

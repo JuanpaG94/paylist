@@ -1,6 +1,0 @@
-framework module Pods_Paylist_tvOS {
-  umbrella header "Pods-Paylist-tvOS-umbrella.h"
-
-  export *
-  module * { export * }
-}
