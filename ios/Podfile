@@ -39,9 +39,12 @@ target 'Paylist' do
   pod 'Firebase/Core'
   pod 'Firebase/Auth', '~> 6.3.0'
   pod 'Firebase/Firestore', '~> 6.3.0'
+  pod 'Firebase/Storage', '~> 6.3.0'
   # Required by RNFirebase
   pod 'RNFirebase', :path => '../node_modules/react-native-firebase/ios'
   
+  pod 'react-native-camera', :path => '../node_modules/react-native-camera'
+
 end
 
 post_install do |installer|

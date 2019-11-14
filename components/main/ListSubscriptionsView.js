@@ -34,7 +34,7 @@ export class ListSubscriptionsView extends Component {
 
         setTimeout(() => {
             this.setState({ isLoading: false })
-        }, 1200);
+        }, 1000);
     }
 
     componentDidUpdate() {

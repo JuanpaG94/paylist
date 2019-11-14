@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { Alert, StyleSheet, Text, View, ScrollView, DatePickerAndroid, DatePickerIOS } from 'react-native';
+import { Alert, StyleSheet, Text, TouchableOpacity, View, Image, ScrollView, DatePickerAndroid, DatePickerIOS } from 'react-native';
 import firebase from 'react-native-firebase';
 import Ionicons from 'react-native-ionicons';
 import ColorPalette from 'react-native-color-palette';
-import RBSheet from 'react-native-raw-bottom-sheet'
+import RBSheet from 'react-native-raw-bottom-sheet';
+import { RNCamera } from 'react-native-camera';
 
 // Custom fonts
 import { Fonts, Colors } from '../../../utils/variables';
@@ -23,6 +24,8 @@ export default class CreateTicketView extends Component {
         price: null,
         purchaseDate: [],
         dateiOS: new Date(),
+        isCameraOpened: false,
+        picture: null,
         editModeDataId: this.props.navigation.getParam('ticketId', null),
     }
 
@@ -79,8 +82,18 @@ export default class CreateTicketView extends Component {
         }
     }
 
+    cameraTakePicture = async () => {
+        if (this.camera) {
+            const options = { quality: 0.5, base64: true };
+            const data = await this.camera.takePictureAsync(options);
+            this.setState({ picture: data })
+            this.setState({ isCameraOpened: false });
+            console.log(data)
+        }
+    };
+
     handleCreateOrEdit = () => {
-        const { currentUser, shop, name, desc, price, purchaseDate, color, editModeDataId } = this.state
+        const { currentUser, shop, name, desc, price, purchaseDate, color, picture, editModeDataId } = this.state
 
         var docData = {
             userID: currentUser.uid,
@@ -91,6 +104,7 @@ export default class CreateTicketView extends Component {
             date: firebase.firestore.Timestamp.fromDate(new Date()),
             purchaseDate: purchaseDate.length === 0 ? purchaseDate : firebase.firestore.Timestamp.fromDate(new Date(purchaseDate[0], purchaseDate[1], purchaseDate[2])),
             color: color,
+            picture: picture,
         }
 
         if (docData.name === (null || '') || docData.shop === (null || '') || docData.price === null || docData.purchaseDate.length === 0) {
@@ -223,6 +237,16 @@ export default class CreateTicketView extends Component {
                         }
                     />
 
+                    <Text style={[styles.label, { paddingBottom: 5 }]}>Capture your ticket</Text>
+                    <View style={styles.cameraTakenPicturePreviewContainer}>
+                        {this.state.picture ?
+                            <Image
+                                source={{ uri: this.state.picture.uri }}
+                                style={[styles.cameraTakenPicturePreview, { height: 200, width: 200 }]}
+                            /> : <View style={styles.cameraNoPicturePreview}><Ionicons name="ios-camera" size={38} color={Colors.TextDark} /><Text>No picture taken</Text></View>}
+                    </View>
+                    <ButtonSecondary onPress={() => this.setState({ isCameraOpened: true })}>{this.state.picture !== null ? 'Repeat picture' : 'Take picture'}</ButtonSecondary>
+
                 </ScrollView>
 
                 <View style={styles.bottomBarOptions}>
@@ -230,6 +254,8 @@ export default class CreateTicketView extends Component {
                     <FloatingActionButton onPress={this.handleCreateOrEdit}>SAVE</FloatingActionButton>
                 </View>
 
+
+                {/* --- DATEPICKER UI --- */}
                 {Platform.OS === 'ios' ? <RBSheet
                     ref={ref => {
                         this.RBSheet = ref;
@@ -254,6 +280,36 @@ export default class CreateTicketView extends Component {
                         <ButtonSecondary onPress={() => this.RBSheet.close()}>OK</ButtonSecondary>
                     </View>
                 </RBSheet> : false}
+
+
+                {/* --- CAMERA UI --- */}
+                {this.state.isCameraOpened === true ? <View style={styles.cameraContainer}>
+                    <RNCamera
+                        ref={ref => {
+                            this.camera = ref;
+                        }}
+                        style={styles.cameraPreview}
+                        type={RNCamera.Constants.Type.back}
+                        flashMode={RNCamera.Constants.FlashMode.off}
+                        androidCameraPermissionOptions={{
+                            title: 'Permission to use camera',
+                            message: 'Camera will only be used to capture your ticket',
+                            buttonPositive: 'Ok',
+                            buttonNegative: 'Cancel',
+                        }}
+                        androidRecordAudioPermissionOptions={{
+                            title: 'Permission to use audio recording',
+                            message: 'Audio will not be used for anything, this is just a required permission.',
+                            buttonPositive: 'Ok',
+                            buttonNegative: 'Cancel',
+                        }}
+                    />
+                    <View style={{ flex: 0, flexDirection: 'row', justifyContent: 'center' }}>
+                        <TouchableOpacity onPress={this.cameraTakePicture.bind(this)} style={styles.cameraCapture}>
+                            <Ionicons name="ios-radio-button-on" size={74} color={Colors.WrappersBoxColor} />
+                        </TouchableOpacity>
+                    </View>
+                </View> : false}
             </View>
         )
     }
@@ -301,4 +357,43 @@ const styles = StyleSheet.create({
         paddingBottom: Platform.OS === 'ios' ? 30 : 10,
         width: '100%',
     },
+    cameraContainer: {
+        position: "absolute",
+        top: 0,
+        right: 0,
+        left: 0,
+        bottom: 0,
+        flex: 1,
+        flexDirection: 'column',
+        backgroundColor: 'black',
+    },
+    cameraPreview: {
+        flex: 1,
+        justifyContent: 'flex-end',
+        alignItems: 'center',
+    },
+    cameraCapture: {
+        alignSelf: 'center',
+        margin: 10,
+        marginBottom: 20,
+    },
+    cameraTakenPicturePreviewContainer: {
+        alignItems: "center",
+        backgroundColor: Colors.WrappersBoxColor,
+        borderColor: Colors.WrappersBorderColor,
+        borderRadius: 10,
+        borderStyle: 'solid',
+        borderWidth: 1.5,
+        flex: 1,
+        marginTop: 9,
+        padding: 15,
+        width: '100%',
+    },
+    cameraNoPicturePreview: {
+        flex: 1,
+        alignItems: 'center',
+    },
+    cameraTakenPicturePreview: {
+        borderRadius: 4,
+    }
 })
