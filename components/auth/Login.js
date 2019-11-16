@@ -44,7 +44,7 @@ export default class Login extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <Status></Status>
+                {Platform.OS === 'ios' ? false : <Status></Status>}
                 <Image style={{ width: 400, height: 360, position: 'absolute', top: 150, opacity: 0.15 }} source={require('../../assets/img/bg-cards.png')} />
 
                 <View style={styles.headerContainer}>

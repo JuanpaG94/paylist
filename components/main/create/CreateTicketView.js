@@ -227,7 +227,7 @@ export default class CreateTicketView extends Component {
         return (
             <View style={[{ 'height': '100%' }]}>
                 <ScrollView contentContainerStyle={styles.cardsContainer}>
-                    <Status></Status>
+                    {Platform.OS === 'ios' ? false : <Status></Status>}
 
                     <View style={styles.headerContainer}>
                         <Text style={styles.headerLabel}>{this.state.editModeDataId !== null ? 'Edit warranty ticket' : 'New warranty ticket'}</Text>

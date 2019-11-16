@@ -37,7 +37,7 @@ export default class SettingsView extends Component {
         return (
             <View style={styles.container}>
                 <View style={styles.viewHeaderContainer}>
-                    <Status></Status>
+                    {Platform.OS === 'ios' ? false : <Status></Status>}
 
                     <View style={styles.headerContainer}>
                         <Text style={styles.headerLabel}>About</Text>

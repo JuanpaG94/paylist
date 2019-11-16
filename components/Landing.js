@@ -11,7 +11,7 @@ export default class Landing extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <Status></Status>
+                {Platform.OS === 'ios' ? false : <Status></Status>}
                 <Image style={{ width: 392, height: 360, position: 'absolute', top: 150, opacity: 0.15 }} source={require('../assets/img/bg-cards.png')} />
                 
                 <Image style={{ width: 130, height: 60 }} source={require('../assets/img/logo.png')} />
