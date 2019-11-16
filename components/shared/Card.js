@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
-
+import Ionicons from 'react-native-ionicons';
 import { Fonts, Colors } from '../../utils/variables';
 
 const Card = ({ label, price, type, description, account, expireDate, color, onLongPress, purchaseDate }) => 
@@ -30,11 +30,12 @@ const Card = ({ label, price, type, description, account, expireDate, color, onL
     </TouchableOpacity>;
 
 
-const CardTicket = ({ labelShop, label, price, description, purchaseDate, expireDate, color, onLongPress }) => 
+const CardTicket = ({ labelShop, label, price, description, purchaseDate, expireDate, color, pictureUrl, onLongPress }) => 
     <TouchableOpacity onLongPress={onLongPress} style={stylesCardTicket.container}>
 
       <View style={[stylesCardTicket.labelShopContainer, { 'backgroundColor': color }, { 'shadowColor': color }]}>
         <Text style={stylesCardTicket.labelShop}>{labelShop}</Text>
+        {pictureUrl ? <Ionicons name="ios-image" size={26} style={[{marginTop: -18}, {marginBottom: -20}]} color={Colors.TextDark} /> : false}
       </View>
       <View style={stylesCardTicket.mainSectionContainer}>
         <Text style={stylesCardTicket.label}>{label}</Text>
@@ -159,14 +160,17 @@ const stylesCardTicket = StyleSheet.create({
     paddingRight: 18,
   },
   labelShopContainer: {
+    alignItems: 'center',
     borderTopLeftRadius: 8,
     borderTopRightRadius: 8,
     flex: 1,
     flexDirection: 'row',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     marginBottom: 25,
     paddingTop: 10,
     paddingBottom: 10,
+    paddingLeft: 18,
+    paddingRight: 18,
     shadowOffset: { width: 0, height: 6 },
     shadowOpacity: 0.4,
     shadowRadius: 8,
@@ -182,9 +186,7 @@ const stylesCardTicket = StyleSheet.create({
   labelShop: {
     color: Colors.TextDark,
     fontFamily: Fonts.InterBold,
-    fontSize: 16,
-    letterSpacing: 2,
-    textTransform: "uppercase",
+    fontSize: 19,
   },
   label: {
     color: Colors.TextDark,

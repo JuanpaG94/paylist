@@ -26,6 +26,7 @@ export default class CreateTicketView extends Component {
         dateiOS: new Date(),
         isCameraOpened: false,
         picture: null,
+        pictureUrl: null,
         editModeDataId: this.props.navigation.getParam('ticketId', null),
     }
 
@@ -92,8 +93,62 @@ export default class CreateTicketView extends Component {
         }
     };
 
+    uploadCameraPictureToDatabaseThenHandle = () => {
+        // Create a root reference
+        var storageRef = firebase.storage().ref();
+        // Picture name
+        var pictureName = this.state.picture.uri.split('/Camera/')[1]
+        // Upload picture
+        var uploadTask = storageRef.child('tickets/' + pictureName).putFile(this.state.picture.uri)
+
+        // Listen for state changes, errors, and completion of the upload.
+        uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, // or 'state_changed'
+            function (snapshot) {
+                // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+                var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                console.log('Upload is ' + progress + '% done');
+                switch (snapshot.state) {
+                    case firebase.storage.TaskState.PAUSED: // or 'paused'
+                        console.log('Upload is paused');
+                        break;
+                    case firebase.storage.TaskState.RUNNING: // or 'running'
+                        console.log('Upload is running');
+                        break;
+                    case firebase.storage.TaskState.SUCCESS:
+                        console.log('Upload is success for', pictureName);
+                }
+            }, function (error) {
+                switch (error.code) {
+                    case 'storage/unauthorized':
+                        console.log("User doesn't have permission to access the object");
+                        break;
+                    case 'storage/canceled':
+                        console.log('User canceled the upload')
+                        break;
+                    case 'storage/unknown':
+                        console.log('Unknown error occurred, inspect error.serverResponse')
+                        break;
+                }
+            }, () => {
+                // Upload completed successfully, now we can get the download URL
+                console.log('pictureName:', pictureName)
+                firebase.storage()
+                    .ref('tickets/' + pictureName)
+                    .getDownloadURL()
+                    .then(downloadUrl => {
+                        console.log('File available on', downloadUrl);
+                        this.setState({ pictureUrl: downloadUrl });
+                        this.handleCreateOrEdit()
+                    })
+                    .catch(error => {
+                        console.log('Error ocurred while getting downloadUrl:', error)
+                        this.showAlert('Picture cannot be uploaded, please try again later.')
+                    })
+            });
+    }
+
     handleCreateOrEdit = () => {
-        const { currentUser, shop, name, desc, price, purchaseDate, color, picture, editModeDataId } = this.state
+        const { currentUser, shop, name, desc, price, purchaseDate, color, pictureUrl, editModeDataId } = this.state
 
         var docData = {
             userID: currentUser.uid,
@@ -104,7 +159,7 @@ export default class CreateTicketView extends Component {
             date: firebase.firestore.Timestamp.fromDate(new Date()),
             purchaseDate: purchaseDate.length === 0 ? purchaseDate : firebase.firestore.Timestamp.fromDate(new Date(purchaseDate[0], purchaseDate[1], purchaseDate[2])),
             color: color,
-            picture: picture,
+            pictureUrl: pictureUrl,
         }
 
         if (docData.name === (null || '') || docData.shop === (null || '') || docData.price === null || docData.purchaseDate.length === 0) {
@@ -151,6 +206,7 @@ export default class CreateTicketView extends Component {
                     this.setState({ desc: docData.desc });
                     this.setState({ price: docData.price });
                     this.setState({ color: docData.color });
+                    this.setState({ pictureUrl: docData.pictureUrl });
 
                     const docDataPurchase = []
                     docDataPurchase.push(
@@ -239,19 +295,19 @@ export default class CreateTicketView extends Component {
 
                     <Text style={[styles.label, { paddingBottom: 5 }]}>Capture your ticket</Text>
                     <View style={styles.cameraTakenPicturePreviewContainer}>
-                        {this.state.picture ?
+                        {this.state.picture || this.state.pictureUrl ?
                             <Image
-                                source={{ uri: this.state.picture.uri }}
+                                source={{ uri: this.state.picture ? this.state.picture.uri : this.state.pictureUrl }}
                                 style={[styles.cameraTakenPicturePreview, { height: 200, width: 200 }]}
                             /> : <View style={styles.cameraNoPicturePreview}><Ionicons name="ios-camera" size={38} color={Colors.TextDark} /><Text>No picture taken</Text></View>}
                     </View>
-                    <ButtonSecondary onPress={() => this.setState({ isCameraOpened: true })}>{this.state.picture !== null ? 'Repeat picture' : 'Take picture'}</ButtonSecondary>
+                    <ButtonSecondary onPress={() => this.setState({ isCameraOpened: true })}>{this.state.picture || this.state.pictureUrl ? 'Repeat picture' : 'Take picture'}</ButtonSecondary>
 
                 </ScrollView>
 
                 <View style={styles.bottomBarOptions}>
                     <FloatingActionButtonCancel onPress={() => this.props.navigation.goBack()}>CANCEL</FloatingActionButtonCancel>
-                    <FloatingActionButton onPress={this.handleCreateOrEdit}>SAVE</FloatingActionButton>
+                    <FloatingActionButton onPress={this.state.picture ? this.uploadCameraPictureToDatabaseThenHandle : this.handleCreateOrEdit}>SAVE</FloatingActionButton>
                 </View>
 
 

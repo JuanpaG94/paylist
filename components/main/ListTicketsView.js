@@ -115,6 +115,7 @@ export class ListTicketsView extends Component {
                         label={ticket.name}
                         description={ticket.desc}
                         price={ticket.price}
+                        pictureUrl={ticket.pictureUrl}
                         purchaseDate={ticket.purchaseDate ? ticket.purchaseDate.toDate().getDate() + '/' + (ticket.purchaseDate.toDate().getMonth() + 1) + '/' + (ticket.purchaseDate.toDate().getFullYear()) : ''}
                         expireDate={ticket.purchaseDate ? ticket.purchaseDate.toDate().getDate() + '/' + (ticket.purchaseDate.toDate().getMonth() + 1) + '/' + (ticket.purchaseDate.toDate().getFullYear() + 2) : ''}
                         onLongPress={() => this.handleOpenBottomSheet(ticket.name, ticket.id)}
