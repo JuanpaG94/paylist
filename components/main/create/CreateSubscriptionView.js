@@ -192,8 +192,8 @@ export default class CreateSubscriptionView extends Component {
                         onValueChange={(itemValue) =>
                             this.setState({ type: itemValue })
                         }>
-                        <Picker.Item label="per month" value="month" />
-                        <Picker.Item label="per year" value="year" />
+                        <Picker.Item label="monthly" value="month" />
+                        <Picker.Item label="yearly" value="year" />
                     </Picker>
                     <Input
                         label="Service account"
@@ -301,7 +301,7 @@ const styles = StyleSheet.create({
         height: 50,
         width: 150,
         position: 'absolute',
-        top: 316,
+        top: Platform.OS === 'ios' ? 218 : 316,
         right: 25,
     },
     bottomBarOptions: {

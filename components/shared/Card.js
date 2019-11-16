@@ -3,58 +3,75 @@ import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import Ionicons from 'react-native-ionicons';
 import { Fonts, Colors } from '../../utils/variables';
 
-const Card = ({ label, price, type, description, account, expireDate, color, onLongPress, purchaseDate }) => 
-    <TouchableOpacity onLongPress={onLongPress} style={[stylesCard.container, { 'backgroundColor': color }, { 'shadowColor': color }]}>
+const Card = ({ label, price, type, description, account, expireDate, color, onLongPress, purchaseDate }) =>
+  <TouchableOpacity onLongPress={onLongPress} style={[stylesCard.container, { 'backgroundColor': color }, { 'shadowColor': color }]}>
 
-      <View style={stylesCard.mainSectionContainer}>
-        <Text style={stylesCard.label}>{label}</Text>
-        <Text style={stylesCard.price}>{price}€</Text>
+    <View style={stylesCard.mainSectionContainer}>
+      <Text style={stylesCard.label}>{label}</Text>
+      <Text style={stylesCard.price}>{price}€</Text>
+    </View>
+    <View style={stylesCard.mainSectionContainer}>
+      <Text style={stylesCard.purchaseDate}>{purchaseDate}</Text>
+      <Text style={stylesCard.purchaseDate}>/{type}</Text>
+    </View>
+
+    {description ? <Text style={stylesCard.description}>{description}</Text> : false}
+
+    <View style={stylesCard.bottomSectionContainer}>
+      <Text style={stylesCard.accountLabel}>account</Text>
+      {expireDate ? <Text style={stylesCard.expireDateLabel}>next bill</Text> : false}
+    </View>
+
+    <View style={stylesCard.bottomSectionContainer}>
+      <Text style={stylesCard.account}>{account}</Text>
+      <Text style={stylesCard.expireDate}>{expireDate}</Text>
+    </View>
+
+  </TouchableOpacity>;
+
+
+const CardTicket = ({ labelShop, label, price, description, purchaseDate, expireDate, color, pictureUrl, onLongPress }) =>
+  <TouchableOpacity onLongPress={onLongPress} style={stylesCardTicket.container}>
+
+    <View style={[stylesCardTicket.labelShopContainer, { 'backgroundColor': color }, { 'shadowColor': color }]}>
+      <Text style={stylesCardTicket.labelShop}>{labelShop}</Text>
+      {pictureUrl ? <Ionicons name="ios-image" size={24} style={[{ marginTop: -18 }, { marginBottom: -20 }]} color={Colors.TextDark} /> : false}
+    </View>
+    <View style={stylesCardTicket.mainSectionContainer}>
+      <Text style={stylesCardTicket.label}>{label}</Text>
+      <Text style={stylesCardTicket.price}>{price}€</Text>
+    </View>
+
+    {description ? <Text style={stylesCardTicket.description}>{description}</Text> : false}
+
+    <View style={stylesCardTicket.bottomSectionContainer}>
+      <Text style={stylesCardTicket.purchaseDateLabel}>purchase date</Text>
+      <Text style={stylesCardTicket.expireDateLabel}>expires on</Text>
+    </View>
+
+    <View style={stylesCardTicket.bottomSectionContainer}>
+      <Text style={stylesCardTicket.purchaseDate}>{purchaseDate}</Text>
+      <Text style={stylesCardTicket.expireDate}>{expireDate}</Text>
+    </View>
+
+  </TouchableOpacity>;
+
+const CardTimeline = ({ label, labelShop, price, purchaseDate, purchaseYear, color }) =>
+  <View style={stylesCardTimeline.wrapper}>
+    <Text style={stylesCardTimeline.labelYear}>{purchaseYear}</Text>
+
+    <View style={stylesCardTimeline.container}>
+      <View style={[stylesCardTimeline.labelColoredContainer, { 'backgroundColor': color }, { 'shadowColor': color }]}>
+        <Text style={stylesCardTimeline.labelDate}>{purchaseDate}</Text>
+        <Ionicons name={labelShop ? 'ios-paper' : 'ios-albums'} size={24} style={[{ marginTop: -18 }, { marginBottom: -20 }]} color={Colors.TextDark} />
       </View>
-      <View style={stylesCard.mainSectionContainer}>
-        <Text style={stylesCard.purchaseDate}>{purchaseDate}</Text>
-        <Text style={stylesCard.purchaseDate}>/{type}</Text>
+      <View style={stylesCardTimeline.mainSectionContainer}>
+        <Text style={stylesCardTimeline.label}>{label}</Text>
+        <Text style={stylesCardTimeline.price}>{price}€</Text>
       </View>
+    </View>
 
-      {description ? <Text style={stylesCard.description}>{description}</Text> : false}
-
-      <View style={stylesCard.bottomSectionContainer}>
-        <Text style={stylesCard.accountLabel}>account</Text>
-        {expireDate ? <Text style={stylesCard.expireDateLabel}>next bill</Text> : false}
-      </View>
-
-      <View style={stylesCard.bottomSectionContainer}>
-        <Text style={stylesCard.account}>{account}</Text>
-        <Text style={stylesCard.expireDate}>{expireDate}</Text>
-      </View>
-
-    </TouchableOpacity>;
-
-
-const CardTicket = ({ labelShop, label, price, description, purchaseDate, expireDate, color, pictureUrl, onLongPress }) => 
-    <TouchableOpacity onLongPress={onLongPress} style={stylesCardTicket.container}>
-
-      <View style={[stylesCardTicket.labelShopContainer, { 'backgroundColor': color }, { 'shadowColor': color }]}>
-        <Text style={stylesCardTicket.labelShop}>{labelShop}</Text>
-        {pictureUrl ? <Ionicons name="ios-image" size={26} style={[{marginTop: -18}, {marginBottom: -20}]} color={Colors.TextDark} /> : false}
-      </View>
-      <View style={stylesCardTicket.mainSectionContainer}>
-        <Text style={stylesCardTicket.label}>{label}</Text>
-        <Text style={stylesCardTicket.price}>{price}€</Text>
-      </View>
-
-      {description ? <Text style={stylesCardTicket.description}>{description}</Text> : false}
-
-      <View style={stylesCardTicket.bottomSectionContainer}>
-        <Text style={stylesCardTicket.purchaseDateLabel}>purchase date</Text>
-        <Text style={stylesCardTicket.expireDateLabel}>expires on</Text>
-      </View>
-
-      <View style={stylesCardTicket.bottomSectionContainer}>
-        <Text style={stylesCardTicket.purchaseDate}>{purchaseDate}</Text>
-        <Text style={stylesCardTicket.expireDate}>{expireDate}</Text>
-      </View>
-
-    </TouchableOpacity>;
+  </View>;
 
 const stylesCard = StyleSheet.create({
   container: {
@@ -235,4 +252,71 @@ const stylesCardTicket = StyleSheet.create({
   },
 });
 
-export { Card, CardTicket };
+const stylesCardTimeline = StyleSheet.create({
+  wrapper: {
+    alignItems: 'baseline',
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  container: {
+    backgroundColor: Colors.WrappersBoxColor,
+    borderRadius: 8,
+    elevation: 3.1,
+    flex: 1,
+    marginBottom: 20,
+    marginTop: 14,
+    paddingBottom: 10,
+    shadowColor: Colors.TextDark,
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.14,
+    shadowRadius: 15,
+  },
+  mainSectionContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingLeft: 18,
+    paddingRight: 18,
+  },
+  labelColoredContainer: {
+    alignItems: 'center',
+    borderTopLeftRadius: 8,
+    borderTopRightRadius: 8,
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 10,
+    paddingTop: 10,
+    paddingBottom: 10,
+    paddingLeft: 18,
+    paddingRight: 18,
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.4,
+    shadowRadius: 8,
+  },
+  labelYear: {
+    color: Colors.TextDark,
+    fontFamily: Fonts.InterBold,
+    fontSize: 16,
+    width: '18%',
+  },
+  labelDate: {
+    color: Colors.TextDark,
+    fontFamily: Fonts.InterBold,
+    fontSize: 16,
+  },
+  label: {
+    color: Colors.TextDark,
+    fontSize: 14,
+    fontFamily: Fonts.InterSemiBold,
+  },
+  price: {
+    color: Colors.TextDark,
+    fontSize: 14,
+    fontFamily: Fonts.InterMedium,
+    letterSpacing: 1,
+  },
+});
+
+export { Card, CardTicket, CardTimeline };

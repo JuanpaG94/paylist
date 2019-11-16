@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, ScrollView, ActivityIndicator, Picker } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, ActivityIndicator } from 'react-native';
 import firebase from 'react-native-firebase';
 import { createStackNavigator } from 'react-navigation';
 import Ionicons from 'react-native-ionicons';
@@ -11,7 +11,7 @@ import { Fonts, Colors } from '../../utils/variables';
 import { Status } from '../shared/Status';
 import { FloatingActionButton } from '../shared/Buttons';
 import { CardTicket } from '../shared/Card';
-import { ButtonSheetOptions } from '../shared/ButtonSheet';
+import { ButtonSheetOptions, ButtonSheetMainSettings } from '../shared/ButtonSheet';
 
 export class ListTicketsView extends Component {
     state = {
@@ -43,9 +43,19 @@ export class ListTicketsView extends Component {
         }
     }
 
+    handleLogout = () => {
+        this.RBSheetMainSettings.close();
+
+        firebase.auth().signOut()
+            .then(() => {
+                this.setState({ currentUser: null });
+                this.props.navigation.navigate('Loading');
+            })
+            .catch(error => console.log(error))
+    }
+
     componentWillUnmount() {
-        this.setState({ currentUser: null });
-        //this.setState({ currentUserTicketsList: [] });
+        console.log('User disconnected, component unmounted')
     }
 
     handleListTickets = (userID) => {
@@ -72,6 +82,15 @@ export class ListTicketsView extends Component {
         this.RBSheet.open();
     }
 
+    handleOpenMainSettingsBottomSheet = () => {
+        this.RBSheetMainSettings.open();
+    }
+
+    handleOrderBy = (value) => {
+        this.RBSheetMainSettings.close();
+        this.setState({ orderBy: value })
+    }
+
     handleEditTicket = (ticketId) => {
         this.RBSheet.close();
         this.props.navigation.navigate('CreateTicket', {
@@ -96,16 +115,7 @@ export class ListTicketsView extends Component {
 
                     <View style={styles.headerContainer}>
                         <Text style={styles.headerLabel}>Warranty Tickets</Text>
-                        <Ionicons style={styles.headerIconShape} name="arrow-dropdown-circle" size={26} color='transparent' />
-                        <Picker
-                            selectedValue={this.state.orderBy}
-                            style={styles.picker}
-                            onValueChange={(itemValue) =>
-                                this.setState({ orderBy: itemValue })
-                            }>
-                            <Picker.Item label="sort by name" value="name" />
-                            <Picker.Item label="sort by date" value="purchaseDate" />
-                        </Picker>
+                        <Ionicons name="ios-settings" size={26} color={Colors.TextDark} onPress={() => this.handleOpenMainSettingsBottomSheet()} />
                     </View>
 
                     {currentUserTicketsList.map((ticket) => <CardTicket
@@ -142,6 +152,7 @@ export class ListTicketsView extends Component {
                     <FloatingActionButton onPress={() => this.props.navigation.navigate('CreateTicket')}></FloatingActionButton>
                 </View>
 
+                {/* --- EDIT OPTIONS BOTTOM SHEET --- */}
                 <RBSheet
                     ref={ref => {
                         this.RBSheet = ref;
@@ -161,6 +172,30 @@ export class ListTicketsView extends Component {
                         label={this.state.currentBottomSheetLabel}
                         onEditPress={() => this.handleEditTicket(this.state.currentBottomSheetId)}
                         onDeletePress={() => this.handleDeleteTicket(this.state.currentBottomSheetId)}
+                    />
+                </RBSheet>
+
+                {/* --- MAIN SETTINGS BOTTOM SHEET --- */}
+                <RBSheet
+                    ref={ref => {
+                        this.RBSheetMainSettings = ref;
+                    }}
+                    closeOnDragDown={true}
+                    duration={200}
+                    height={Platform.OS === 'ios' ? 340 : 300}
+                    animationType={"fade"}
+                    customStyles={{
+                        container: {
+                            borderTopLeftRadius: 10,
+                            borderTopRightRadius: 10,
+                        }
+                    }}
+                >
+                    <ButtonSheetMainSettings
+                        onOrderBy1Press={() => this.handleOrderBy('name')}
+                        onOrderBy2Press={() => this.handleOrderBy('purchaseDate')}
+                        account={this.state.currentUser ? this.state.currentUser.email : 'Account'}
+                        onLogoutPress={() => this.handleLogout()}
                     />
                 </RBSheet>
             </View>
@@ -222,26 +257,10 @@ const styles = StyleSheet.create({
         paddingTop: Platform.OS === 'ios' ? 40 : 20,
         width: '100%',
     },
-    picker: {
-        height: 50,
-        width: 50,
-        position: 'absolute',
-        top: 9,
-        right: -8.55,
-        zIndex: 1,
-    },
     headerLabel: {
         color: '#263238',
         fontFamily: Fonts.InterBlack,
         fontSize: 22,
-    },
-    headerIconShape: {
-        backgroundColor: Colors.WrappersBorderColor,
-        borderRadius: 20,
-        paddingBottom: 2,
-        paddingLeft: 5,
-        paddingRight: 5,
-        paddingTop: 2,
     },
     cardsContainer: {
         alignItems: 'center',
@@ -265,7 +284,7 @@ const styles = StyleSheet.create({
     countLabel: {
         color: 'gray',
         fontFamily: Fonts.InterRegular,
-        paddingTop: 10,
+        paddingTop: 20,
     },
     warrantyLabel: {
         color: 'gray',
@@ -273,7 +292,7 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         textAlign: 'center',
         paddingBottom: 65,
-        paddingTop: 10,
+        paddingTop: 20,
     },
     bottomBarOptions: {
         bottom: 15,

@@ -28,7 +28,7 @@ const InputNumeric = ({ label, value, onChangeText, placeholder, secureTextEntry
         autoCorrect={false}
         onChangeText={onChangeText}
         placeholder={placeholder}
-        style={styles.input}
+        style={[styles.input, {marginRight: Platform.OS === 'ios' ? 175: 0}]}
         secureTextEntry={secureTextEntry}
         value={value}
         keyboardType="decimal-pad"

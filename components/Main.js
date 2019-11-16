@@ -8,7 +8,7 @@ import ListTicketsView from './main/ListTicketsView';
 import ListSubscriptionsView from './main/ListSubscriptionsView';
 import CreateSubscriptionView from './main/create/CreateSubscriptionView';
 import CreateTicketView from './main/create/CreateTicketView';
-import SettingsView from './main/SettingsView';
+import TimelineView from './main/TimelineView';
 // Custom imports
 import { Colors } from '../utils/variables';
 
@@ -16,7 +16,7 @@ const BottomTabNavigator = createBottomTabNavigator(
     {
         Subscriptions: ListSubscriptionsView,
         Tickets: ListTicketsView,
-        Settings: SettingsView,
+        Timeline: TimelineView,
     },
     {
         defaultNavigationOptions: ({ navigation }) => ({
@@ -28,8 +28,8 @@ const BottomTabNavigator = createBottomTabNavigator(
                     iconName = `ios-albums`; // ${focused ? '' : '-outline'}` puede ser util en el futuro
                 } else if (routeName === 'Tickets') {
                     iconName = `ios-paper`;
-                } else if (routeName === 'Settings') {
-                    iconName = `ios-information-circle`;
+                } else if (routeName === 'Timeline') {
+                    iconName = `ios-apps`;
                 }
                 return <IconComponent name={iconName} size={25} color={tintColor} />;
             },
