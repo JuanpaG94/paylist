@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, ScrollView, ActivityIndicator } from 'react-native';
+import { StyleSheet, Text, View, ScrollView } from 'react-native';
 import firebase from 'react-native-firebase';
 import Ionicons from 'react-native-ionicons';
 import RBSheet from 'react-native-raw-bottom-sheet';
@@ -10,11 +10,11 @@ import { Fonts, Colors } from '../../utils/variables';
 import { Status } from '../shared/Status';
 import { CardTimeline } from '../shared/Card';
 import { ButtonSheetMainSettings } from '../shared/ButtonSheet';
-
+// Global variables
 var savedYear = null;
+
 export default class TimelineView extends Component {
     state = {
-        isLoading: true,
         currentUser: null,
         currentUserContentList: [],
     }
@@ -27,10 +27,6 @@ export default class TimelineView extends Component {
                 this.handleTimeline(this.state.currentUser.uid);
             }
         });
-
-        setTimeout(() => {
-            this.setState({ isLoading: false })
-        }, 1000);
     }
 
     componentDidUpdate() {
@@ -126,19 +122,16 @@ export default class TimelineView extends Component {
                     >
                     </CardTimeline>)}
 
-                    {this.state.isLoading === false && currentUserContentList.length > 3
+                    {currentUserContentList.length > 3
                         ? <Text style={styles.countLabel}>{currentUserContentList.length} entries</Text>
                         : false}
-                    {this.state.isLoading === false && currentUserContentList.length !== 0
+                    {currentUserContentList.length !== 0
                         ? <Text style={styles.infoLabel}>Timeline represents all your data ordered by the start/purchase date from the oldest to the newest</Text>
                         : false}
 
                 </ScrollView>
 
-                {this.state.isLoading === true
-                    ? <ActivityIndicator style={styles.activityIndicator} size="large" />
-                    : false}
-                {this.state.isLoading === false && currentUserContentList.length === 0
+                {currentUserContentList.length === 0
                     ? <Text style={styles.emptyLabel}>Add subscriptions or tickets to see the timeline!</Text>
                     : false}
 
@@ -206,12 +199,5 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         paddingBottom: 20,
         paddingTop: 20,
-    },
-    activityIndicator: {
-        bottom: 0,
-        left: 0,
-        position: 'absolute',
-        right: 0,
-        top: 0,
     },
 })

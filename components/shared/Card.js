@@ -30,8 +30,8 @@ const Card = ({ label, price, type, description, account, expireDate, color, onL
   </TouchableOpacity>;
 
 
-const CardTicket = ({ labelShop, label, price, description, purchaseDate, expireDate, color, pictureUrl, onLongPress }) =>
-  <TouchableOpacity onLongPress={onLongPress} style={stylesCardTicket.container}>
+const CardTicket = ({ labelShop, label, price, description, purchaseDate, expireDate, color, pictureUrl, onLongPress, onPress }) =>
+  <TouchableOpacity onLongPress={onLongPress} onPress={onPress} style={stylesCardTicket.container}>
 
     <View style={[stylesCardTicket.labelShopContainer, { 'backgroundColor': color }, { 'shadowColor': color }]}>
       <Text style={stylesCardTicket.labelShop}>{labelShop}</Text>

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, ScrollView, ActivityIndicator } from 'react-native';
+import { StyleSheet, Text, View, ScrollView } from 'react-native';
 import firebase from 'react-native-firebase';
 import { createStackNavigator } from 'react-navigation';
 import Ionicons from 'react-native-ionicons';
@@ -15,7 +15,6 @@ import { ButtonSheetOptions, ButtonSheetMainSettings } from '../shared/ButtonShe
 
 export class ListSubscriptionsView extends Component {
     state = {
-        isLoading: true,
         currentUser: null,
         currentUserSubsList: [],
         currentBottomSheetLabel: 'Options',
@@ -31,10 +30,6 @@ export class ListSubscriptionsView extends Component {
                 this.handleListSubcriptions(this.state.currentUser.uid);
             }
         });
-
-        setTimeout(() => {
-            this.setState({ isLoading: false })
-        }, 1000);
     }
 
     componentDidUpdate() {
@@ -151,8 +146,7 @@ export class ListSubscriptionsView extends Component {
 
                 </ScrollView>
 
-                {this.state.isLoading === true ? <ActivityIndicator style={styles.activityIndicator} size="large" /> : false}
-                {this.state.isLoading === false && currentUserSubsList.length === 0 ? <Text style={styles.emptyLabel}>Tap on + to add subscriptions</Text> : false}
+                {currentUserSubsList.length === 0 ? <Text style={styles.emptyLabel}>Tap on + to add subscriptions</Text> : false}
 
                 <View style={styles.bottomBarOptions}>
                     <FloatingActionButton onPress={() => this.props.navigation.navigate('CreateSubscription')}></FloatingActionButton>
@@ -271,13 +265,6 @@ const styles = StyleSheet.create({
     cardsContainer: {
         alignItems: 'center',
         padding: 20,
-    },
-    activityIndicator: {
-        bottom: 0,
-        left: 0,
-        position: 'absolute',
-        right: 0,
-        top: 0,
     },
     emptyLabel: {
         alignSelf: 'center',

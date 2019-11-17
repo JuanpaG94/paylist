@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, ScrollView, ActivityIndicator } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, Modal } from 'react-native';
 import firebase from 'react-native-firebase';
 import { createStackNavigator } from 'react-navigation';
 import Ionicons from 'react-native-ionicons';
 import RBSheet from 'react-native-raw-bottom-sheet';
+import ImageViewer from 'react-native-image-zoom-viewer';
 
 // Custom fonts
 import { Fonts, Colors } from '../../utils/variables';
@@ -15,12 +16,13 @@ import { ButtonSheetOptions, ButtonSheetMainSettings } from '../shared/ButtonShe
 
 export class ListTicketsView extends Component {
     state = {
-        isLoading: true,
         currentUser: null,
         currentUserTicketsList: [],
         currentBottomSheetLabel: 'Options',
         currentBottomSheetId: null,
         orderBy: 'name',
+        modalVisible: false,
+        currentPictureUrl: null,
     }
 
     componentDidMount() {
@@ -31,10 +33,6 @@ export class ListTicketsView extends Component {
                 this.handleListTickets(this.state.currentUser.uid);
             }
         });
-
-        setTimeout(() => {
-            this.setState({ isLoading: false })
-        }, 1000);
     }
 
     componentDidUpdate() {
@@ -91,6 +89,16 @@ export class ListTicketsView extends Component {
         this.setState({ orderBy: value })
     }
 
+    handleViewPicture = (picture) => {
+        if (picture) {
+            this.setState({ modalVisible: true })
+            this.setState({ currentPictureUrl: picture })
+        } else {
+            this.setState({ modalVisible: false })
+            console.log('Closing modal')
+        }
+    }
+
     handleEditTicket = (ticketId) => {
         this.RBSheet.close();
         this.props.navigation.navigate('CreateTicket', {
@@ -129,22 +137,20 @@ export class ListTicketsView extends Component {
                         purchaseDate={ticket.purchaseDate ? ticket.purchaseDate.toDate().getDate() + '/' + (ticket.purchaseDate.toDate().getMonth() + 1) + '/' + (ticket.purchaseDate.toDate().getFullYear()) : ''}
                         expireDate={ticket.purchaseDate ? ticket.purchaseDate.toDate().getDate() + '/' + (ticket.purchaseDate.toDate().getMonth() + 1) + '/' + (ticket.purchaseDate.toDate().getFullYear() + 2) : ''}
                         onLongPress={() => this.handleOpenBottomSheet(ticket.name, ticket.id)}
+                        onPress={ticket.pictureUrl ? () => this.handleViewPicture(ticket.pictureUrl) : null}
                     >
                     </CardTicket>)}
 
-                    {this.state.isLoading === false && currentUserTicketsList.length > 3
+                    {currentUserTicketsList.length > 3
                         ? <Text style={styles.countLabel}>{currentUserTicketsList.length} tickets</Text>
                         : false}
-                    {this.state.isLoading === false && currentUserTicketsList.length !== 0
+                    {currentUserTicketsList.length !== 0
                         ? <Text style={styles.warrantyLabel}>All products enjoy a 2-year warranty in the European Union, as well as 14 days for their return</Text>
                         : false}
 
                 </ScrollView>
 
-                {this.state.isLoading === true
-                    ? <ActivityIndicator style={styles.activityIndicator} size="large" />
-                    : false}
-                {this.state.isLoading === false && currentUserTicketsList.length === 0
+                {currentUserTicketsList.length === 0
                     ? <Text style={styles.emptyLabel}>Tap on + to add tickets</Text>
                     : false}
 
@@ -198,6 +204,31 @@ export class ListTicketsView extends Component {
                         onLogoutPress={() => this.handleLogout()}
                     />
                 </RBSheet>
+
+                {/* --- MODAL IMAGE VIEWER --- */}
+                <Modal
+                    animationType="slide"
+                    transparent={false}
+                    visible={this.state.modalVisible}
+                    presentationStyle={"fullScreen"}
+                    onRequestClose={() => {
+                        console.log('Modal closed.');
+                    }}>
+                    <ImageViewer
+                        backgroundColor={Colors.WrappersBorderColor}
+                        enableSwipeDown={true}
+                        onSwipeDown={() => this.handleViewPicture()}
+                        saveToLocalByLongPress={false}
+                        renderIndicator={() => <Text></Text>}
+                        footerContainerStyle={{ width: '100%' }}
+                        renderFooter={() =>
+                            <View style={styles.imageViewerRenderFooter}>
+                                <Text style={styles.imageViewerRenderFooterText}>Swipe down to close</Text>
+                                <Ionicons name="ios-arrow-down" size={26} color={Colors.TextDark} />
+                            </View>
+                        }
+                        imageUrls={[{ url: this.state.currentPictureUrl }]} />
+                </Modal>
             </View>
         )
     }
@@ -274,13 +305,6 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         width: '80%',
     },
-    activityIndicator: {
-        bottom: 0,
-        left: 0,
-        position: 'absolute',
-        right: 0,
-        top: 0,
-    },
     countLabel: {
         color: 'gray',
         fontFamily: Fonts.InterRegular,
@@ -301,5 +325,22 @@ const styles = StyleSheet.create({
         position: 'absolute',
         right: 15,
         width: '100%',
+    },
+    imageViewerRenderFooter: {
+        flex: 1,
+        alignItems: 'center',
+        flexDirection: 'column',
+        marginBottom: Platform.OS === 'ios' ? 45 : 35,
+    },
+    imageViewerRenderFooterText: {
+        color: Colors.CardColor12,
+        fontFamily: Fonts.InterSemiBold,
+        fontSize: 14,
+        padding: 3,
+        opacity: 0.7,
+        paddingLeft: 10,
+        paddingRight: 10,
+        borderRadius: 10,
+        backgroundColor: Colors.TextDark,
     },
 })
