@@ -5,9 +5,11 @@
   "scripts": {
     "start": "react-native start",
     "start:reset": "react-native start --reset-cache",
+
     "android": "react-native run-android",
     "android:cleanbuild": "(rm -rf android/app/build) & react-native run-android",
     "android:release": "(rm -rf android/app/build) & react-native run-android --variant=release",
+
     "ios": "react-native run-ios --simulator='iPhone 11 Pro'",
     "ios:release": "react-native run-ios --configuration Release --simulator='iPhone 11 Pro'",
     "test": "jest"

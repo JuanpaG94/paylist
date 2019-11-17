@@ -64,8 +64,8 @@ const styles = StyleSheet.create({
     padding: 9,
     shadowColor: Colors.Primary,
     shadowOffset: { width: 0, height: 7 },
-    shadowOpacity: 0.3,
-    shadowRadius: 10,
+    shadowOpacity: 0.22,
+    shadowRadius: 6,
     width: '100%',
   },
   buttonDarker: {
@@ -78,8 +78,8 @@ const styles = StyleSheet.create({
     padding: 9,
     shadowColor: Colors.PrimaryDarker,
     shadowOffset: { width: 0, height: 7 },
-    shadowOpacity: 0.3,
-    shadowRadius: 10,
+    shadowOpacity: 0.2,
+    shadowRadius: 6,
     width: '100%',
   },
   buttonSecondary: {
@@ -92,8 +92,8 @@ const styles = StyleSheet.create({
     padding: 9,
     shadowColor: Colors.TextDark,
     shadowOffset: { width: 0, height: 7 },
-    shadowOpacity: 0.4,
-    shadowRadius: 10,
+    shadowOpacity: 0.2,
+    shadowRadius: 6,
     width: '100%',
   },
   buttonError: {
@@ -106,8 +106,8 @@ const styles = StyleSheet.create({
     padding: 9,
     shadowColor: Colors.Error,
     shadowOffset: { width: 0, height: 7 },
-    shadowOpacity: 0.3,
-    shadowRadius: 10,
+    shadowOpacity: 0.2,
+    shadowRadius: 6,
     width: '100%',
   },
   floatingActionButton: {
