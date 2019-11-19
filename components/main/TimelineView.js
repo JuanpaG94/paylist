@@ -77,7 +77,7 @@ export default class TimelineView extends Component {
                             })
                         })
                         var orderedList = list.sort(function (a, b) {
-                            return new Date(a.purchaseDate.toDate()) - new Date(b.purchaseDate.toDate());
+                            return new Date(b.purchaseDate.toDate()) - new Date(a.purchaseDate.toDate());
                         })
                         console.log('ordered list:', orderedList)
                         this.setState({ currentUserContentList: orderedList });
@@ -126,7 +126,7 @@ export default class TimelineView extends Component {
                         ? <Text style={styles.countLabel}>{currentUserContentList.length} entries</Text>
                         : false}
                     {currentUserContentList.length !== 0
-                        ? <Text style={styles.infoLabel}>Timeline represents all your data ordered by the start/purchase date from the oldest to the newest</Text>
+                        ? <Text style={styles.infoLabel}>Timeline represents all your data ordered by the newest to the oldest start/purchase date</Text>
                         : false}
 
                 </ScrollView>
