@@ -349,7 +349,8 @@
 				ORGANIZATIONNAME = Facebook;
 				TargetAttributes = {
 					13B07F861A680F5B00A75B9A = {
-						DevelopmentTeam = PM3TSM4J29;
+						DevelopmentTeam = RXT9WNH555;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -600,9 +601,11 @@
 			baseConfigurationReference = 4B25B4CF5F09E3DA2DFEA179 /* Pods-Paylist.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
-				DEVELOPMENT_TEAM = PM3TSM4J29;
+				DEVELOPMENT_TEAM = RXT9WNH555;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)..\node_modules\neact-native-firebaseiosRNFirebase/**",
@@ -616,8 +619,9 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.juanpablo.Paylist;
+				PRODUCT_BUNDLE_IDENTIFIER = com.juanpablo.paylist;
 				PRODUCT_NAME = Paylist;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -627,8 +631,10 @@
 			baseConfigurationReference = 23441D606B2AB6399B15024A /* Pods-Paylist.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = PM3TSM4J29;
+				DEVELOPMENT_TEAM = RXT9WNH555;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)..\node_modules\neact-native-firebaseiosRNFirebase/**",
@@ -642,8 +648,9 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.juanpablo.Paylist;
+				PRODUCT_BUNDLE_IDENTIFIER = com.juanpablo.paylist;
 				PRODUCT_NAME = Paylist;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;

@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>1087233785009-l9mb05pviafkv02kpof32r9h9v7dg348.apps.googleusercontent.com</string>
+	<string>1087233785009-dihqpqhl13c78i0vii16g0sil482sa4j.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.1087233785009-l9mb05pviafkv02kpof32r9h9v7dg348</string>
+	<string>com.googleusercontent.apps.1087233785009-dihqpqhl13c78i0vii16g0sil482sa4j</string>
 	<key>API_KEY</key>
 	<string>AIzaSyDv6zTK7L0DmbyLSydSRwTbdZVkwPUg1-4</string>
 	<key>GCM_SENDER_ID</key>
@@ -13,7 +13,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>org.juanpablo.Paylist</string>
+	<string>com.juanpablo.paylist</string>
 	<key>PROJECT_ID</key>
 	<string>paylist-d8310</string>
 	<key>STORAGE_BUCKET</key>
@@ -29,7 +29,7 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:1087233785009:ios:e39d277e739570c80b7690</string>
+	<string>1:1087233785009:ios:c547c9c289198ff90b7690</string>
 	<key>DATABASE_URL</key>
 	<string>https://paylist-d8310.firebaseio.com</string>
 </dict>
